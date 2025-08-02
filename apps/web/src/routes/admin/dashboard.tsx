@@ -2,13 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Check, Info, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
@@ -31,16 +25,10 @@ function RouteComponent() {
     <div className="space-y-8">
       {/* Welcome Section */}
       <section className="rounded-lg border bg-primary p-6 text-primary-foreground">
-        <h1 className="mb-4 font-bold text-3xl">
-          Custom Color Theme Dashboard
-        </h1>
+        <h1 className="mb-4 font-bold text-3xl">Custom Color Theme Dashboard</h1>
         <p className="mb-2 text-lg">Welcome {session?.user.name}</p>
-        <p className="text-primary-foreground/80">
-          Private Data: {privateData.data?.message}
-        </p>
-        <p className="mt-2 text-primary-foreground/70 text-sm">
-          Theme: #7F55B1 • #9B7EBD • #F49BAB • #FFE1E0
-        </p>
+        <p className="text-primary-foreground/80">Private Data: {privateData.data?.message}</p>
+        <p className="mt-2 text-primary-foreground/70 text-sm">Theme: #7F55B1 • #9B7EBD • #F49BAB • #FFE1E0</p>
       </section>
 
       {/* Color Palette Demo */}
@@ -69,9 +57,7 @@ function RouteComponent() {
         <Card>
           <CardHeader>
             <CardTitle>Secondary & Accent</CardTitle>
-            <CardDescription>
-              Supporting colors from your palette
-            </CardDescription>
+            <CardDescription>Supporting colors from your palette</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-3">
@@ -96,9 +82,7 @@ function RouteComponent() {
       <Card>
         <CardHeader>
           <CardTitle>Button Variants</CardTitle>
-          <CardDescription>
-            Different button styles with your custom theme
-          </CardDescription>
+          <CardDescription>Different button styles with your custom theme</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -144,24 +128,14 @@ function RouteComponent() {
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="demo-input">Demo Input</Label>
-              <Input
-                id="demo-input"
-                placeholder="Type something..."
-                className="focus:ring-primary"
-              />
+              <Input id="demo-input" placeholder="Type something..." className="focus:ring-primary" />
             </div>
             <div className="space-y-2">
               <Label>Form States</Label>
               <div className="space-y-2">
                 <Input placeholder="Normal state" />
-                <Input
-                  placeholder="Focus state"
-                  className="ring-2 ring-primary"
-                />
-                <Input
-                  placeholder="Error state"
-                  className="border-destructive ring-destructive"
-                />
+                <Input placeholder="Focus state" className="ring-2 ring-primary" />
+                <Input placeholder="Error state" className="border-destructive ring-destructive" />
               </div>
             </div>
           </CardContent>
@@ -219,9 +193,7 @@ function RouteComponent() {
       <Card>
         <CardHeader>
           <CardTitle>Chart Colors</CardTitle>
-          <CardDescription>
-            Data visualization colors based on your custom palette
-          </CardDescription>
+          <CardDescription>Data visualization colors based on your custom palette</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-5 gap-4">
@@ -245,21 +217,15 @@ function RouteComponent() {
       <div className="grid gap-6 md:grid-cols-3">
         <div className="rounded-lg border bg-background p-6">
           <h3 className="mb-2 font-medium">Default Background</h3>
-          <p className="text-muted-foreground text-sm">
-            Standard background color
-          </p>
+          <p className="text-muted-foreground text-sm">Standard background color</p>
         </div>
         <div className="rounded-lg border bg-card p-6">
           <h3 className="mb-2 font-medium">Card Background</h3>
           <p className="text-muted-foreground text-sm">Elevated card surface</p>
         </div>
         <div className="rounded-lg bg-accent p-6">
-          <h3 className="mb-2 font-medium text-accent-foreground">
-            Accent Background
-          </h3>
-          <p className="text-accent-foreground/80 text-sm">
-            Highlighted surface
-          </p>
+          <h3 className="mb-2 font-medium text-accent-foreground">Accent Background</h3>
+          <p className="text-accent-foreground/80 text-sm">Highlighted surface</p>
         </div>
       </div>
     </div>

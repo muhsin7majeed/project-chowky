@@ -8,11 +8,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 
-export default function SignUpForm({
-  onSwitchToSignIn,
-}: {
-  onSwitchToSignIn: () => void;
-}) {
+export default function SignUpForm({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
   const navigate = useNavigate();
   const { isPending } = authClient.useSession();
 
@@ -138,11 +134,7 @@ export default function SignUpForm({
 
         <form.Subscribe>
           {(state) => (
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={!state.canSubmit || state.isSubmitting}
-            >
+            <Button type="submit" className="w-full" disabled={!state.canSubmit || state.isSubmitting}>
               {state.isSubmitting ? "Submitting..." : "Sign Up"}
             </Button>
           )}
@@ -150,11 +142,7 @@ export default function SignUpForm({
       </form>
 
       <div className="mt-4 text-center">
-        <Button
-          variant="link"
-          onClick={onSwitchToSignIn}
-          className="text-indigo-600 hover:text-indigo-800"
-        >
+        <Button variant="link" onClick={onSwitchToSignIn} className="text-indigo-600 hover:text-indigo-800">
           Already have an account? Sign In
         </Button>
       </div>

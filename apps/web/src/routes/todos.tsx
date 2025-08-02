@@ -4,13 +4,7 @@ import { Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/utils/trpc";
@@ -70,25 +64,15 @@ function TodosRoute() {
           <CardDescription>Manage your tasks efficiently</CardDescription>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleAddTodo}
-            className="mb-6 flex items-center space-x-2"
-          >
+          <form onSubmit={handleAddTodo} className="mb-6 flex items-center space-x-2">
             <Input
               value={newTodoText}
               onChange={(e) => setNewTodoText(e.target.value)}
               placeholder={t("addTodo")}
               disabled={createMutation.isPending}
             />
-            <Button
-              type="submit"
-              disabled={createMutation.isPending || !newTodoText.trim()}
-            >
-              {createMutation.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                t("add")
-              )}
+            <Button type="submit" disabled={createMutation.isPending || !newTodoText.trim()}>
+              {createMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : t("add")}
             </Button>
           </form>
 
@@ -101,22 +85,14 @@ function TodosRoute() {
           ) : (
             <ul className="space-y-2">
               {todos.data?.map((todo) => (
-                <li
-                  key={todo.id}
-                  className="flex items-center justify-between rounded-md border p-2"
-                >
+                <li key={todo.id} className="flex items-center justify-between rounded-md border p-2">
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       checked={todo.completed}
-                      onCheckedChange={() =>
-                        handleToggleTodo(todo.id, todo.completed)
-                      }
+                      onCheckedChange={() => handleToggleTodo(todo.id, todo.completed)}
                       id={`todo-${todo.id}`}
                     />
-                    <label
-                      htmlFor={`todo-${todo.id}`}
-                      className={`${todo.completed ? "line-through" : ""}`}
-                    >
+                    <label htmlFor={`todo-${todo.id}`} className={`${todo.completed ? "line-through" : ""}`}>
                       {todo.text}
                     </label>
                   </div>

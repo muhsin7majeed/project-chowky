@@ -16,8 +16,7 @@ const languages = [
 export default function LanguageSwitcher() {
   const { i18n, t } = useTranslation();
 
-  const currentLanguage =
-    languages.find((lang) => lang.code === i18n.language) || languages[0];
+  const currentLanguage = languages.find((lang) => lang.code === i18n.language) || languages[0];
 
   const changeLanguage = (languageCode: string) => {
     i18n.changeLanguage(languageCode);
@@ -36,9 +35,7 @@ export default function LanguageSwitcher() {
           <DropdownMenuItem
             key={language.code}
             onClick={() => changeLanguage(language.code)}
-            className={`cursor-pointer ${
-              currentLanguage.code === language.code ? "bg-accent" : ""
-            }`}
+            className={`cursor-pointer ${currentLanguage.code === language.code ? "bg-accent" : ""}`}
           >
             <span className="mr-2">{language.flag}</span>
             {language.name}

@@ -77,8 +77,7 @@ const resources = {
 
       // Application specific
       projectTitle: "Project Chowky",
-      projectDescription:
-        "Eine moderne Webanwendung, erstellt mit Better-T-Stack",
+      projectDescription: "Eine moderne Webanwendung, erstellt mit Better-T-Stack",
 
       // Todos
       addTodo: "Aufgabe hinzufügen",

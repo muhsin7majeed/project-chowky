@@ -8,7 +8,7 @@ import UserMenu from "./user-menu";
 export default function Header() {
   const { t } = useTranslation();
   const { data: session } = authClient.useSession();
-  
+
   const isAdmin = session?.user?.role === "admin";
 
   const links = [
@@ -18,6 +18,8 @@ export default function Header() {
     ...(isAdmin ? [{ to: "/admin/dashboard", label: "Admin" }] : []),
     // { to: "/todos", label: t("todos") },
   ];
+
+  console.log(session);
 
   return (
     <div>
