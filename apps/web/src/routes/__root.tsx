@@ -12,6 +12,7 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import { useTranslation } from "react-i18next";
 import "../index.css";
 
 export interface RouterAppContext {
@@ -24,11 +25,11 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
-        title: "project-chowky",
+        title: "Project Chowky",
       },
       {
         name: "description",
-        content: "project-chowky is a web application",
+        content: "A modern web application built with Better-T-Stack",
       },
     ],
     links: [

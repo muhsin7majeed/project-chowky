@@ -1,13 +1,17 @@
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 
 import { ModeToggle } from "./mode-toggle";
 import UserMenu from "./user-menu";
+import LanguageSwitcher from "./language-switcher";
 
 export default function Header() {
+  const { t } = useTranslation();
+  
   const links = [
-    { to: "/", label: "Home" },
-      { to: "/dashboard", label: "Dashboard" },
-    { to: "/todos", label: "Todos" },
+    { to: "/", label: t("home") },
+    { to: "/dashboard", label: t("dashboard") },
+    { to: "/todos", label: t("todos") },
   ];
 
   return (
@@ -26,6 +30,7 @@ export default function Header() {
           })}
         </nav>
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <ModeToggle />
           <UserMenu />
         </div>

@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
   import { trpc } from "@/utils/trpc";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -20,6 +21,7 @@ export const Route = createFileRoute("/todos")({
 });
 
 function TodosRoute() {
+  const { t } = useTranslation();
   const [newTodoText, setNewTodoText] = useState("");
 
     const todos = useQuery(trpc.todo.getAll.queryOptions());
@@ -61,7 +63,7 @@ function TodosRoute() {
     <div className="mx-auto w-full max-w-md py-10">
       <Card>
         <CardHeader>
-          <CardTitle>Todo List</CardTitle>
+          <CardTitle>{t("todos")}</CardTitle>
           <CardDescription>Manage your tasks efficiently</CardDescription>
         </CardHeader>
         <CardContent>
@@ -72,7 +74,7 @@ function TodosRoute() {
             <Input
               value={newTodoText}
               onChange={(e) => setNewTodoText(e.target.value)}
-              placeholder="Add a new task..."
+              placeholder={t("addTodo")}
               disabled={createMutation.isPending}
             />
             <Button
@@ -82,7 +84,7 @@ function TodosRoute() {
                 {createMutation.isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  "Add"
+                  t("add")
                 )}
             </Button>
           </form>
@@ -93,7 +95,7 @@ function TodosRoute() {
               </div>
             ) : todos.data?.length === 0 ? (
               <p className="py-4 text-center">
-                No todos yet. Add one above!
+                {t("noTodos")}
               </p>
             ) : (
               <ul className="space-y-2">
@@ -121,7 +123,7 @@ function TodosRoute() {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleDeleteTodo(todo.id)}
-                      aria-label="Delete todo"
+                      aria-label={t("delete")}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>

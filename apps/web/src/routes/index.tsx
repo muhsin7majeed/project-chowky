@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { trpc } from "@/utils/trpc";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/")({
   component: HomeComponent,
@@ -23,6 +24,7 @@ const TITLE_TEXT = `
  `;
 
 function HomeComponent() {
+  const { t } = useTranslation();
   const healthCheck = useQuery(trpc.healthCheck.queryOptions());
 
   return (
@@ -37,7 +39,7 @@ function HomeComponent() {
               />
               <span className="text-sm text-muted-foreground">
                 {healthCheck.isLoading
-                  ? "Checking..."
+                  ? t("loading")
                   : healthCheck.data
                     ? "Connected"
                     : "Disconnected"}
