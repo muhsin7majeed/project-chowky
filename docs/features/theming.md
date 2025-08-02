@@ -1,13 +1,13 @@
 # Theming System
 
-Project Chowky uses a comprehensive theming system built on CSS custom properties and the OKLCH color space for consistent, accessible colors across light and dark modes.
+Project Chowky uses a comprehensive theming system built on CSS custom properties with hex color values for consistent, accessible colors across light and dark modes.
 
 ## Overview
 
 The theming system provides:
-- **OKLCH Color Space**: Perceptually uniform colors for better contrast and accessibility
+- **Hex Color Values**: Familiar and easy-to-use color format
 - **Automatic Dark Mode**: Seamless switching between light and dark themes
-- **Purple Color Scheme**: Modern purple-based color palette with semantic color tokens
+- **Custom Color Scheme**: Beautiful purple-pink color palette with semantic color tokens
 - **Customizable**: Easy to modify colors through CSS custom properties
 
 ## Color Palette
@@ -15,33 +15,34 @@ The theming system provides:
 ### Primary Colors
 ```css
 /* Light Mode */
---primary: oklch(0.3 0.15 270);           /* Deep purple */
---primary-foreground: oklch(0.985 0 0);    /* White text */
+--primary: #7f55b1;           /* Custom purple */
+--primary-foreground: #ffffff; /* White text */
 
 /* Dark Mode */
---primary: oklch(0.8 0.15 270);           /* Light purple */
---primary-foreground: oklch(0.15 0.05 270); /* Dark purple text */
+--primary: #9b7ebd;           /* Lighter purple for dark mode */
+--primary-foreground: #1a0a2e; /* Dark purple text */
 ```
 
 ### Accent Colors
 ```css
 /* Light Mode */
---accent: oklch(0.96 0.02 280);           /* Very light purple */
---accent-foreground: oklch(0.3 0.15 270); /* Deep purple text */
+--accent: #f49bab;            /* Custom pink */
+--accent-foreground: #ffffff; /* White text */
 
 /* Dark Mode */
---accent: oklch(0.25 0.08 280);           /* Dark purple */
---accent-foreground: oklch(0.985 0 0);     /* White text */
+--accent: #8b495c;            /* Darker pink for dark mode */
+--accent-foreground: #ffffff; /* White text */
 ```
 
 ### Chart Colors
-The theming system includes 5 purple-based chart colors for data visualization:
+The theming system includes 5 custom chart colors for data visualization:
 ```css
---chart-1: oklch(0.646 0.222 270);  /* Primary purple */
---chart-2: oklch(0.6 0.18 290);     /* Purple-magenta */
---chart-3: oklch(0.55 0.15 250);    /* Blue-purple */
---chart-4: oklch(0.7 0.12 310);     /* Purple-pink */
---chart-5: oklch(0.65 0.16 240);    /* Indigo-purple */
+/* Light Mode */
+--chart-1: #7f55b1;  /* Primary purple */
+--chart-2: #9b7ebd;  /* Light purple */
+--chart-3: #f49bab;  /* Pink accent */
+--chart-4: #ffe1e0;  /* Very light pink */
+--chart-5: #8a4fbe;  /* Purple variant */
 ```
 
 ## Theme Provider
@@ -84,40 +85,48 @@ The app uses a `ThemeProvider` component that handles:
 - `sidebar-accent` / `sidebar-accent-foreground` - Sidebar accents
 - `sidebar-border` / `sidebar-ring` - Sidebar borders and focus rings
 
-## OKLCH Color Space
+## Hex Color System
 
-OKLCH (Oklch) provides several advantages:
-- **Perceptual Uniformity**: Colors with the same lightness appear equally bright
-- **Better Contrast**: More predictable contrast ratios
-- **Wide Gamut**: Access to more vibrant colors
-- **Future-Proof**: Modern color space with growing browser support
+The theme uses standard hex color values for simplicity and familiarity:
+- **Easy to Use**: Standard 6-digit hex format (#RRGGBB)
+- **Widely Supported**: Universal browser compatibility
+- **Designer Friendly**: Easy to use with design tools
+- **Readable**: Clear and familiar color representation
 
-### OKLCH Format
+### Color Format
 ```
-oklch(lightness chroma hue)
+#RRGGBB
 ```
-- **Lightness**: 0-1 (0 = black, 1 = white)
-- **Chroma**: 0+ (0 = gray, higher = more saturated)
-- **Hue**: 0-360 degrees (270 = purple, 280 = magenta)
+- **RR**: Red component (00-FF)
+- **GG**: Green component (00-FF)  
+- **BB**: Blue component (00-FF)
+
+### Your Custom Palette
+- `#7F55B1` - Primary purple
+- `#9B7EBD` - Light purple (muted elements)
+- `#F49BAB` - Pink accent
+- `#FFE1E0` - Very light pink (secondary)
 
 ## Customizing the Theme
 
 ### Changing the Color Scheme
 
-To change from purple to another color, modify the hue values in `apps/web/src/index.css`:
+To change colors, simply update the hex values in `apps/web/src/index.css`:
 
 ```css
-/* Example: Change to blue (hue ~240) */
+/* Example: Change to blue theme */
 :root {
-  --primary: oklch(0.3 0.15 240);
-  --accent: oklch(0.96 0.02 250);
-  /* ... update other purple colors */
+  --primary: #2563eb;        /* Blue primary */
+  --accent: #60a5fa;         /* Light blue accent */
+  --secondary: #dbeafe;      /* Very light blue */
+  --muted: #93c5fd;          /* Blue muted */
+  /* ... update other colors */
 }
 
 .dark {
-  --primary: oklch(0.8 0.15 240);
-  --accent: oklch(0.25 0.08 250);
-  /* ... update other purple colors */
+  --primary: #60a5fa;        /* Lighter blue for dark mode */
+  --accent: #3b82f6;         /* Darker blue accent */
+  /* ... update other colors */
 }
 ```
 
@@ -126,7 +135,7 @@ To change from purple to another color, modify the hue values in `apps/web/src/i
 1. Add the CSS custom property:
 ```css
 :root {
-  --my-custom-color: oklch(0.6 0.15 270);
+  --my-custom-color: #7c3aed;
 }
 ```
 
@@ -146,13 +155,13 @@ To change from purple to another color, modify the hue values in `apps/web/src/i
 
 ### Creating Color Variants
 
-Use consistent lightness and chroma values for related colors:
+Use tints and shades of your base colors for variants:
 ```css
-/* Primary color family */
---primary-50: oklch(0.95 0.02 270);   /* Very light */
---primary-100: oklch(0.9 0.05 270);   /* Light */
---primary-500: oklch(0.6 0.15 270);   /* Base */
---primary-900: oklch(0.2 0.12 270);   /* Very dark */
+/* Primary color family example */
+--primary-50: #f5f3ff;    /* Very light tint */
+--primary-100: #ede9fe;   /* Light tint */
+--primary-500: #7f55b1;   /* Base color */
+--primary-900: #3c1a5b;   /* Dark shade */
 ```
 
 ## Accessibility
@@ -205,12 +214,12 @@ apps/web/src/
 ### Common Issues
 
 **Colors not updating**: Ensure proper CSS cascade and specificity
-**Contrast problems**: Check OKLCH lightness values and test with accessibility tools
+**Contrast problems**: Check color contrast ratios with accessibility tools
 **Theme not persisting**: Verify `storageKey` and `ThemeProvider` setup
 **Dark mode not working**: Check `.dark` class application and CSS selector specificity
 
 ### Testing Tools
 - Browser DevTools for color inspection
 - WCAG Color Contrast Analyzer
-- Accessible Colors online tool
-- ColorBrewer for palette generation
+- WebAIM Contrast Checker
+- Coolors.co for palette generation

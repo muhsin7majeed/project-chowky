@@ -58,7 +58,7 @@ function RouteComponent() {
             <div className="grid gap-3">
               <div className="bg-primary text-primary-foreground p-4 rounded-lg">
                 <p className="font-medium">Primary (#7F55B1)</p>
-                <p className="text-sm opacity-90">oklch(0.45 0.15 285)</p>
+                <p className="text-sm opacity-90">Now using hex values!</p>
               </div>
               <div className="bg-primary-foreground text-primary p-4 rounded-lg border">
                 <p className="font-medium">Primary Foreground</p>
