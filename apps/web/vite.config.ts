@@ -6,25 +6,25 @@ import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
 
 export default defineConfig({
-	plugins: [
-		tailwindcss(),
-		tanstackRouter({}),
-		react(),
-		VitePWA({
-			registerType: "autoUpdate",
-			manifest: {
-				name: "project-chowky",
-				short_name: "project-chowky",
-				description: "project-chowky - PWA Application",
-				theme_color: "#0c0c0c",
-			},
-			pwaAssets: { disabled: false, config: true },
-			devOptions: { enabled: true },
-		}),
-	],
-	resolve: {
-		alias: {
-			"@": path.resolve(__dirname, "./src"),
-		},
-	},
+  plugins: [
+    tailwindcss(),
+    tanstackRouter({}),
+    react(),
+    VitePWA({
+      registerType: "autoUpdate",
+      manifest: {
+        name: "project-chowky",
+        short_name: "project-chowky",
+        description: "project-chowky - PWA Application",
+        theme_color: "#0c0c0c",
+      },
+      pwaAssets: { disabled: false, config: true },
+      devOptions: { enabled: true },
+    }),
+  ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
 });
