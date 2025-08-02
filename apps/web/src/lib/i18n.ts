@@ -1,6 +1,6 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import { initReactI18next } from "react-i18next";
 
 // Translation resources
 const resources = {
@@ -77,7 +77,8 @@ const resources = {
 
 			// Application specific
 			projectTitle: "Project Chowky",
-			projectDescription: "Eine moderne Webanwendung, erstellt mit Better-T-Stack",
+			projectDescription:
+				"Eine moderne Webanwendung, erstellt mit Better-T-Stack",
 
 			// Todos
 			addTodo: "Aufgabe hinzufügen",

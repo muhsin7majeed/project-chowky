@@ -1,3 +1,5 @@
+import { Languages } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,
@@ -5,8 +7,6 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Languages } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 const languages = [
 	{ code: "en", name: "English", flag: "🇺🇸" },
@@ -16,7 +16,8 @@ const languages = [
 export default function LanguageSwitcher() {
 	const { i18n, t } = useTranslation();
 
-	const currentLanguage = languages.find((lang) => lang.code === i18n.language) || languages[0];
+	const currentLanguage =
+		languages.find((lang) => lang.code === i18n.language) || languages[0];
 
 	const changeLanguage = (languageCode: string) => {
 		i18n.changeLanguage(languageCode);
