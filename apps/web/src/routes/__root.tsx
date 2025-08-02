@@ -10,6 +10,7 @@ import {
   Outlet,
   createRootRouteWithContext,
   useRouterState,
+  useLocation,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { useTranslation } from "react-i18next";
@@ -45,7 +46,9 @@ function RootComponent() {
   const isFetching = useRouterState({
     select: (s) => s.isLoading,
   });
-
+  
+  const location = useLocation();
+  const isAuthPage = location.pathname === "/login";
 
   return (
     <>
@@ -58,7 +61,15 @@ function RootComponent() {
       >
         <div className="grid grid-rows-[auto_1fr] h-svh">
           <Header />
-          {isFetching ? <Loader /> : <Outlet />}
+          {isAuthPage ? (
+            <div className="overflow-auto">
+              {isFetching ? <Loader /> : <Outlet />}
+            </div>
+          ) : (
+            <main className="container mx-auto max-w-6xl px-4 py-6 overflow-auto">
+              {isFetching ? <Loader /> : <Outlet />}
+            </main>
+          )}
         </div>
         <Toaster richColors />
       </ThemeProvider>

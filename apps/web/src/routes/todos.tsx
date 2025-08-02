@@ -60,7 +60,7 @@ function TodosRoute() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-md py-10">
+    <div className="max-w-2xl">
       <Card>
         <CardHeader>
           <CardTitle>{t("todos")}</CardTitle>

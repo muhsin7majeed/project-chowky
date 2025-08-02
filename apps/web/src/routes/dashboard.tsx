@@ -28,10 +28,16 @@ function RouteComponent() {
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome {session?.user.name}</p>
-      <p>privateData: {privateData.data?.message}</p>
+    <div className="max-w-4xl">
+      <div className="grid gap-6">
+        <section className="rounded-lg border p-6">
+          <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
+          <p className="text-lg mb-2">Welcome {session?.user.name}</p>
+          <p className="text-muted-foreground">
+            Private Data: {privateData.data?.message}
+          </p>
+        </section>
+      </div>
     </div>
   );
 }
