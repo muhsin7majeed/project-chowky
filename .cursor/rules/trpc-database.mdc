@@ -1,0 +1,67 @@
+---
+globs: apps/server/src/routers/**/*.ts,apps/server/src/db/**/*.ts
+---
+
+# tRPC & Database Patterns
+
+## tRPC Router Structure
+
+- Define routers in [apps/server/src/routers/](mdc:apps/server/src/routers/)
+- Use proper input/output Zod schemas
+- Implement middleware for authentication and validation
+- Use consistent error handling with tRPC error codes
+
+## Database Schema (Drizzle)
+
+- Define all tables in [apps/server/src/db/schema.ts](mdc:apps/server/src/db/schema.ts)
+- Use descriptive table and column names
+- Implement proper foreign key relationships
+- Add indexes for frequently queried columns
+
+## Query Patterns
+
+```typescript
+// Use proper typing with Drizzle
+const users = await db.select().from(usersTable).where(eq(usersTable.id, userId));
+
+// Use transactions for multi-table operations
+await db.transaction(async (tx) => {
+  // Multiple operations here
+});
+```
+
+## tRPC Procedures
+
+```typescript
+// Input validation with Zod
+export const userRouter = router({
+  getUser: publicProcedure
+    .input(z.object({ id: z.string().uuid() }))
+    .output(z.object({ name: z.string(), email: z.string() }))
+    .query(async ({ input }) => {
+      // Database query here
+    }),
+});
+```
+
+## Error Handling
+
+- Use tRPC error codes: `NOT_FOUND`, `UNAUTHORIZED`, `BAD_REQUEST`, etc.
+- Provide meaningful error messages
+- Log errors with proper context
+- Handle database constraint violations
+
+## Authentication Context
+
+- Use Better Auth for session management
+- Access user context in tRPC procedures
+- Implement role-based access control
+- Validate permissions before database operations
+
+## Performance Best Practices
+
+- Use `select()` to fetch only needed columns
+- Implement pagination for large datasets
+- Use database indexes effectively
+- Cache frequently accessed data
+- Use prepared statements for repeated queries

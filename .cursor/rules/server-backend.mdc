@@ -1,0 +1,62 @@
+---
+globs: apps/server/src/**/*.ts
+---
+
+# Backend Server Standards
+
+## API Structure
+
+- Use **Hono** framework for HTTP server
+- Implement **tRPC** routers in [apps/server/src/routers/](mdc:apps/server/src/routers/)
+- Follow RESTful principles for HTTP endpoints
+- Use proper HTTP status codes
+
+## Database
+
+- Use **Drizzle ORM** for database operations
+- Define schemas in [apps/server/src/db/schema.ts](mdc:apps/server/src/db/schema.ts)
+- Use proper relations and indexes
+- Handle database migrations with `bun db:migrate`
+
+## Authentication
+
+- Use **Better Auth** for authentication
+- Implement proper session management
+- Use middleware for protected routes
+- Validate user permissions properly
+
+## Error Handling
+
+- Use tRPC error handling with proper codes
+- Implement global error handlers
+- Log errors with context
+- Return user-friendly error messages
+
+## Validation
+
+- Use Zod schemas for input validation
+- Validate all user inputs
+- Use tRPC input/output schemas
+- Handle validation errors gracefully
+
+## Environment Configuration
+
+- Store sensitive data in environment variables
+- Use [apps/server/.env](mdc:apps/server/.env) for local development
+- Validate environment variables on startup
+- Document required environment variables
+
+## Performance
+
+- Use database indexes appropriately
+- Implement query optimization
+- Use connection pooling
+- Cache frequently accessed data
+
+## Security
+
+- Sanitize all user inputs
+- Use HTTPS in production
+- Implement rate limiting
+- Follow OWASP security guidelines
+- Use parameterized queries (Drizzle handles this)

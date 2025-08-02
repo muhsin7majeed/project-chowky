@@ -1,0 +1,49 @@
+---
+alwaysApply: true
+---
+
+# Biome Formatting & Linting Standards
+
+This project uses **Biome** for consistent code formatting and linting. Configuration is in [biome.json](mdc:biome.json).
+
+## Formatting Rules
+
+- **Indentation**: Tabs (configured in Biome)
+- **Quotes**: Double quotes for JavaScript/TypeScript
+- **Line endings**: LF (Unix style)
+- **Trailing commas**: Always where valid
+
+## Linting Rules
+
+- **Recommended rules**: Enabled by default
+- **Import organization**: Automatic sorting enabled
+- **TailwindCSS classes**: Sorted automatically using `clsx`, `cva`, `cn` functions
+- **Exhaustive dependencies**: Info level for React hooks
+
+## Key Commands
+
+- `bun check` - Run Biome formatting and linting with auto-fix
+- Biome automatically fixes issues where safe to do so
+
+## Style Rules Enforced
+
+- No parameter reassignment
+- Use `as const` assertions
+- Use default parameters last
+- Use enum initializers
+- Self-closing elements where appropriate
+- Single variable declarators
+- No unused template literals
+- Use Number namespace methods
+- No inferrable types
+- No useless else statements
+
+## Ignored Files
+
+Biome ignores these directories/files:
+- `.next/`, `dist/`, `.turbo/`, `dev-dist/`
+- `routeTree.gen.ts` (TanStack Router generated)
+- IDE folders (`.vscode/`, `.zed/`)
+- Build artifacts and generated files
+
+Run `bun check` before committing to ensure code consistency.

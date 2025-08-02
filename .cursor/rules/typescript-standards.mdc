@@ -1,0 +1,42 @@
+---
+globs: *.ts,*.tsx
+---
+
+# TypeScript Standards
+
+## Code Style
+
+- Use **tab indentation** (configured in [biome.json](mdc:biome.json))
+- Use **double quotes** for strings
+- Always use explicit return types for functions
+- Prefer `const` over `let`, avoid `var`
+- Use `as const` assertions for immutable data
+
+## Type Safety
+
+- Enable strict TypeScript settings
+- Use explicit types for function parameters and return values
+- Prefer `interface` over `type` for object shapes
+- Use proper generic constraints with `extends`
+- Avoid `any` - use `unknown` or proper types
+
+## Import Organization
+
+- Organize imports automatically (configured in Biome)
+- Group imports: external libraries → internal modules → relative imports
+- Use named imports when possible
+- Use type-only imports for types: `import type { ... }`
+
+## Error Handling
+
+- Use proper error types, not just `Error`
+- Handle async operations with proper try/catch
+- Use Result/Either patterns for complex error handling
+- Prefer throwing typed errors
+
+## Best Practices
+
+- Use meaningful variable and function names
+- Add JSDoc comments for public APIs
+- Prefer pure functions when possible
+- Use utility types like `Pick`, `Omit`, `Partial` effectively

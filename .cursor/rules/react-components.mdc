@@ -1,0 +1,54 @@
+---
+globs: *.tsx
+---
+
+# React Component Standards
+
+## Component Structure
+
+- Use **function components** with TypeScript
+- Define prop interfaces with clear naming: `ComponentNameProps`
+- Export components as default exports
+- Use named exports for utilities and types
+
+## Styling
+
+- Use **TailwindCSS** utility classes
+- Use the `cn()` utility from [apps/web/src/lib/utils.ts](mdc:apps/web/src/lib/utils.ts) for conditional classes
+- Follow **shadcn/ui** component patterns from [apps/web/src/components/ui/](mdc:apps/web/src/components/ui/)
+- Use TailwindCSS class sorting (configured in Biome)
+
+## State Management
+
+- Use React hooks (`useState`, `useEffect`, etc.)
+- Prefer `useCallback` and `useMemo` for optimization
+- Use TanStack Query for server state management
+- Use tRPC hooks for API calls
+
+## File Organization
+
+- One component per file
+- Component files in [apps/web/src/components/](mdc:apps/web/src/components/)
+- Page components in [apps/web/src/routes/](mdc:apps/web/src/routes/)
+- Shared utilities in [apps/web/src/lib/](mdc:apps/web/src/lib/)
+
+## TanStack Router
+
+- Use file-based routing in [apps/web/src/routes/](mdc:apps/web/src/routes/)
+- Define route components with proper TypeScript types
+- Use route loaders for data fetching
+- Implement proper error boundaries
+
+## Performance
+
+- Use React.memo for expensive components
+- Implement proper dependency arrays in hooks
+- Lazy load components when appropriate
+- Optimize bundle size with code splitting
+
+## Accessibility
+
+- Use semantic HTML elements
+- Add proper ARIA attributes
+- Ensure keyboard navigation works
+- Test with screen readers

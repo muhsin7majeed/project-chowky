@@ -1,0 +1,42 @@
+---
+alwaysApply: true
+---
+
+# Project Chowky - Monorepo Structure
+
+This is a TypeScript monorepo built with Better-T-Stack using:
+- **Turborepo** for monorepo orchestration
+- **Bun** as the runtime and package manager
+- **Biome** for linting and formatting
+
+## Architecture
+
+- **Frontend**: React + TanStack Router + TailwindCSS + shadcn/ui in [apps/web/](mdc:apps/web/)
+- **Backend**: Hono + tRPC + Drizzle ORM + PostgreSQL in [apps/server/](mdc:apps/server/)
+
+## Key Files
+
+- [package.json](mdc:package.json) - Root package.json with workspace configuration
+- [turbo.json](mdc:turbo.json) - Turborepo build configuration  
+- [biome.json](mdc:biome.json) - Biome linting and formatting rules
+- [bts.jsonc](mdc:bts.jsonc) - Better-T-Stack configuration
+
+## Development Commands
+
+- `bun dev` - Start all applications
+- `bun dev:web` - Start frontend only
+- `bun dev:server` - Start backend only  
+- `bun db:push` - Push database schema changes
+- `bun check` - Run Biome formatting and linting
+
+## Frontend Structure (apps/web/)
+
+- [apps/web/src/routes/](mdc:apps/web/src/routes/) - TanStack Router file-based routing
+- [apps/web/src/components/](mdc:apps/web/src/components/) - Reusable React components
+- [apps/web/src/lib/](mdc:apps/web/src/lib/) - Utility functions and configurations
+
+## Backend Structure (apps/server/)
+
+- [apps/server/src/routers/](mdc:apps/server/src/routers/) - tRPC router definitions
+- [apps/server/src/db/](mdc:apps/server/src/db/) - Drizzle ORM schema and database utilities
+- [apps/server/src/lib/](mdc:apps/server/src/lib/) - Server utilities and configurations
