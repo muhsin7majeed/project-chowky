@@ -1,4 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useState } from "react";
+import AdminSidebar from "@/components/admin-sidebar";
+import Header from "@/components/header";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: ({ context }) => {
@@ -25,5 +28,23 @@ export const Route = createFileRoute("/admin")({
 });
 
 function RouteComponent() {
-  return <Outlet />;
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col bg-background">
+      {/* Admin-specific header */}
+      <Header onMenuClick={() => setIsSidebarOpen(true)} />
+
+      <div className="flex min-h-0 flex-1">
+        <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+        <main className="flex min-h-0 flex-1 flex-col md:ml-64">
+          <div className="flex-1 overflow-y-auto">
+            <div className="mx-auto max-w-4xl p-6">
+              <Outlet />
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  );
 }

@@ -45,6 +45,14 @@ const resources = {
       password: "Password",
       email: "Email",
 
+      // Admin
+      admin: "Admin",
+      categories: "Categories",
+      products: "Products",
+      orders: "Orders",
+      users: "Users",
+      settings: "Settings",
+
       // Theme
       lightMode: "Light Mode",
       darkMode: "Dark Mode",
@@ -77,7 +85,8 @@ const resources = {
 
       // Application specific
       projectTitle: "Project Chowky",
-      projectDescription: "Eine moderne Webanwendung, erstellt mit Better-T-Stack",
+      projectDescription:
+        "Eine moderne Webanwendung, erstellt mit Better-T-Stack",
 
       // Todos
       addTodo: "Aufgabe hinzufügen",
@@ -95,6 +104,14 @@ const resources = {
       username: "Benutzername",
       password: "Passwort",
       email: "E-Mail",
+
+      // Admin
+      admin: "Admin",
+      categories: "Kategorien",
+      products: "Produkte",
+      orders: "Bestellungen",
+      users: "Benutzer",
+      settings: "Einstellungen",
 
       // Theme
       lightMode: "Heller Modus",
