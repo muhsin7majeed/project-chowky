@@ -13,9 +13,7 @@ export default function SignUpForm({
 }: {
   onSwitchToSignIn: () => void;
 }) {
-  const navigate = useNavigate({
-    from: "/",
-  });
+  const navigate = useNavigate();
   const { isPending } = authClient.useSession();
 
   const form = useForm({
@@ -34,8 +32,9 @@ export default function SignUpForm({
         {
           onSuccess: () => {
             navigate({
-              to: "/dashboard",
+              to: "/auth/login",
             });
+
             toast.success("Sign up successful");
           },
           onError: (error) => {

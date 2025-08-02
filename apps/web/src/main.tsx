@@ -1,28 +1,38 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
 import Loader from "./components/loader";
+import { authClient } from "./lib/auth-client";
 import { routeTree } from "./routeTree.gen";
 import "./lib/i18n"; // Initialize i18n
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient, trpc } from "./utils/trpc";
 
-const router = createRouter({
-  routeTree,
-  defaultPreload: "intent",
-  defaultPendingComponent: () => <Loader />,
-  context: { trpc, queryClient },
-  Wrap: function WrapComponent({ children }: { children: React.ReactNode }) {
-    return (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
-  },
-});
+function RouterApp() {
+  const { data: session, isPending } = authClient.useSession();
+  
+  const router = createRouter({
+    routeTree,
+    defaultPreload: "intent",
+    defaultPendingComponent: () => <Loader />,
+    context: {
+      trpc,
+      queryClient,
+      auth: {
+        isAuthenticated: !!session?.user,
+        user: session?.user || null,
+        isAdmin: session?.user?.role === "admin",
+        isPending,
+      },
+    },
+    Wrap: function WrapComponent({ children }: { children: React.ReactNode }) {
+      return (
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      );
+    },
+  });
 
-declare module "@tanstack/react-router" {
-  interface Register {
-    router: typeof router;
-  }
+  return <RouterProvider router={router} />;
 }
 
 const rootElement = document.getElementById("app");
@@ -33,5 +43,5 @@ if (!rootElement) {
 
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
-  root.render(<RouterProvider router={router} />);
+  root.render(<RouterApp />);
 }

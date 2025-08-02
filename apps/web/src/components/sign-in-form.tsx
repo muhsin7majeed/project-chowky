@@ -1,5 +1,4 @@
 import { useForm } from "@tanstack/react-form";
-import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import z from "zod";
 import { authClient } from "@/lib/auth-client";
@@ -10,12 +9,11 @@ import { Label } from "./ui/label";
 
 export default function SignInForm({
   onSwitchToSignUp,
+  onLogin,
 }: {
   onSwitchToSignUp: () => void;
+  onLogin: () => void;
 }) {
-  const navigate = useNavigate({
-    from: "/",
-  });
   const { isPending } = authClient.useSession();
 
   const form = useForm({
@@ -31,9 +29,7 @@ export default function SignInForm({
         },
         {
           onSuccess: () => {
-            navigate({
-              to: "/dashboard",
-            });
+            onLogin();
             toast.success("Sign in successful");
           },
           onError: (error) => {

@@ -15,9 +15,25 @@ import { Toaster } from "@/components/ui/sonner";
 import type { trpc } from "@/utils/trpc";
 import "../index.css";
 
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+  role?: string | null;
+  emailVerified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface RouterAppContext {
   trpc: typeof trpc;
   queryClient: QueryClient;
+  auth: {
+    isAuthenticated: boolean;
+    user: User | null;
+    isAdmin: boolean;
+    isPending: boolean;
+  };
 }
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
