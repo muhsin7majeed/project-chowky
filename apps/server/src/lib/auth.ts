@@ -1,12 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin } from "better-auth/plugins";
 import { db } from "../db";
 import * as schema from "../db/schema/auth";
 
-// biome-ignore lint/suspicious/noExplicitAny: No idea what is happening here
-export const auth = betterAuth<any>({
-  plugins: [admin()],
+export const auth = betterAuth({
   user: {
     additionalFields: {
       role: {
