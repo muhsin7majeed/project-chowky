@@ -20,7 +20,7 @@ export default function UserMenu() {
     return <Skeleton className="h-9 w-24" />;
   }
 
-  if (!session) {
+  if (!session?.user) {
     return (
       <Button variant="outline" asChild>
         <Link to="/login">Sign In</Link>
