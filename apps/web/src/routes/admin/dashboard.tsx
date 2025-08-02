@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { AlertTriangle, Check, Info, X } from "lucide-react";
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,24 +14,14 @@ import { Label } from "@/components/ui/label";
 import { authClient } from "@/lib/auth-client";
 import { trpc } from "@/utils/trpc";
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute("/admin/dashboard")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const { data: session, isPending } = authClient.useSession();
 
-  const navigate = Route.useNavigate();
-
   const privateData = useQuery(trpc.privateData.queryOptions());
-
-  useEffect(() => {
-    if (!session && !isPending) {
-      navigate({
-        to: "/login",
-      });
-    }
-  }, [session, isPending, navigate]);
 
   if (isPending) {
     return <div>Loading...</div>;
