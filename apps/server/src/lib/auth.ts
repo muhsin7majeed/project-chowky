@@ -1,9 +1,11 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { admin } from "better-auth/plugins";
 import { db } from "../db";
 import * as schema from "../db/schema/auth";
 
 export const auth = betterAuth({
+  plugins: [admin()],
   database: drizzleAdapter(db, {
     provider: "pg",
 
@@ -15,4 +17,4 @@ export const auth = betterAuth({
   },
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL,
-});
+} as any);
