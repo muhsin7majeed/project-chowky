@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { useIsSidebarOpen } from "@/atoms/useSidebarToggle";
 import { AppSidebar } from "@/components/app-sidebar";
 import Header from "@/components/header";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -29,11 +28,9 @@ export const Route = createFileRoute("/admin")({
 });
 
 function RouteComponent() {
-  const isSidebarOpen = useIsSidebarOpen();
-
   return (
     <div className="">
-      <SidebarProvider open={isSidebarOpen}>
+      <SidebarProvider>
         <div className="">
           <AppSidebar />
         </div>

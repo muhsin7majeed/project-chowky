@@ -1,16 +1,13 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Menu } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { useSetIsSidebarOpen } from "@/atoms/useSidebarToggle";
 import LanguageSwitcher from "./language-switcher";
 import { ModeToggle } from "./mode-toggle";
-import { Button } from "./ui/button";
+import { SidebarTrigger } from "./ui/sidebar";
 import UserMenu from "./user-menu";
 
 export default function Header() {
   const { t } = useTranslation();
   const location = useLocation();
-  const setIsSidebarOpen = useSetIsSidebarOpen();
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   const links = [
@@ -23,9 +20,7 @@ export default function Header() {
       <div className="flex flex-row items-center justify-between">
         <div className="flex items-center gap-4">
           {isAdminRoute ? (
-            <Button variant="ghost" onClick={() => setIsSidebarOpen((prev) => !prev)}>
-              <Menu size={5} /> Menu
-            </Button>
+            <SidebarTrigger />
           ) : (
             <nav className="flex gap-4 text-lg">
               {links.map(({ to, label }) => {
