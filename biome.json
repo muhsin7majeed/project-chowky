@@ -38,15 +38,7 @@
       "correctness": {
         "useExhaustiveDependencies": "info"
       },
-      "nursery": {
-        "useSortedClasses": {
-          "level": "warn",
-          "fix": "safe",
-          "options": {
-            "functions": ["clsx", "cva", "cn"]
-          }
-        }
-      },
+      "nursery": {},
       "style": {
         "noParameterAssign": "error",
         "useAsConstAssertion": "error",
