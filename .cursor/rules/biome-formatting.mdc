@@ -25,6 +25,12 @@ This project uses **Biome** for consistent code formatting and linting. Configur
 - `bun check` - Run Biome formatting and linting with auto-fix
 - Biome automatically fixes issues where safe to do so
 
+## Automatic Enforcement
+
+- **Git Hooks**: Husky + lint-staged automatically runs `bun check` before every commit
+- **Pre-commit**: Code is automatically formatted and linted when you commit
+- **Blocked commits**: Commits are prevented if there are unfixable linting errors
+
 ## Style Rules Enforced
 
 - No parameter reassignment
@@ -46,4 +52,4 @@ Biome ignores these directories/files:
 - IDE folders (`.vscode/`, `.zed/`)
 - Build artifacts and generated files
 
-Run `bun check` before committing to ensure code consistency.
+Git hooks automatically run `bun check` before every commit to ensure code consistency.

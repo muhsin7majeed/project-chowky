@@ -14,7 +14,7 @@ A modern TypeScript monorepo built with the **Better-T-Stack**, featuring React,
 - **🌙 Theme Support** - Dark/light mode with system detection
 - **📱 PWA Ready** - Progressive Web App capabilities
 - **⚡ Bun + Turborepo** - Fast runtime and optimized monorepo builds
-- **🧹 Biome** - Code formatting and linting
+- **🧹 Biome + Git Hooks** - Automatic code formatting and linting
 
 ## 🚀 Quick Start
 
@@ -88,7 +88,7 @@ bun create-admin     # Create/update admin user interactively
 
 # Build & Quality
 bun build            # Build all apps
-bun check            # Lint & format code
+bun check            # Lint & format code (auto-runs before commits)
 bun check-types      # TypeScript type checking
 
 # PWA Assets
@@ -116,7 +116,7 @@ For detailed documentation, visit the [`docs/`](docs/) directory:
 | **Styling** | TailwindCSS + shadcn/ui | Utility-first CSS with components |
 | **Auth** | Better Auth | Secure authentication system |
 | **Build** | Bun + Turborepo | Fast builds and package management |
-| **Quality** | Biome + TypeScript | Code quality and type safety |
+| **Quality** | Biome + TypeScript + Git Hooks | Automated code quality and type safety |
 
 ## 🎯 Getting Started Guide
 
@@ -130,9 +130,17 @@ For detailed documentation, visit the [`docs/`](docs/) directory:
 We welcome contributions! Please:
 
 1. Read the [development guides](docs/development/)
-2. Follow our coding standards (enforced by Biome)
+2. Follow our coding standards (automatically enforced by Biome via git hooks)
 3. Write tests for new features
 4. Update documentation as needed
+
+### Code Quality
+
+This project uses **automated code quality enforcement**:
+- **Husky + lint-staged** automatically runs `bun check` before every commit
+- Code formatting and linting issues are caught and fixed automatically
+- Commits are blocked if there are unfixable linting errors
+- No need to manually run `bun check` - it happens automatically!
 
 ## 📄 License
 

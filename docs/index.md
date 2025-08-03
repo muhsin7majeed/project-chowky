@@ -32,7 +32,7 @@ This project is built with the **Better-T-Stack**, featuring:
 - **Frontend**: React 19, TanStack Router, TailwindCSS, shadcn/ui
 - **Backend**: Hono, tRPC, Drizzle ORM
 - **Database**: PostgreSQL
-- **Build Tools**: Bun, Turborepo, Biome
+- **Build Tools**: Bun, Turborepo, Biome + Git Hooks
 - **Authentication**: Better Auth
 - **Deployment**: Docker, PWA support
 
@@ -73,10 +73,18 @@ This project is built with the **Better-T-Stack**, featuring:
 
 We welcome contributions! Please read our development guides and follow the established patterns:
 
-1. Follow the coding standards enforced by Biome
+1. Follow the coding standards (automatically enforced by Biome + git hooks)
 2. Write tests for new features
 3. Update documentation for any new functionality
 4. Use conventional commit messages
+
+### ⚡ Automated Code Quality
+
+This project includes **automatic code quality enforcement**:
+- **Pre-commit hooks**: `bun check` runs automatically before every commit
+- **Lint-staged**: Only staged files are checked for faster performance
+- **Auto-fix**: Formatting issues are automatically fixed when possible
+- **Commit blocking**: Commits are prevented if there are unfixable linting errors
 
 ## 📝 Documentation Guidelines
 

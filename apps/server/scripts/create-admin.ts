@@ -4,17 +4,17 @@ import { db } from "../src/db";
 import { user } from "../src/db/schema/auth";
 
 async function createAdmin() {
-	const args = process.argv.slice(2);
-	
-	// Parse command line arguments
-	const emailArg = args.find(arg => arg.startsWith("--email="));
-	const nameArg = args.find(arg => arg.startsWith("--name="));
+  const args = process.argv.slice(2);
 
-	const email = emailArg?.split("=")[1] || process.env.ADMIN_EMAIL;
-	const name = nameArg?.split("=")[1] || process.env.ADMIN_NAME;
+  // Parse command line arguments
+  const emailArg = args.find((arg) => arg.startsWith("--email="));
+  const nameArg = args.find((arg) => arg.startsWith("--name="));
 
-	if (!email) {
-		console.error(`
+  const email = emailArg?.split("=")[1] || process.env.ADMIN_EMAIL;
+  const name = nameArg?.split("=")[1] || process.env.ADMIN_NAME;
+
+  if (!email) {
+    console.error(`
 ❌ Missing required email parameter!
 
 Usage:
@@ -31,51 +31,43 @@ Example:
 Note: The user must already exist (signed up via /auth/login).
 This script only promotes existing users to admin role.
 		`);
-		process.exit(1);
-	}
+    process.exit(1);
+  }
 
-	try {
-		console.log(`🔐 Promoting user to admin: ${email}`);
+  try {
+    console.log(`🔐 Promoting user to admin: ${email}`);
 
-		// Check if user exists
-		const existingUser = await db
-			.select()
-			.from(user)
-			.where(eq(user.email, email))
-			.limit(1);
+    // Check if user exists
+    const existingUser = await db.select().from(user).where(eq(user.email, email)).limit(1);
 
-		if (existingUser.length === 0) {
-			console.error(`❌ User with email ${email} does not exist!`);
-			console.log("   First, the user needs to sign up at /auth/login");
-			console.log("   Then run this command again to promote them to admin.");
-			process.exit(1);
-		}
+    if (existingUser.length === 0) {
+      console.error(`❌ User with email ${email} does not exist!`);
+      console.log("   First, the user needs to sign up at /auth/login");
+      console.log("   Then run this command again to promote them to admin.");
+      process.exit(1);
+    }
 
-		// Update user to admin role
-		const updateData: { role: "admin"; name?: string } = { role: "admin" };
-		if (name) {
-			updateData.name = name;
-		}
+    // Update user to admin role
+    const updateData: { role: "admin"; name?: string } = { role: "admin" };
+    if (name) {
+      updateData.name = name;
+    }
 
-		await db
-			.update(user)
-			.set(updateData)
-			.where(eq(user.email, email));
+    await db.update(user).set(updateData).where(eq(user.email, email));
 
-		console.log(`✅ Successfully promoted ${email} to admin role`);
-		
-		if (name) {
-			console.log(`✅ Updated name to: ${name}`);
-		}
+    console.log(`✅ Successfully promoted ${email} to admin role`);
 
-		console.log("🎉 Admin user setup completed!");
-		console.log("🔗 They can now login at: http://localhost:3001/auth/login");
-		console.log("🏛️  Admin panel: http://localhost:3001/admin");
+    if (name) {
+      console.log(`✅ Updated name to: ${name}`);
+    }
 
-	} catch (error) {
-		console.error("❌ Error promoting user to admin:", error);
-		process.exit(1);
-	}
+    console.log("🎉 Admin user setup completed!");
+    console.log("🔗 They can now login at: http://localhost:3001/auth/login");
+    console.log("🏛️  Admin panel: http://localhost:3001/admin");
+  } catch (error) {
+    console.error("❌ Error promoting user to admin:", error);
+    process.exit(1);
+  }
 }
 
 createAdmin().then(() => process.exit(0));
