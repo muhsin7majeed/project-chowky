@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import CreateCategory from "./create";
-import UpdateCategory from "./update";
 
 export default function CategoriesPage() {
   const { t } = useTranslation();

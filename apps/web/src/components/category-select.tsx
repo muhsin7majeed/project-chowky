@@ -20,7 +20,7 @@ const CategorySelect = ({
 }: CategorySelectProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const categories = useCategories({ search: searchQuery, includeChildren: true });
+  const categories = useCategories({ search: searchQuery });
 
   const options: GenericLabelValue<number>[] =
     categories.data?.map((category) => ({

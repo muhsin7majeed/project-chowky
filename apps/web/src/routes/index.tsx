@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({
 
 function HomeComponent() {
   return (
-    <div className="max-w-4xl">
+    <div className="mx-auto">
       <LandingPage />
     </div>
   );

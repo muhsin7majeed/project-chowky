@@ -1,7 +1,8 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { useState } from "react";
-import AdminSidebar from "@/components/admin-sidebar";
+import { useIsSidebarOpen } from "@/atoms/useSidebarToggle";
+import { AppSidebar } from "@/components/app-sidebar";
 import Header from "@/components/header";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/admin")({
   beforeLoad: ({ context }) => {
@@ -28,23 +29,23 @@ export const Route = createFileRoute("/admin")({
 });
 
 function RouteComponent() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const isSidebarOpen = useIsSidebarOpen();
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col bg-background">
-      {/* Admin-specific header */}
-      <Header onMenuClick={() => setIsSidebarOpen(true)} />
+    <div className="">
+      <SidebarProvider open={isSidebarOpen}>
+        <div className="">
+          <AppSidebar />
+        </div>
 
-      <div className="flex min-h-0 flex-1">
-        <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
-        <main className="flex min-h-0 flex-1 flex-col md:ml-64">
-          <div className="flex-1 overflow-y-auto">
-            <div className="mx-auto max-w-4xl p-6">
-              <Outlet />
-            </div>
-          </div>
-        </main>
-      </div>
+        <div className="container mx-auto p-2">
+          <Header />
+
+          <main className="border rounded-lg bg-sidebar p-3 h-full">
+            <Outlet />
+          </main>
+        </div>
+      </SidebarProvider>
     </div>
   );
 }

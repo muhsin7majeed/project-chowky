@@ -56,16 +56,25 @@ function RootComponent() {
       <HeadContent />
       <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange storageKey="vite-ui-theme">
         <div className="grid h-svh grid-rows-[auto_1fr]">
-          {!isAdminRoute && <Header />}
           {isAuthPage ? (
             <div className="overflow-auto">{isFetching ? <Loader /> : <Outlet />}</div>
-          ) : isAdminRoute ? (
-            // Admin routes handle their own layout
-            <div className="min-h-0 flex-1">{isFetching ? <Loader /> : <Outlet />}</div>
           ) : (
-            <main className="container mx-auto max-w-6xl overflow-auto px-4 py-6">
-              {isFetching ? <Loader /> : <Outlet />}
-            </main>
+            <>
+              {!isAdminRoute && (
+                <div>
+                  <Header />
+                </div>
+              )}
+
+              {isAdminRoute ? (
+                // Admin routes handle their own layout
+                <div className="">{isFetching ? <Loader /> : <Outlet />}</div>
+              ) : (
+                <main className="container mx-auto max-w-6xl overflow-auto px-4 py-6">
+                  {isFetching ? <Loader /> : <Outlet />}
+                </main>
+              )}
+            </>
           )}
         </div>
         <Toaster richColors />
