@@ -6,6 +6,7 @@
     "packages/*"
   ],
   "scripts": {
+    "prepare": "husky",
     "check": "biome check --write .",
     "dev": "turbo dev",
     "build": "turbo build",
@@ -26,8 +27,15 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "turbo": "^2.5.4",
-    "@biomejs/biome": "^2.1.2"
+    "@biomejs/biome": "^2.1.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "turbo": "^2.5.4"
   },
-  "packageManager": "bun@1.2.19"
+  "packageManager": "bun@1.2.19",
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx,json,md}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
+  }
 }
