@@ -38,6 +38,11 @@ docker compose up -d
 cd ../..
 bun db:push
 
+# Create admin user (after starting the app)
+# 1. First sign up normally at http://localhost:3001/auth/login
+# 2. Then promote your user to admin:
+bun create-admin --email=your-email@example.com --name="Your Name"
+
 # Start development servers
 bun dev
 ```
@@ -76,6 +81,10 @@ bun dev:server       # Backend only
 # Database
 bun db:push          # Apply schema changes
 bun db:studio        # Open database studio
+bun db:seed          # Seed database with admin user
+
+# Admin Management
+bun create-admin     # Create/update admin user interactively
 
 # Build & Quality
 bun build            # Build all apps
@@ -92,6 +101,7 @@ For detailed documentation, visit the [`docs/`](docs/) directory:
 
 - **📖 [Complete Documentation](docs/index.md)** - Full documentation index
 - **🗄️ [Database Setup](docs/setup/database.md)** - PostgreSQL with Docker
+- **👑 [Admin Setup](docs/setup/admin-setup.md)** - Creating admin users
 - **🎨 [Frontend Guide](docs/development/frontend.md)** - React & TanStack Router
 - **⚡ [Backend Guide](docs/development/backend.md)** - Hono & tRPC APIs
 - **🌍 [Internationalization](docs/features/i18n.md)** - Multi-language support
