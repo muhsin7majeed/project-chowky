@@ -35,8 +35,7 @@
   "packageManager": "bun@1.2.19",
   "lint-staged": {
     "*.{js,ts,jsx,tsx,json,md}": [
-      "biome check --write --no-errors-on-unmatched",
-      "git add"
+      "biome check --write --no-errors-on-unmatched"
     ]
   }
 }
