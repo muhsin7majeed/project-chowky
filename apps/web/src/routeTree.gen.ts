@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TodosRouteImport } from './routes/todos'
 import { Route as AuthRouteRouteImport } from './routes/auth/route'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as AdminRouteRouteImport } from './routes/admin/route'
@@ -25,11 +24,6 @@ import { Route as AdminOrdersRouteImport } from './routes/admin/orders'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
 import { Route as AdminCategoriesRouteImport } from './routes/admin/categories'
 
-const TodosRoute = TodosRouteImport.update({
-  id: '/todos',
-  path: '/todos',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthRouteRoute = AuthRouteRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -106,7 +100,6 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteRouteWithChildren
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
-  '/todos': typeof TodosRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -121,7 +114,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRouteRouteWithChildren
-  '/todos': typeof TodosRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -139,7 +131,6 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteRouteWithChildren
   '/app': typeof AppRouteRouteWithChildren
   '/auth': typeof AuthRouteRouteWithChildren
-  '/todos': typeof TodosRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/orders': typeof AdminOrdersRoute
@@ -158,7 +149,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
-    | '/todos'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/orders'
@@ -173,7 +163,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/todos'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/orders'
@@ -190,7 +179,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
-    | '/todos'
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/orders'
@@ -208,18 +196,10 @@ export interface RootRouteChildren {
   AdminRouteRoute: typeof AdminRouteRouteWithChildren
   AppRouteRoute: typeof AppRouteRouteWithChildren
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  TodosRoute: typeof TodosRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/todos': {
-      id: '/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof TodosRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -376,7 +356,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRouteRoute: AdminRouteRouteWithChildren,
   AppRouteRoute: AppRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
-  TodosRoute: TodosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

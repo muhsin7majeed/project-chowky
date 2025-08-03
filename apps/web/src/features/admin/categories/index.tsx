@@ -1,14 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import CreateCategory from "./create";
+import UpdateCategory from "./update";
 
 export default function CategoriesPage() {
   const { t } = useTranslation();
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-bold text-3xl tracking-tight">{t("categories")}</h1>
-        <p className="text-muted-foreground">Manage product categories and their organization.</p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="font-bold text-3xl tracking-tight">{t("categories")}</h1>
+          <p className="text-muted-foreground">Manage product categories and their organization.</p>
+        </div>
+
+        <CreateCategory />
       </div>
 
       <Card>

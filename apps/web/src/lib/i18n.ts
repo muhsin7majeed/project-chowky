@@ -19,8 +19,8 @@ const resources = {
       save: "Save",
       cancel: "Cancel",
       delete: "Delete",
-      edit: "Edit",
-      add: "Add",
+      create: "Create",
+      update: "Update",
       search: "Search",
       language: "Language",
 
@@ -61,6 +61,11 @@ const resources = {
       // Messages
       welcomeMessage: "Welcome to Project Chowky",
       getStarted: "Get started by creating your first todo",
+
+      // Categories
+      createCategory: "Create Category",
+      updateCategory: "Update Category",
+      createCategoryDescription: "Create a new category",
     },
   },
   de: {
@@ -78,8 +83,8 @@ const resources = {
       save: "Speichern",
       cancel: "Abbrechen",
       delete: "Löschen",
-      edit: "Bearbeiten",
-      add: "Hinzufügen",
+      create: "Erstellen",
+      update: "Aktualisieren",
       search: "Suchen",
       language: "Sprache",
 
@@ -120,6 +125,11 @@ const resources = {
       // Messages
       welcomeMessage: "Willkommen bei Project Chowky",
       getStarted: "Beginne mit der Erstellung deiner ersten Aufgabe",
+
+      // Categories
+      createCategory: "Kategorie erstellen",
+      updateCategory: "Kategorie aktualisieren",
+      createCategoryDescription: "Erstelle eine neue Kategorie",
     },
   },
 };
