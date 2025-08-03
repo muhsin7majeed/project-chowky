@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useCategories from "@/features/admin/categories/apis/use-categories";
 import type { GenericLabelValue } from "@/types/common";
 import { AsyncSelect } from "./ui/async-select";
@@ -17,7 +18,9 @@ const CategorySelect = ({
   placeholder = "Select a category",
   clearable = true,
 }: CategorySelectProps) => {
-  const categories = useCategories();
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const categories = useCategories({ search: searchQuery, includeChildren: true });
 
   const options: GenericLabelValue<number>[] =
     categories.data?.map((category) => ({
@@ -27,7 +30,9 @@ const CategorySelect = ({
 
   const fetchData = async (query?: string) => {
     if (query) {
-      categories.refetch();
+      setSearchQuery(query);
+    } else {
+      setSearchQuery("");
     }
 
     return options;

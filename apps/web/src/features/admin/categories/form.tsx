@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import type { CategoryFormDefaultValues } from "@/types/category";
+import slugify from "@/utils/slugify";
 
 const categorySchema = z.object({
   name: z
@@ -59,6 +60,7 @@ const CategoryForm = ({ onSubmit, defaultValues }: CategoryFormProps) => {
                   id="name"
                   placeholder="Name"
                   isInvalid={!field.state.meta.isValid}
+                  value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
               </FormGroup>
@@ -72,7 +74,12 @@ const CategoryForm = ({ onSubmit, defaultValues }: CategoryFormProps) => {
                   id="slug"
                   placeholder="Slug"
                   isInvalid={!field.state.meta.isValid}
-                  onChange={(e) => field.handleChange(e.target.value)}
+                  value={field.state.value}
+                  onChange={(e) => {
+                    const slug = slugify(e.target.value);
+
+                    field.handleChange(slug);
+                  }}
                 />
               </FormGroup>
             )}
@@ -85,6 +92,7 @@ const CategoryForm = ({ onSubmit, defaultValues }: CategoryFormProps) => {
                   id="description"
                   placeholder="Description"
                   isInvalid={!field.state.meta.isValid}
+                  value={field.state.value}
                   onChange={(e) => field.handleChange(e.target.value)}
                 />
               </FormGroup>
@@ -99,6 +107,7 @@ const CategoryForm = ({ onSubmit, defaultValues }: CategoryFormProps) => {
                   type="number"
                   placeholder="Priority"
                   isInvalid={!field.state.meta.isValid}
+                  value={field.state.value}
                   onChange={(e) => field.handleChange(Number(e.target.value))}
                 />
               </FormGroup>

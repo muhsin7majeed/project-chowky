@@ -1,6 +1,7 @@
 import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -12,10 +13,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { CategoryFormDefaultValues } from "@/types/category";
+import useCreateCategory from "./apis/use-create-category";
 import CategoryForm from "./form";
+import getCategoryFormPayload from "./getCategoryFormPayload";
+import getDefaultFormValues from "./getDefaultFormValues";
 
 const CreateCategory = () => {
   const { t } = useTranslation();
+  const { mutate: createCategory, isPending } = useCreateCategory();
   const [open, setOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -23,18 +28,17 @@ const CreateCategory = () => {
   };
 
   const handleSubmit = (data: CategoryFormDefaultValues) => {
-    console.log(data);
+    const payload = getCategoryFormPayload(data);
+
+    createCategory(payload, {
+      onSuccess: () => {
+        toggleOpen();
+        toast.success(t("categoryCreated"));
+      },
+    });
   };
 
-  const defaultValues: CategoryFormDefaultValues = {
-    name: "",
-    slug: "",
-    description: "",
-    parentId: undefined,
-    imageUrl: undefined,
-    priority: undefined,
-    isActive: true,
-  };
+  const defaultValues = getDefaultFormValues();
 
   return (
     <div>
@@ -59,7 +63,7 @@ const CreateCategory = () => {
               </Button>
             </DialogClose>
 
-            <Button type="submit" form="category-form">
+            <Button type="submit" form="category-form" isLoading={isPending}>
               {t("save")}
             </Button>
           </DialogFooter>
