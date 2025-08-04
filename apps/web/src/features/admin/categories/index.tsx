@@ -2,16 +2,16 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import FetchState from "@/components/fetch-state";
 import { useDebounce } from "@/lib/hooks";
-import type { CategoryFilterStatus } from "@/types/category";
+import type { CategoryFilterStatus, CategoryFiltersInterface } from "@/types/category";
 import useCategories from "./apis/use-categories";
 import CreateCategory from "./create";
 import CategoryFilters from "./filters";
 import CategoryList from "./list";
 
 export default function CategoriesPage() {
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<CategoryFiltersInterface>({
     search: "",
-    status: "all" as CategoryFilterStatus,
+    status: "all",
     expanded: false,
   });
 
@@ -54,8 +54,7 @@ export default function CategoriesPage() {
 
       <div className="my-2">
         <CategoryFilters
-          search={filters.search}
-          status={filters.status}
+          filters={filters}
           onSearch={handleSearch}
           onStatusChange={handleStatusChange}
           onExpandAll={handleExpandAll}

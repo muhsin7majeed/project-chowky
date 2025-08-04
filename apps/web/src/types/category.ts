@@ -24,3 +24,9 @@ export interface Category {
 }
 
 export type CategoryFilterStatus = "active" | "inactive" | "all";
+
+export interface CategoryFiltersInterface {
+  search: string;
+  status: CategoryFilterStatus;
+  expanded: boolean;
+}

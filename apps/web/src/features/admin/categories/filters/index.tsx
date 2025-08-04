@@ -1,18 +1,18 @@
 import { SearchIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import type { CategoryFilterStatus } from "@/types/category";
+import type { CategoryFilterStatus, CategoryFiltersInterface } from "@/types/category";
 
 interface CategoryFiltersProps {
-  search: string;
-  status: CategoryFilterStatus;
+  filters: CategoryFiltersInterface;
   onSearch: (search: string) => void;
   onStatusChange: (status: CategoryFilterStatus) => void;
   onExpandAll: () => void;
 }
 
-const CategoryFilters = ({ search, status, onSearch, onStatusChange, onExpandAll }: CategoryFiltersProps) => {
+const CategoryFilters = ({ filters, onSearch, onStatusChange, onExpandAll }: CategoryFiltersProps) => {
+  const { search, status, expanded } = filters;
+
   return (
     <div className="flex gap-4 items-center justify-end flex-wrap">
       <Input value={search} onChange={(e) => onSearch(e.target.value)} placeholder="Search" icon={<SearchIcon />} />
@@ -24,9 +24,9 @@ const CategoryFilters = ({ search, status, onSearch, onStatusChange, onExpandAll
       </ToggleGroup>
 
       {/* TODO: Check the uncontrolled to controlled state change warning */}
-      <Button variant="outline" onClick={onExpandAll}>
-        Expand All
-      </Button>
+      {/* <Button variant="outline" onClick={onExpandAll}>
+        {expanded ? "Collapse All" : "Expand All"}
+      </Button> */}
     </div>
   );
 };
