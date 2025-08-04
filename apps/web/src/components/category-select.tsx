@@ -23,7 +23,7 @@ const CategorySelect = ({
   const categories = useCategories({ search: searchQuery });
 
   const options: GenericLabelValue<number>[] =
-    categories.data?.map((category) => ({
+    categories.data?.rows?.map((category) => ({
       value: category.id,
       label: category.name,
     })) || [];

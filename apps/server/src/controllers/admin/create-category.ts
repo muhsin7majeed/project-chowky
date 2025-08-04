@@ -1,4 +1,5 @@
 import { TRPCError } from "@trpc/server";
+import { eq, or } from "drizzle-orm";
 import z from "zod";
 import { db } from "@/db";
 import { categories } from "@/db/schema/category";
@@ -17,26 +18,32 @@ const createCategoryController = adminProcedure
     }),
   )
   .mutation(async ({ input }) => {
-    try {
-      const { name, slug, description, parentId, imageUrl, priority, isActive } = input;
+    const { name, slug, description, parentId, imageUrl, priority, isActive } = input;
 
-      const category = await db.insert(categories).values({
-        name,
-        slug,
-        description,
-        parentId,
-        imageUrl,
-        priority,
-        isActive,
-      });
+    // check if duplicate slug or name exists
+    const existingCategory = await db
+      .select()
+      .from(categories)
+      .where(or(eq(categories.slug, slug), eq(categories.name, name)));
 
-      return category;
-    } catch (_error) {
+    if (existingCategory.length > 0) {
       throw new TRPCError({
-        code: "INTERNAL_SERVER_ERROR",
-        message: "Failed to create category",
+        code: "BAD_REQUEST",
+        message: "Category with this slug or name already exists",
       });
     }
+
+    const category = await db.insert(categories).values({
+      name,
+      slug,
+      description,
+      parentId,
+      imageUrl,
+      priority,
+      isActive,
+    });
+
+    return category;
   });
 
 export default createCategoryController;

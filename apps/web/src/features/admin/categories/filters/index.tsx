@@ -10,8 +10,8 @@ interface CategoryFiltersProps {
   onExpandAll: () => void;
 }
 
-const CategoryFilters = ({ filters, onSearch, onStatusChange, onExpandAll }: CategoryFiltersProps) => {
-  const { search, status, expanded } = filters;
+const CategoryFilters = ({ filters, onSearch, onStatusChange }: CategoryFiltersProps) => {
+  const { search, status } = filters;
 
   return (
     <div className="flex gap-4 items-center justify-end flex-wrap">

@@ -43,7 +43,6 @@ const buildCategoryTree = (
 
 const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSchema).query(async ({ input }) => {
   try {
-    console.log(input);
     const { parentId, status, limit, offset, search, orderBy, includeChildren } = input ?? {};
 
     // Doing this for easier filtering in the frontend
@@ -86,7 +85,10 @@ const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSche
         (offset ?? DEFAULT_OFFSET) + (limit ?? DEFAULT_LIMIT),
       );
 
-      return paginatedRoots;
+      return {
+        rows: paginatedRoots,
+        total: rootCategories.length,
+      };
     }
 
     // When includeChildren is false, return flat list as before
@@ -119,7 +121,12 @@ const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSche
 
     query.limit(limit ?? DEFAULT_LIMIT).offset(offset ?? DEFAULT_OFFSET);
 
-    return await query;
+    const response = await query;
+
+    return {
+      rows: response,
+      total: response.length,
+    };
   } catch (_error) {
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",

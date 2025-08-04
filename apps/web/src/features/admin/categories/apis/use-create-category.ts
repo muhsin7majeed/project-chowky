@@ -1,13 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { t } from "i18next";
 import { toast } from "sonner";
-import { trpc } from "@/utils/trpc";
+import { queryClient, trpc } from "@/utils/trpc";
 
 const useCreateCategory = () => {
   const mutation = useMutation(
     trpc.app.category.create.mutationOptions({
-      onError: () => {
-        toast.error(t("categoryCreationFailed"));
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [["app", "category"]] });
+      },
+      onError: (error) => {
+        toast.error(error.message);
       },
     }),
   );

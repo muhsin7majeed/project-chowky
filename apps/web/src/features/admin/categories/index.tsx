@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import CustomPagination from "@/components/custom-pagination";
 import FetchState from "@/components/fetch-state";
-import { useDebounce } from "@/lib/hooks";
+import { useDebounce, usePagination } from "@/lib/hooks";
 import type { CategoryFilterStatus, CategoryFiltersInterface } from "@/types/category";
 import useCategories from "./apis/use-categories";
 import CreateCategory from "./create";
@@ -16,10 +17,11 @@ export default function CategoriesPage() {
   });
 
   const debouncedSearch = useDebounce(filters.search, 300);
+  const pagination = usePagination({ initialLimit: 10 });
 
   const { t } = useTranslation();
   const {
-    data: categories,
+    data: categoriesResponse,
     isLoading,
     error,
     refetch,
@@ -27,6 +29,8 @@ export default function CategoriesPage() {
     includeChildren: true,
     search: debouncedSearch,
     status: filters.status,
+    limit: pagination.limit,
+    offset: pagination.offset,
   });
 
   const handleSearch = (search: string) => {
@@ -40,6 +44,13 @@ export default function CategoriesPage() {
   const handleExpandAll = () => {
     setFilters({ ...filters, expanded: !filters.expanded });
   };
+
+  // Update total count when data changes
+  useEffect(() => {
+    if (categoriesResponse?.total) {
+      pagination.setTotal(categoriesResponse.total);
+    }
+  }, [categoriesResponse?.total, pagination]);
 
   return (
     <div className="space-y-6">
@@ -62,9 +73,24 @@ export default function CategoriesPage() {
       </div>
 
       <div className="space-y-6">
-        <FetchState isLoading={isLoading} isError={error?.message} retry={refetch} isEmpty={categories?.length === 0}>
-          <CategoryList categories={categories || []} expanded={filters.expanded} />
+        <FetchState
+          isLoading={isLoading}
+          isError={error?.message}
+          retry={refetch}
+          isEmpty={categoriesResponse?.rows?.length === 0}
+        >
+          <CategoryList categories={categoriesResponse?.rows || []} expanded={filters.expanded} />
         </FetchState>
+
+        <div className="flex justify-end">
+          <CustomPagination
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            onPageChange={pagination.goToPage}
+            canGoToNextPage={pagination.canGoToNextPage}
+            canGoToPreviousPage={pagination.canGoToPreviousPage}
+          />
+        </div>
       </div>
     </div>
   );
