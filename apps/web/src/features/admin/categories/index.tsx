@@ -1,9 +1,42 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import FetchState from "@/components/fetch-state";
+import type { CategoryFilterStatus } from "@/types/category";
+import useCategories from "./apis/use-categories";
 import CreateCategory from "./create";
+import CategoryFilters from "./filters";
+import CategoryList from "./list";
 
 export default function CategoriesPage() {
+  const [filters, setFilters] = useState({
+    search: "",
+    status: "all" as CategoryFilterStatus,
+    expanded: false,
+  });
+
   const { t } = useTranslation();
+  const {
+    data: categories,
+    isLoading,
+    error,
+    refetch,
+  } = useCategories({
+    includeChildren: true,
+    search: filters.search,
+    status: filters.status,
+  });
+
+  const handleSearch = (search: string) => {
+    setFilters({ ...filters, search });
+  };
+
+  const handleStatusChange = (status: CategoryFilterStatus) => {
+    setFilters({ ...filters, status });
+  };
+
+  const handleExpandAll = () => {
+    setFilters({ ...filters, expanded: !filters.expanded });
+  };
 
   return (
     <div className="space-y-6">
@@ -16,21 +49,21 @@ export default function CategoriesPage() {
         <CreateCategory />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("categories")} Management</CardTitle>
-          <CardDescription>This is a placeholder for the categories management functionality.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground">Categories management features will be implemented here, including:</p>
-          <ul className="mt-4 space-y-2 text-muted-foreground">
-            <li>• Create and edit categories</li>
-            <li>• Category hierarchy management</li>
-            <li>• Category analytics and metrics</li>
-            <li>• Bulk category operations</li>
-          </ul>
-        </CardContent>
-      </Card>
+      <div className="my-2">
+        <CategoryFilters
+          search={filters.search}
+          status={filters.status}
+          onSearch={handleSearch}
+          onStatusChange={handleStatusChange}
+          onExpandAll={handleExpandAll}
+        />
+      </div>
+
+      <div className="space-y-6">
+        <FetchState isLoading={isLoading} isError={error?.message} retry={refetch} isEmpty={categories?.length === 0}>
+          <CategoryList categories={categories || []} expanded={filters.expanded} />
+        </FetchState>
+      </div>
     </div>
   );
 }

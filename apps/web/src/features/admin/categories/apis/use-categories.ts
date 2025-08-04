@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
+import type { CategoryFilterStatus } from "@/types/category";
 import { trpc } from "@/utils/trpc";
 
 interface UseCategoriesParams {
   parentId?: number;
-  isActive?: boolean;
+  status?: CategoryFilterStatus;
   limit?: number;
   offset?: number;
   search?: string;

@@ -9,7 +9,7 @@ type CategoryWithChildren = {
   id: number;
   name: string;
   slug: string;
-  description: string | null;
+  description: string;
   parentId: number | null;
   imageUrl: string | null;
   priority: number | null;
@@ -43,7 +43,9 @@ const buildCategoryTree = (
 
 const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSchema).query(async ({ input }) => {
   try {
-    const { parentId, isActive, limit, offset, search, orderBy, includeChildren } = input ?? {};
+    const { parentId, status, limit, offset, search, orderBy, includeChildren } = input ?? {};
+
+    const isActive = status === "active" ? true : status === "inactive" ? false : undefined;
 
     if (includeChildren) {
       // When includeChildren is true, fetch all categories and build tree
@@ -117,8 +119,6 @@ const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSche
 
     return await query;
   } catch (_error) {
-    console.log(_error);
-
     throw new TRPCError({
       code: "INTERNAL_SERVER_ERROR",
       message: "Failed to fetch categories",

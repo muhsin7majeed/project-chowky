@@ -3,7 +3,7 @@ import { z } from "zod";
 export const getAllCategoriesZodSchema = z
   .object({
     parentId: z.number().optional(),
-    isActive: z.boolean().optional(),
+    status: z.enum(["all", "active", "inactive"]).optional().default("all"),
     limit: z.number().optional(),
     offset: z.number().optional(),
     search: z.string().optional(),

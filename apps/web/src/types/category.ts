@@ -10,3 +10,17 @@ export interface CategoryFormDefaultValues {
   priority?: number;
   isActive: boolean;
 }
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string | null;
+  parentId?: number | null;
+  imageUrl?: string | null;
+  priority?: number | null;
+  isActive: boolean;
+  subCategories?: Category[];
+}
+
+export type CategoryFilterStatus = "active" | "inactive" | "all";
