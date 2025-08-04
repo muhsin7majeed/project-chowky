@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import FetchState from "@/components/fetch-state";
+import { useDebounce } from "@/lib/hooks";
 import type { CategoryFilterStatus } from "@/types/category";
 import useCategories from "./apis/use-categories";
 import CreateCategory from "./create";
@@ -14,6 +15,8 @@ export default function CategoriesPage() {
     expanded: false,
   });
 
+  const debouncedSearch = useDebounce(filters.search, 300);
+
   const { t } = useTranslation();
   const {
     data: categories,
@@ -22,7 +25,7 @@ export default function CategoriesPage() {
     refetch,
   } = useCategories({
     includeChildren: true,
-    search: filters.search,
+    search: debouncedSearch,
     status: filters.status,
   });
 

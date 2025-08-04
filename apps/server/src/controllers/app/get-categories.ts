@@ -43,8 +43,10 @@ const buildCategoryTree = (
 
 const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSchema).query(async ({ input }) => {
   try {
+    console.log(input);
     const { parentId, status, limit, offset, search, orderBy, includeChildren } = input ?? {};
 
+    // Doing this for easier filtering in the frontend
     const isActive = status === "active" ? true : status === "inactive" ? false : undefined;
 
     if (includeChildren) {

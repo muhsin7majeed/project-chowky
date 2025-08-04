@@ -23,6 +23,7 @@ const CategoryFilters = ({ search, status, onSearch, onStatusChange, onExpandAll
         <ToggleGroupItem value="inactive">Inactive</ToggleGroupItem>
       </ToggleGroup>
 
+      {/* TODO: Check the uncontrolled to controlled state change warning */}
       <Button variant="outline" onClick={onExpandAll}>
         Expand All
       </Button>
