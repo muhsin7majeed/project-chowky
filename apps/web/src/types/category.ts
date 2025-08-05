@@ -1,11 +1,9 @@
-import type { GenericLabelValue } from "./common";
-
 export interface CategoryFormDefaultValues {
   id?: number;
   name: string;
   slug: string;
   description?: string;
-  parentId?: GenericLabelValue<number>;
+  parentId?: number;
   imageUrl?: string;
   priority?: number;
   isActive: boolean;
@@ -21,6 +19,7 @@ export interface Category {
   priority?: number | null;
   isActive: boolean;
   subCategories?: Category[];
+  parentName?: string;
 }
 
 export type CategoryFilterStatus = "active" | "inactive" | "all";

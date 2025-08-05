@@ -1,9 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { FlatCategory } from "@/types/category";
-import { CategoryActions } from "./category-actions";
+import { CategoryActions } from "../crud/category-actions";
 
 interface CategoryRowProps {
   category: FlatCategory;
@@ -12,11 +11,6 @@ interface CategoryRowProps {
 export const CategoryRow = ({ category }: CategoryRowProps) => {
   const { t } = useTranslation();
   const indentStyle = { paddingLeft: `${category.level * 24 + 12}px` };
-
-  const handleStatusToggle = () => {
-    // TODO: Implement toggle status functionality
-    console.log("Toggle status for category:", category.id);
-  };
 
   return (
     <TableRow>
@@ -37,10 +31,6 @@ export const CategoryRow = ({ category }: CategoryRowProps) => {
         <div className="truncate">
           {category.description || <span className="text-muted-foreground italic">{t("noDescription")}</span>}
         </div>
-      </TableCell>
-
-      <TableCell>
-        <Switch checked={category.isActive} onCheckedChange={handleStatusToggle} />
       </TableCell>
 
       <TableCell>

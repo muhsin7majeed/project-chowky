@@ -1,13 +1,12 @@
 import { TRPCError } from "@trpc/server";
 import { eq, or } from "drizzle-orm";
-import z from "zod";
 import { db } from "@/db";
 import { categories } from "@/db/schema/category";
 import { adminProcedure } from "@/lib/trpc";
-import { createCategoryInputZodSchema } from "@/lib/zod-schema/categories";
+import { updateCategoryInputZodSchema } from "@/lib/zod-schema/categories";
 
-const createCategoryController = adminProcedure.input(createCategoryInputZodSchema).mutation(async ({ input }) => {
-  const { name, slug, description, parentId, imageUrl, priority, isActive } = input;
+const updateCategoryController = adminProcedure.input(updateCategoryInputZodSchema).mutation(async ({ input }) => {
+  const { id, name, slug, description, parentId, imageUrl, priority, isActive } = input;
 
   // check if duplicate slug or name exists
   const existingCategory = await db
@@ -22,17 +21,20 @@ const createCategoryController = adminProcedure.input(createCategoryInputZodSche
     });
   }
 
-  const category = await db.insert(categories).values({
-    name,
-    slug,
-    description,
-    parentId,
-    imageUrl,
-    priority,
-    isActive,
-  });
+  const category = await db
+    .update(categories)
+    .set({
+      name,
+      slug,
+      description,
+      parentId,
+      imageUrl,
+      priority,
+      isActive,
+    })
+    .where(eq(categories.id, id));
 
   return category;
 });
 
-export default createCategoryController;
+export default updateCategoryController;

@@ -16,3 +16,19 @@ export const getAllCategoriesZodSchema = z
       .optional(),
   })
   .optional();
+
+const categoryInputZodSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  description: z.string().optional(),
+  parentId: z.number().optional(),
+  imageUrl: z.string().optional(),
+  priority: z.number().optional(),
+  isActive: z.boolean(),
+});
+
+export const createCategoryInputZodSchema = categoryInputZodSchema;
+
+export const updateCategoryInputZodSchema = categoryInputZodSchema.extend({
+  id: z.number(),
+});

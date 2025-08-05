@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
 import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { Category } from "@/types/category";
+import flattenCategories from "../utils/get-flattened-categories";
 import { CategoryRow } from "./category-row";
-import { flattenCategories } from "./utils";
 
 interface CategoryListProps {
   categories: Category[];
@@ -26,7 +26,6 @@ const CategoryList = ({ categories }: CategoryListProps) => {
               <TableHead>{t("name")}</TableHead>
               <TableHead>{t("slug")}</TableHead>
               <TableHead>{t("description")}</TableHead>
-              <TableHead>{t("status")}</TableHead>
               <TableHead>{t("actions")}</TableHead>
             </TableRow>
           </TableHeader>

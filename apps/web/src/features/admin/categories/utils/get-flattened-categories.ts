@@ -1,8 +1,6 @@
-import type { Category } from "@/types/category";
-import type { FlatCategory } from "./types";
+import type { Category, FlatCategory } from "@/types/category";
 
-// Helper function to flatten nested categories
-export const flattenCategories = (categories: Category[], level = 0, parentName?: string): FlatCategory[] => {
+const flattenCategories = (categories: Category[], level = 0, parentName?: string): FlatCategory[] => {
   const flattened: FlatCategory[] = [];
 
   for (const category of categories) {
@@ -19,3 +17,5 @@ export const flattenCategories = (categories: Category[], level = 0, parentName?
 
   return flattened;
 };
+
+export default flattenCategories;

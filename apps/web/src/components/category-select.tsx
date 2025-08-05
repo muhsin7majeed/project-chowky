@@ -4,7 +4,7 @@ import type { GenericLabelValue } from "@/types/common";
 import { AsyncSelect } from "./ui/async-select";
 
 interface CategorySelectProps {
-  value: GenericLabelValue<number> | undefined;
+  value: number | "";
   onChange: (value: GenericLabelValue<number> | undefined) => void;
   placeholder?: string;
   clearable?: boolean;
@@ -37,6 +37,8 @@ const CategorySelect = ({
 
     return options;
   };
+
+  console.log({ value });
 
   return (
     <div>

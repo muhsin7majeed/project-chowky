@@ -8,8 +8,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import UpdateCategory from "../update";
-import type { FlatCategory } from "./types";
+import type { FlatCategory } from "@/types/category";
+import ChangeStatus from "./change-status";
+import UpdateCategory from "./update";
 
 interface CategoryActionsProps {
   category: FlatCategory;
@@ -29,7 +30,9 @@ export const CategoryActions = ({ category }: CategoryActionsProps) => {
   };
 
   return (
-    <>
+    <div className="flex items-center gap-2 justify-between">
+      <ChangeStatus category={category} />
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm">
@@ -53,6 +56,6 @@ export const CategoryActions = ({ category }: CategoryActionsProps) => {
       {showUpdateDialog && (
         <UpdateCategory category={category} open={showUpdateDialog} onOpenChange={setShowUpdateDialog} />
       )}
-    </>
+    </div>
   );
 };

@@ -13,10 +13,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { CategoryFormDefaultValues } from "@/types/category";
-import useCreateCategory from "./apis/use-create-category";
+import useCreateCategory from "../apis/use-create-category";
+import getCategoryFormPayload from "../utils/get-category-form-payload";
+import getDefaultFormValues from "../utils/get-default-form-values";
 import CategoryForm from "./form";
-import getCategoryFormPayload from "./getCategoryFormPayload";
-import getDefaultFormValues from "./getDefaultFormValues";
 
 const CreateCategory = () => {
   const { t } = useTranslation();
@@ -57,11 +57,9 @@ const CreateCategory = () => {
           <CategoryForm onSubmit={handleSubmit} defaultValues={defaultValues} />
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline" type="button" onClick={toggleOpen}>
-                {t("cancel")}
-              </Button>
-            </DialogClose>
+            <Button variant="outline" type="button" onClick={toggleOpen}>
+              {t("cancel")}
+            </Button>
 
             <Button type="submit" form="category-form" isLoading={isPending}>
               {t("save")}

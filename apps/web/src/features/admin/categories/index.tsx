@@ -5,7 +5,7 @@ import FetchState from "@/components/fetch-state";
 import { useDebounce, usePagination } from "@/lib/hooks";
 import type { CategoryFilterStatus, CategoryFiltersInterface } from "@/types/category";
 import useCategories from "./apis/use-categories";
-import CreateCategory from "./create";
+import CreateCategory from "./crud/create";
 import CategoryFilters from "./filters";
 import CategoryList from "./list";
 

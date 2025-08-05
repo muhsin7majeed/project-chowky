@@ -11,8 +11,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { Category, CategoryFormDefaultValues } from "@/types/category";
+import getCategoryFormPayload from "../utils/get-category-form-payload";
+import getDefaultFormValues from "../utils/get-default-form-values";
 import CategoryForm from "./form";
-import getCategoryFormPayload from "./getCategoryFormPayload";
 
 interface UpdateCategoryProps {
   category: Category;
@@ -32,16 +33,7 @@ const UpdateCategory = ({ category, open, onOpenChange }: UpdateCategoryProps) =
     onOpenChange(false);
   };
 
-  const defaultValues: CategoryFormDefaultValues = {
-    id: category.id,
-    name: category.name,
-    slug: category.slug,
-    description: category.description || "",
-    parentId: category.parentId ? { value: category.parentId, label: "Parent Category" } : undefined,
-    imageUrl: category.imageUrl || "",
-    priority: category.priority || 0,
-    isActive: category.isActive,
-  };
+  const defaultValues: CategoryFormDefaultValues = getDefaultFormValues(category);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
