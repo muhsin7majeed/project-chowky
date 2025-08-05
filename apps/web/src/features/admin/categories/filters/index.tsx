@@ -17,7 +17,7 @@ const CategoryFilters = ({ filters, onSearch, onStatusChange }: CategoryFiltersP
     <div className="flex gap-4 items-center justify-end flex-wrap">
       <Input value={search} onChange={(e) => onSearch(e.target.value)} placeholder="Search" icon={<SearchIcon />} />
 
-      <ToggleGroup variant="outline" type="single" value={status} onValueChange={onStatusChange}>
+      <ToggleGroup size="sm" variant="outline" type="single" value={status} onValueChange={onStatusChange}>
         <ToggleGroupItem value="all">All</ToggleGroupItem>
         <ToggleGroupItem value="active">Active</ToggleGroupItem>
         <ToggleGroupItem value="inactive">Inactive</ToggleGroupItem>

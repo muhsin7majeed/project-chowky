@@ -30,3 +30,8 @@ export interface CategoryFiltersInterface {
   status: CategoryFilterStatus;
   expanded: boolean;
 }
+
+export interface FlatCategory extends Category {
+  level: number;
+  parentName?: string;
+}

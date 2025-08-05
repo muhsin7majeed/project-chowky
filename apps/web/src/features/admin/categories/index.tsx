@@ -56,14 +56,16 @@ export default function CategoriesPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="font-bold text-3xl tracking-tight">{t("categories")}</h1>
-          <p className="text-muted-foreground">Manage product categories and their organization.</p>
+          <h1 className="font-bold text-2xl sm:text-3xl tracking-tight">{t("categories")}</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
+            Manage product categories and their organization.
+          </p>
         </div>
 
         <CreateCategory />
       </div>
 
-      <div className="my-2">
+      <div className="my-6">
         <CategoryFilters
           filters={filters}
           onSearch={handleSearch}
