@@ -97,11 +97,14 @@ const CategoryForm = ({ onSubmit, defaultValues }: CategoryFormProps) => {
           <form.Field name="parentId">
             {(field) => (
               <FormGroup label="Parent Category" inputId="parentId" errors={field.state.meta.errors}>
+                {console.log("FIELD STATE", field.state.value)}
                 <CategorySelect
                   clearable
                   value={field.state.value || ""}
                   onChange={(value) => {
-                    field.setValue(value?.value || undefined);
+                    console.log("ON CHANGE", value);
+
+                    field.handleChange(value || "");
                   }}
                 />
               </FormGroup>

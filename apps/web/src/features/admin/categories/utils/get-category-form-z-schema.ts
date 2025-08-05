@@ -11,7 +11,12 @@ const getCategoryFormZodSchema = () => {
       .min(1, { message: "Slug is required" })
       .max(100, { message: "Slug must be less than 100 characters" }),
     description: z.string().max(500, { message: "Description must be less than 500 characters" }).optional(),
-    parentId: z.number().optional(),
+    parentId: z
+      .object({
+        value: z.number(),
+        label: z.string(),
+      })
+      .optional(),
     imageUrl: z.string().optional(),
     priority: z.number().optional(),
     isActive: z.boolean(),

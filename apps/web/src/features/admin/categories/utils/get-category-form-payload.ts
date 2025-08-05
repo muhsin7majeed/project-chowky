@@ -5,7 +5,7 @@ const getCategoryFormPayload = (data: CategoryFormDefaultValues) => {
     name: data.name,
     slug: data.slug,
     description: data.description,
-    parentId: data.parentId,
+    parentId: data.parentId ? data.parentId.value : undefined,
     imageUrl: data.imageUrl,
     priority: data.priority,
     isActive: data.isActive,

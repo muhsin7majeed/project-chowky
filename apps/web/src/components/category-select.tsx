@@ -1,20 +1,18 @@
 import { useState } from "react";
+import AsyncSelect from "react-select/async";
 import useCategories from "@/features/admin/categories/apis/use-categories";
 import type { GenericLabelValue } from "@/types/common";
-import { AsyncSelect } from "./ui/async-select";
 
 interface CategorySelectProps {
-  value: number | "";
-  onChange: (value: GenericLabelValue<number> | undefined) => void;
+  value: GenericLabelValue<any> | "";
+  onChange: (value: GenericLabelValue<any> | "") => void;
   placeholder?: string;
   clearable?: boolean;
-  label?: string;
 }
 
 const CategorySelect = ({
   value,
   onChange,
-  label = "Category",
   placeholder = "Select a category",
   clearable = true,
 }: CategorySelectProps) => {
@@ -28,30 +26,27 @@ const CategorySelect = ({
       label: category.name,
     })) || [];
 
-  const fetchData = async (query?: string) => {
-    if (query) {
-      setSearchQuery(query);
-    } else {
-      setSearchQuery("");
-    }
+  const loadOptions = (inputValue: string, callback: (options: GenericLabelValue<number>[]) => void) => {
+    setSearchQuery(inputValue);
 
-    return options;
+    callback(options);
   };
 
   console.log({ value });
 
   return (
     <div>
-      <AsyncSelect<GenericLabelValue<number>>
+      <AsyncSelect
         placeholder={placeholder}
-        fetcher={fetchData}
-        renderOption={(item) => <div>{item.label}</div>}
-        getOptionValue={(item) => item.value.toString()}
-        getDisplayValue={(item) => item.label}
-        label={label}
-        value={value?.toString() || ""}
-        onChange={(value) => onChange(value)}
-        clearable={clearable}
+        isClearable={clearable}
+        cacheOptions
+        loadOptions={loadOptions}
+        value={value || ""}
+        defaultOptions
+        onChange={(value) => {
+          console.log("VALUE", value);
+          onChange(value || "");
+        }}
       />
     </div>
   );
