@@ -5,7 +5,7 @@ export interface CategoryFormDefaultValues {
   name: string;
   slug: string;
   description?: string;
-  parentId?: GenericLabelValue<number> | "";
+  parentId?: GenericLabelValue<number> | null;
   imageUrl?: string;
   priority?: number;
   isActive: boolean;

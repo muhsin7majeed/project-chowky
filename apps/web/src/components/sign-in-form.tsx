@@ -33,7 +33,7 @@ export default function SignInForm({
             toast.success("Sign in successful");
           },
           onError: (error) => {
-            toast.error(error.error.message || error.error.statusText);
+            toast.error(error.error.message || "Something went wrong");
           },
         },
       );

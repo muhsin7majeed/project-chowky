@@ -1,8 +1,6 @@
 import type { Category, CategoryFormDefaultValues } from "@/types/category";
 
-const getDefaultFormValues = (category?: Category): CategoryFormDefaultValues => {
-  console.log("DEFAULT VALUES", category);
-
+const getCategoryFormValues = (category?: Category): CategoryFormDefaultValues => {
   return {
     id: category?.id,
     name: category?.name || "",
@@ -13,11 +11,11 @@ const getDefaultFormValues = (category?: Category): CategoryFormDefaultValues =>
           value: category.parentId,
           label: category.parentName || "",
         }
-      : "",
+      : null,
     imageUrl: category?.imageUrl || "",
     priority: category?.priority || 0,
-    isActive: category?.isActive || false,
+    isActive: category?.isActive || true,
   };
 };
 
-export default getDefaultFormValues;
+export default getCategoryFormValues;

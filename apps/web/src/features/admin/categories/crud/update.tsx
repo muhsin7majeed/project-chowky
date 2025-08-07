@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import type { Category, CategoryFormDefaultValues } from "@/types/category";
 import getCategoryFormPayload from "../utils/get-category-form-payload";
-import getDefaultFormValues from "../utils/get-default-form-values";
+import getCategoryFormValues from "../utils/get-category-form-values";
 import CategoryForm from "./form";
 
 interface UpdateCategoryProps {
@@ -33,7 +33,7 @@ const UpdateCategory = ({ category, open, onOpenChange }: UpdateCategoryProps) =
     onOpenChange(false);
   };
 
-  const defaultValues: CategoryFormDefaultValues = getDefaultFormValues(category);
+  const defaultValues: CategoryFormDefaultValues = getCategoryFormValues(category);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

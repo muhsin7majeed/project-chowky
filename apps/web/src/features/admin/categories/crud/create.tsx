@@ -15,7 +15,7 @@ import {
 import type { CategoryFormDefaultValues } from "@/types/category";
 import useCreateCategory from "../apis/use-create-category";
 import getCategoryFormPayload from "../utils/get-category-form-payload";
-import getDefaultFormValues from "../utils/get-default-form-values";
+import getCategoryFormValues from "../utils/get-category-form-values";
 import CategoryForm from "./form";
 
 const CreateCategory = () => {
@@ -38,7 +38,7 @@ const CreateCategory = () => {
     });
   };
 
-  const defaultValues = getDefaultFormValues();
+  const defaultValues = getCategoryFormValues();
 
   return (
     <div>

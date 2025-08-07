@@ -16,7 +16,8 @@ const getCategoryFormZodSchema = () => {
         value: z.number(),
         label: z.string(),
       })
-      .optional(),
+      .optional()
+      .nullable(),
     imageUrl: z.string().optional(),
     priority: z.number().optional(),
     isActive: z.boolean(),

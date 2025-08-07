@@ -4,8 +4,8 @@ import useCategories from "@/features/admin/categories/apis/use-categories";
 import type { GenericLabelValue } from "@/types/common";
 
 interface CategorySelectProps {
-  value: GenericLabelValue<any> | "";
-  onChange: (value: GenericLabelValue<any> | "") => void;
+  value: GenericLabelValue<number> | undefined;
+  onChange: (value: GenericLabelValue<number> | undefined) => void;
   placeholder?: string;
   clearable?: boolean;
 }
@@ -32,8 +32,6 @@ const CategorySelect = ({
     callback(options);
   };
 
-  console.log({ value });
-
   return (
     <div>
       <AsyncSelect
@@ -44,8 +42,7 @@ const CategorySelect = ({
         value={value || ""}
         defaultOptions
         onChange={(value) => {
-          console.log("VALUE", value);
-          onChange(value || "");
+          onChange((value || undefined) as GenericLabelValue<number> | undefined);
         }}
       />
     </div>

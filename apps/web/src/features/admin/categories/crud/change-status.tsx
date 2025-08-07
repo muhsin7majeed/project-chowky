@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import type { FlatCategory } from "@/types/category";
 
@@ -11,7 +12,12 @@ const ChangeStatus = ({ category }: ChangeStatusProps) => {
     console.log("Toggle status for category:", category.id);
   };
 
-  return <Switch checked={category.isActive} onCheckedChange={handleStatusToggle} />;
+  return (
+    <Label>
+      <Switch checked={category.isActive} onCheckedChange={handleStatusToggle} />
+      {category.isActive ? "Active" : "Inactive"}
+    </Label>
+  );
 };
 
 export default ChangeStatus;
