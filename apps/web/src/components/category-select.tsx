@@ -1,7 +1,7 @@
 import { useState } from "react";
-import AsyncSelect from "react-select/async";
 import useCategories from "@/features/admin/categories/apis/use-categories";
 import type { GenericLabelValue } from "@/types/common";
+import CustomAsyncSelect from "./custom-async-select";
 
 interface CategorySelectProps {
   value: GenericLabelValue<number> | undefined;
@@ -34,13 +34,11 @@ const CategorySelect = ({
 
   return (
     <div>
-      <AsyncSelect
+      <CustomAsyncSelect
         placeholder={placeholder}
-        isClearable={clearable}
-        cacheOptions
+        clearable={clearable}
         loadOptions={loadOptions}
-        value={value || ""}
-        defaultOptions
+        value={value || undefined}
         onChange={(value) => {
           onChange((value || undefined) as GenericLabelValue<number> | undefined);
         }}
