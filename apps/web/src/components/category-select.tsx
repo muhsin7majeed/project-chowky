@@ -29,7 +29,10 @@ const CategorySelect = ({
   const loadOptions = (inputValue: string, callback: (options: GenericLabelValue<number>[]) => void) => {
     setSearchQuery(inputValue);
 
-    callback(options);
+    // If data is already available and not loading, call callback immediately
+    if (!categories.isLoading) {
+      callback(options);
+    }
   };
 
   return (

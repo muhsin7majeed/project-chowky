@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useEffect, useState } from "react";
 import AsyncSelect from "react-select/async";
 import type { GenericLabelValue } from "@/types/common";
 
@@ -36,6 +37,15 @@ interface CustomAsyncSelectProps<T> {
 }
 
 const CustomAsyncSelect = <T,>({ placeholder, clearable, loadOptions, value, onChange }: CustomAsyncSelectProps<T>) => {
+  const [defaultOptions, setDefaultOptions] = useState<GenericLabelValue<T>[]>([]);
+
+  // Load initial options when component mounts
+  useEffect(() => {
+    loadOptions("", (options) => {
+      setDefaultOptions(options);
+    });
+  }, [loadOptions]);
+
   return (
     <AsyncSelect
       unstyled
@@ -62,8 +72,8 @@ const CustomAsyncSelect = <T,>({ placeholder, clearable, loadOptions, value, onC
       isClearable={clearable}
       cacheOptions
       loadOptions={loadOptions}
-      value={value || ""}
-      defaultOptions
+      value={value || null}
+      defaultOptions={defaultOptions}
       onChange={(value) => {
         onChange((value || undefined) as GenericLabelValue<T> | undefined);
       }}
