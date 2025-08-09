@@ -5,7 +5,7 @@ interface ConfirmationDialogProps {
   title: string;
   description: string;
   onConfirm: () => void;
-  isLoading: boolean;
+  isLoading?: boolean;
   isOpen: boolean;
   onClose: () => void;
 }

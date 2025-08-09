@@ -43,7 +43,7 @@ const CategoryList = ({ categories, handleSort, sort }: CategoryListProps) => {
               </TableHead>
               <TableHead>{t("slug")}</TableHead>
               <TableHead>{t("description")}</TableHead>
-              <TableHead>{t("actions")}</TableHead>
+              <TableHead />
             </TableRow>
           </TableHeader>
 

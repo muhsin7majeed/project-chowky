@@ -1,31 +1,23 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CustomPagination from "@/components/custom-pagination";
+import FetchState from "@/components/fetch-state";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import type { Product } from "@/types/product";
 import CreateProduct from "./crud/create";
+import ProductList from "./list";
 
 export default function ProductsPage() {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const pageSize = 10;
 
-  interface ProductRow {
-    id: string;
-    name: string;
-    sku: string;
-    category: string;
-    price: number;
-    stock: number;
-    status: "active" | "inactive" | "draft";
-    createdAt: string;
-  }
-
-  const products = useMemo<ProductRow[]>(
+  const products = useMemo<Product[]>(
     () =>
       Array.from({ length: 42 }).map((_, i) => {
         const index = i + 1;
-        const statuses: ProductRow["status"][] = ["active", "inactive", "draft"];
+        const statuses: Product["status"][] = ["active", "inactive", "draft"];
         const status = statuses[index % statuses.length];
         const categories = ["Electronics", "Apparel", "Home", "Sports"] as const;
         return {
@@ -46,6 +38,20 @@ export default function ProductsPage() {
   const start = (page - 1) * pageSize;
   const currentPageRows = products.slice(start, start + pageSize);
 
+  const isLoading = false;
+  const error = null;
+  const refetch = () => {};
+  const categoriesResponse = { rows: products };
+  const filters = { expanded: false };
+  const sort = { column: "createdAt", direction: "desc" };
+  const pagination = {
+    page,
+    totalPages,
+    goToPage: setPage,
+    canGoToNextPage: page < totalPages,
+    canGoToPreviousPage: page > 1,
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -56,66 +62,30 @@ export default function ProductsPage() {
         <CreateProduct />
       </div>
 
-      <div className="rounded-md border overflow-hidden">
-        <div className="max-w-screen">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[120px]">{t("createdAt")}</TableHead>
-                <TableHead>{t("name")}</TableHead>
-                <TableHead>SKU</TableHead>
-                <TableHead>{t("categories")}</TableHead>
-                <TableHead className="text-right">{t("price")}</TableHead>
-                <TableHead className="text-right">{t("stock")}</TableHead>
-                <TableHead>{t("status")}</TableHead>
-                <TableHead>{t("actions")}</TableHead>
-              </TableRow>
-            </TableHeader>
+      <div className="space-y-6">
+        <FetchState
+          isLoading={isLoading}
+          // isError={error?.message}
+          retry={refetch}
+          isEmpty={categoriesResponse?.rows?.length === 0}
+        >
+          <ProductList
+            products={products}
+            // handleSort={handleSort}
+            // sort={sort}
+          />
+        </FetchState>
 
-            <TableBody>
-              {currentPageRows.map((product) => (
-                <TableRow key={product.id}>
-                  <TableCell className="text-muted-foreground">
-                    {new Date(product.createdAt).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell className="font-medium">{product.name}</TableCell>
-                  <TableCell className="text-muted-foreground">{product.sku}</TableCell>
-                  <TableCell>{product.category}</TableCell>
-                  <TableCell className="text-right">
-                    {new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(product.price)}
-                  </TableCell>
-                  <TableCell className="text-right">{product.stock}</TableCell>
-                  <TableCell>
-                    {product.status === "active" && <Badge variant="default">{t("active")}</Badge>}
-                    {product.status === "inactive" && <Badge variant="outline">{t("inactive")}</Badge>}
-                    {product.status === "draft" && <Badge variant="secondary">{t("draft")}</Badge>}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <button type="button" className="underline hover:text-foreground">
-                        {t("update")}
-                      </button>
-                      <span className="text-border">|</span>
-                      <button type="button" className="underline hover:text-foreground">
-                        {t("delete")}
-                      </button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <div className="flex justify-end">
+          <CustomPagination
+            currentPage={pagination.page}
+            totalPages={pagination.totalPages}
+            onPageChange={pagination.goToPage}
+            canGoToNextPage={pagination.canGoToNextPage}
+            canGoToPreviousPage={pagination.canGoToPreviousPage}
+          />
         </div>
       </div>
-
-      <CustomPagination
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={setPage}
-        canGoToNextPage={page < totalPages}
-        canGoToPreviousPage={page > 1}
-        className="justify-end"
-      />
     </div>
   );
 }

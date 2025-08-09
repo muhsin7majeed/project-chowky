@@ -9,3 +9,14 @@ export interface ProductFormDefaultValues {
   isActive: boolean;
   images?: File[];
 }
+
+export interface Product {
+  id: string;
+  name: string;
+  sku: string;
+  category: string;
+  price: number;
+  stock: number;
+  status: "active" | "inactive" | "draft";
+  createdAt: string;
+}
