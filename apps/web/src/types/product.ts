@@ -1,9 +1,11 @@
+import type { GenericLabelValue } from "./common";
+
 export interface ProductFormDefaultValues {
   id?: string;
   name: string;
   sku: string;
   description?: string;
-  categoryId?: number | null;
+  category?: GenericLabelValue<number> | null;
   price: number;
   stock: number;
   isActive: boolean;

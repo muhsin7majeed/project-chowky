@@ -6,7 +6,7 @@ interface FormGroupProps {
   required?: boolean;
   description?: string;
   // biome-ignore lint/suspicious/noExplicitAny: #YOLO
-  errors: string | any[];
+  errors?: string | any[];
   children: React.ReactNode;
 }
 

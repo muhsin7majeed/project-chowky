@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { ProductFormDefaultValues } from "@/types/product";
+import getProductFormValues from "../utils/get-product-form-values";
 import ProductForm from "./form";
 
 const CreateProduct = () => {
@@ -23,22 +24,13 @@ const CreateProduct = () => {
   };
 
   const handleSubmit = (data: ProductFormDefaultValues) => {
-    setOpen(false);
+    // setOpen(false);
     toast.success(t("productCreated"));
     // eslint-disable-next-line no-console
     console.log("Product create payload:", data);
   };
 
-  const defaultValues: ProductFormDefaultValues = {
-    name: "",
-    sku: "",
-    description: "",
-    categoryId: undefined,
-    price: 0,
-    stock: 0,
-    isActive: true,
-    images: [],
-  };
+  const defaultValues = getProductFormValues();
 
   return (
     <div>
