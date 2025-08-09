@@ -2,6 +2,7 @@ import { EditIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
+import ConfirmationDialog from "@/components/ui/confirmation-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { FlatCategory } from "@/types/category";
+import useDeleteCategory from "../apis/use-delete-category";
 import ChangeStatus from "./change-status";
 import UpdateCategory from "./update";
 
@@ -19,6 +21,9 @@ interface CategoryActionsProps {
 export const CategoryActions = ({ category }: CategoryActionsProps) => {
   const { t } = useTranslation();
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const { mutate: deleteCategory, isPending } = useDeleteCategory();
 
   const handleEdit = () => {
     setShowUpdateDialog(true);
@@ -47,8 +52,18 @@ export const CategoryActions = ({ category }: CategoryActionsProps) => {
           </DropdownMenuItem>
 
           <DropdownMenuItem onClick={handleDelete} className="text-destructive">
-            <TrashIcon className="mr-2 h-4 w-4" />
-            {t("delete")}
+            <ConfirmationDialog
+              trigger={
+                <>
+                  <TrashIcon className="mr-2 h-4 w-4" />
+                  {t("delete")}
+                </>
+              }
+              title={t("deleteCategory")}
+              description={t("deleteCategoryDescription")}
+              onConfirm={() => deleteCategory({ id: category.id })}
+              isLoading={isPending}
+            />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

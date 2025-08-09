@@ -8,6 +8,7 @@ interface CategorySelectProps {
   onChange: (value: GenericLabelValue<number> | undefined) => void;
   placeholder?: string;
   clearable?: boolean;
+  excludeValue?: number;
 }
 
 const CategorySelect = ({
@@ -15,6 +16,7 @@ const CategorySelect = ({
   onChange,
   placeholder = "Select a category",
   clearable = true,
+  excludeValue,
 }: CategorySelectProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -31,7 +33,7 @@ const CategorySelect = ({
 
     // If data is already available and not loading, call callback immediately
     if (!categories.isLoading) {
-      callback(options);
+      callback(options.filter((option) => option.value !== excludeValue));
     }
   };
 

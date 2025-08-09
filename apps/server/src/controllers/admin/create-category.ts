@@ -1,6 +1,5 @@
 import { TRPCError } from "@trpc/server";
 import { eq, or } from "drizzle-orm";
-import z from "zod";
 import { db } from "@/db";
 import { categories } from "@/db/schema/category";
 import { adminProcedure } from "@/lib/trpc";

@@ -29,6 +29,6 @@ const categoryInputZodSchema = z.object({
 
 export const createCategoryInputZodSchema = categoryInputZodSchema;
 
-export const updateCategoryInputZodSchema = categoryInputZodSchema.extend({
+export const updateCategoryInputZodSchema = categoryInputZodSchema.partial().extend({
   id: z.number(),
 });

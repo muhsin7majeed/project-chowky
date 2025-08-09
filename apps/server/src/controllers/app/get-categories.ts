@@ -50,7 +50,11 @@ const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSche
 
     if (includeChildren) {
       // When includeChildren is true, fetch all categories and build tree
-      const filters = [eq(categories.isActive, isActive ?? true)];
+      const filters = [];
+
+      if (isActive !== undefined) {
+        filters.push(eq(categories.isActive, isActive));
+      }
 
       if (search) {
         filters.push(ilike(categories.name, `%${search}%`));

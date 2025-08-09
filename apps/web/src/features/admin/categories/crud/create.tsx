@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -61,7 +60,7 @@ const CreateCategory = () => {
               {t("cancel")}
             </Button>
 
-            <Button type="submit" form="category-form" isLoading={isPending}>
+            <Button type="submit" form="category-form" disabled={isPending} isLoading={isPending}>
               {t("save")}
             </Button>
           </DialogFooter>

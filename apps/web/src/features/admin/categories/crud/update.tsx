@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { Category, CategoryFormDefaultValues } from "@/types/category";
+import useUpdateCategory from "../apis/use-update-category";
 import getCategoryFormPayload from "../utils/get-category-form-payload";
 import getCategoryFormValues from "../utils/get-category-form-values";
 import CategoryForm from "./form";
@@ -22,15 +23,22 @@ interface UpdateCategoryProps {
 }
 
 const UpdateCategory = ({ category, open, onOpenChange }: UpdateCategoryProps) => {
+  const { mutate: updateCategory, isPending } = useUpdateCategory();
+
   const { t } = useTranslation();
 
   const handleSubmit = (data: CategoryFormDefaultValues) => {
     const payload = getCategoryFormPayload(data);
 
-    // TODO: Implement update API call
-    console.log("Update category:", category.id, payload);
-    toast.success(t("categoryUpdated"));
-    onOpenChange(false);
+    updateCategory(
+      { id: category.id, ...payload },
+      {
+        onSuccess: () => {
+          toast.success(t("categoryUpdated"));
+          onOpenChange(false);
+        },
+      },
+    );
   };
 
   const defaultValues: CategoryFormDefaultValues = getCategoryFormValues(category);
@@ -52,7 +60,7 @@ const UpdateCategory = ({ category, open, onOpenChange }: UpdateCategoryProps) =
             </Button>
           </DialogClose>
 
-          <Button type="submit" form="category-form">
+          <Button type="submit" form="category-form" disabled={isPending} isLoading={isPending}>
             {t("save")}
           </Button>
         </DialogFooter>

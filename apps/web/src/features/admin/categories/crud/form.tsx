@@ -99,6 +99,7 @@ const CategoryForm = ({ onSubmit, defaultValues }: CategoryFormProps) => {
               <FormGroup label="Parent Category" inputId="parentId" errors={field.state.meta.errors}>
                 <CategorySelect
                   clearable
+                  excludeValue={defaultValues?.id}
                   value={field.state.value || undefined}
                   onChange={(value) => {
                     field.handleChange(value || undefined);
