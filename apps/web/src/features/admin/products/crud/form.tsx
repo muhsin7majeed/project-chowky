@@ -1,11 +1,10 @@
 import { useForm } from "@tanstack/react-form";
-import { X } from "lucide-react";
+import { DollarSignIcon, PercentIcon, X } from "lucide-react";
 import CategorySelect from "@/components/category-select";
 import CustomSelect from "@/components/custom-select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import FormGroup from "@/components/ui/form-group";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import MoneyIcon from "@/components/ui/money-icon";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS } from "@/constants/common";
@@ -13,6 +12,10 @@ import type { DimensionUnit, WeightUnit } from "@/types/common";
 import type { ProductFormDefaultValues } from "@/types/product";
 import getProductFormValues from "../utils/get-product-form-values";
 import getProductFormZSchema from "../utils/get-product-form-z-schema";
+
+const getMargin = (cost: number, price: number) => {
+  return (((price - cost) / price) * 100).toFixed(2);
+};
 
 interface ProductFormProps {
   onSubmit: (data: ProductFormDefaultValues) => void;
@@ -118,13 +121,29 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
         <h2 className="text-lg font-medium mb-4">Product Pricing & Stock</h2>
 
         <div className="grid gap-4 md:grid-cols-2">
+          <form.Field name="cost">
+            {(field) => (
+              <FormGroup label="Cost" inputId="cost" required errors={field.state.meta.errors}>
+                <Input
+                  prefixIcon={<MoneyIcon />}
+                  id="cost"
+                  type="number"
+                  placeholder="Cost"
+                  isInvalid={!field.state.meta.isValid}
+                  value={field.state.value}
+                  onChange={(e) => field.handleChange(Number(e.target.value))}
+                />
+              </FormGroup>
+            )}
+          </form.Field>
+
           <form.Field name="price">
             {(field) => (
               <FormGroup label="Price" inputId="price" required errors={field.state.meta.errors}>
                 <Input
+                  prefixIcon={<MoneyIcon />}
                   id="price"
                   type="number"
-                  min={0}
                   step="0.01"
                   placeholder="Price"
                   isInvalid={!field.state.meta.isValid}
@@ -135,13 +154,25 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
             )}
           </form.Field>
 
+          <FormGroup label="Margin" inputId="margin" key={form.state.values.cost + form.state.values.price}>
+            <Input
+              prefixIcon={<PercentIcon />}
+              disabled
+              id="margin"
+              type="number"
+              value={getMargin(form.state.values.cost, form.state.values.price)}
+              onChange={() => {
+                alert("NICE TRY MR.ROBOT!");
+              }}
+            />
+          </FormGroup>
+
           <form.Field name="stock">
             {(field) => (
               <FormGroup label="Stock" inputId="stock" required errors={field.state.meta.errors}>
                 <Input
                   id="stock"
                   type="number"
-                  min={0}
                   placeholder="Stock"
                   isInvalid={!field.state.meta.isValid}
                   value={field.state.value}

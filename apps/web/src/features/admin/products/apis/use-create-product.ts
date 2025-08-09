@@ -2,14 +2,14 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { queryClient, trpc } from "@/utils/trpc";
 
-const useDeleteCategory = () => {
+const useCreateProduct = () => {
   const mutation = useMutation(
-    trpc.admin.category.delete.mutationOptions({
+    trpc.admin.product.create.mutationOptions({
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [["app", "category"]] });
+        queryClient.invalidateQueries({ queryKey: [["admin", "product"]] });
       },
       onError: (error) => {
-        toast.error(error.message || "Failed to delete category");
+        toast.error(error.message);
       },
     }),
   );
@@ -17,4 +17,4 @@ const useDeleteCategory = () => {
   return mutation;
 };
 
-export default useDeleteCategory;
+export default useCreateProduct;

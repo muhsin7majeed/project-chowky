@@ -12,11 +12,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { ProductFormDefaultValues } from "@/types/product";
+import useCreateProduct from "../apis/use-create-product";
+import getProductFormPayload from "../utils/get-product-form-payload";
 import getProductFormValues from "../utils/get-product-form-values";
 import ProductForm from "./form";
 
 const CreateProduct = () => {
   const { t } = useTranslation();
+  const { mutate: createProduct, isPending } = useCreateProduct();
   const [open, setOpen] = useState(false);
 
   const toggleOpen = () => {
@@ -24,10 +27,14 @@ const CreateProduct = () => {
   };
 
   const handleSubmit = (data: ProductFormDefaultValues) => {
-    // setOpen(false);
-    toast.success(t("productCreated"));
-    // eslint-disable-next-line no-console
-    console.log("Product create payload:", data);
+    const payload = getProductFormPayload(data);
+
+    createProduct(payload, {
+      onSuccess: () => {
+        toast.success(t("productCreated"));
+        toggleOpen();
+      },
+    });
   };
 
   const defaultValues = getProductFormValues();
@@ -53,7 +60,7 @@ const CreateProduct = () => {
               {t("cancel")}
             </Button>
 
-            <Button type="submit" form="product-form">
+            <Button type="submit" form="product-form" isLoading={isPending} disabled={isPending}>
               {t("save")}
             </Button>
           </DialogFooter>

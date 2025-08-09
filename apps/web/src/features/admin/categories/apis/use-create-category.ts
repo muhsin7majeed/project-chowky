@@ -4,7 +4,7 @@ import { queryClient, trpc } from "@/utils/trpc";
 
 const useCreateCategory = () => {
   const mutation = useMutation(
-    trpc.app.category.create.mutationOptions({
+    trpc.admin.category.create.mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [["app", "category"]] });
       },

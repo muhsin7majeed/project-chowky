@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { Product } from "@/types/product";
 import ProductRow from "./product-row";
 
