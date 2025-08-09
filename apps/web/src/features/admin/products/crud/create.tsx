@@ -40,7 +40,7 @@ const CreateProduct = () => {
       </Button>
 
       <Dialog open={open} onOpenChange={toggleOpen}>
-        <DialogContent className="sm:max-w-xl">
+        <DialogContent className="sm:max-w-6xl">
           <DialogHeader>
             <DialogTitle>{t("createProduct")}</DialogTitle>
             <DialogDescription>{t("createProductDescription")}</DialogDescription>

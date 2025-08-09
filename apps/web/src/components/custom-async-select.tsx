@@ -5,6 +5,7 @@ import type { GenericLabelValue } from "@/types/common";
 
 const controlStyles = {
   base: "flex h-9 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs outline-none transition-[color,box-shadow] selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30",
+  invalid: "!border-destructive ring-destructive/20 focus-visible:ring-destructive/20",
   focus: "border-ring ring-[3px] ring-ring/50",
   nonFocus: "",
 };
@@ -17,7 +18,7 @@ const multiValueLabelStyles = "";
 const multiValueRemoveStyles = "hover:bg-secondary-foreground/20 rounded px-1";
 const indicatorsContainerStyles = "flex items-center";
 const clearIndicatorStyles = "text-muted-foreground hover:text-foreground p-1 cursor-pointer";
-const indicatorSeparatorStyles = "bg-border w-px h-4 mx-1";
+const indicatorSeparatorStyles = "hidden";
 const dropdownIndicatorStyles = "text-muted-foreground hover:text-foreground p-1 cursor-pointer";
 const menuStyles = "bg-popover border border-border rounded-md shadow-lg mt-1 py-1 z-50";
 const groupHeadingStyles = "text-muted-foreground text-sm font-medium px-3 py-2";
@@ -29,6 +30,7 @@ const optionStyles = {
 const noOptionsMessageStyles = "text-muted-foreground px-3 py-2 text-base md:text-sm";
 
 interface CustomAsyncSelectProps<T> {
+  isInvalid?: boolean;
   placeholder: string;
   clearable: boolean;
   loadOptions: (inputValue: string, callback: (options: GenericLabelValue<T>[]) => void) => void;
@@ -36,7 +38,14 @@ interface CustomAsyncSelectProps<T> {
   onChange: (value: GenericLabelValue<T> | undefined) => void;
 }
 
-const CustomAsyncSelect = <T,>({ placeholder, clearable, loadOptions, value, onChange }: CustomAsyncSelectProps<T>) => {
+const CustomAsyncSelect = <T,>({
+  isInvalid,
+  placeholder,
+  clearable,
+  loadOptions,
+  value,
+  onChange,
+}: CustomAsyncSelectProps<T>) => {
   const [defaultOptions, setDefaultOptions] = useState<GenericLabelValue<T>[]>([]);
 
   // Load initial options when component mounts
@@ -50,7 +59,12 @@ const CustomAsyncSelect = <T,>({ placeholder, clearable, loadOptions, value, onC
     <AsyncSelect
       unstyled
       classNames={{
-        control: ({ isFocused }) => clsx(isFocused ? controlStyles.focus : controlStyles.nonFocus, controlStyles.base),
+        control: ({ isFocused }) =>
+          clsx(
+            isInvalid && controlStyles.invalid,
+            isFocused ? controlStyles.focus : controlStyles.nonFocus,
+            controlStyles.base,
+          ),
         placeholder: () => placeholderStyles,
         input: () => selectInputStyles,
         valueContainer: () => valueContainerStyles,

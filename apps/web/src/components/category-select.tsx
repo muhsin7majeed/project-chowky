@@ -9,6 +9,7 @@ interface CategorySelectProps {
   placeholder?: string;
   clearable?: boolean;
   excludeValue?: number;
+  isInvalid?: boolean;
 }
 
 const CategorySelect = ({
@@ -17,6 +18,7 @@ const CategorySelect = ({
   placeholder = "Select a category",
   clearable = true,
   excludeValue,
+  isInvalid,
 }: CategorySelectProps) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -40,6 +42,7 @@ const CategorySelect = ({
   return (
     <div>
       <CustomAsyncSelect
+        isInvalid={isInvalid}
         placeholder={placeholder}
         clearable={clearable}
         loadOptions={loadOptions}

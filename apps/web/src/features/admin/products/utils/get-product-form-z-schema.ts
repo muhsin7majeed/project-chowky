@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DIMENSION_UNITS, WEIGHT_UNITS } from "@/constants/common";
 
 const MAX_UPLOAD_SIZE = 3 * 1024 * 1024; // 3MB
 
@@ -34,6 +35,26 @@ const getProductFormZSchema = () => {
           message: "Invalid image file type",
         },
       ),
+    weight: z.object({
+      value: z.number().min(0, "Weight must be greater than 0"),
+      unit: z.enum(WEIGHT_UNITS),
+    }),
+    length: z.object({
+      value: z.number().min(0, "Length must be greater than 0"),
+      unit: z.enum(DIMENSION_UNITS),
+    }),
+    width: z.object({
+      value: z.number().min(0, "Width must be greater than 0"),
+      unit: z.enum(DIMENSION_UNITS),
+    }),
+    height: z.object({
+      value: z.number().min(0, "Height must be greater than 0"),
+      unit: z.enum(DIMENSION_UNITS),
+    }),
+    isFeatured: z.boolean(),
+    isNew: z.boolean(),
+    isBestSeller: z.boolean(),
+    cost: z.number().min(0, "Cost must be greater than 0"),
   });
 };
 
