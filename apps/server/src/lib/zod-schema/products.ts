@@ -5,34 +5,26 @@ const productInputZodSchema = z.object({
   name: z.string().min(1),
   sku: z.string().min(1),
   description: z.string().optional(),
-  price: z.number().min(1),
-  cost: z.number().positive(),
-  stock: z.number().positive(),
-  slug: z.string().min(1),
-  weight: z
-    .object({
-      value: z.number().positive(),
-      unit: z.enum(weightUnits),
-    })
-    .optional(),
-  length: z
-    .object({
-      value: z.number().positive(),
-      unit: z.enum(dimensionUnits),
-    })
-    .optional(),
-  width: z
-    .object({
-      value: z.number().positive(),
-      unit: z.enum(dimensionUnits),
-    })
-    .optional(),
-  height: z
-    .object({
-      value: z.number().positive(),
-      unit: z.enum(dimensionUnits),
-    })
-    .optional(),
+  price: z.number().min(0),
+  cost: z.number().min(0),
+  stock: z.number().min(0),
+  slug: z.string().min(0),
+  weight: z.object({
+    value: z.number().min(0),
+    unit: z.enum(weightUnits),
+  }),
+  length: z.object({
+    value: z.number().min(0),
+    unit: z.enum(dimensionUnits),
+  }),
+  width: z.object({
+    value: z.number().min(0),
+    unit: z.enum(dimensionUnits),
+  }),
+  height: z.object({
+    value: z.number().min(0),
+    unit: z.enum(dimensionUnits),
+  }),
   //   images: z.array(z.string()).optional(),
   categoryId: z.number(),
   isActive: z.boolean(),

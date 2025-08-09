@@ -1,5 +1,6 @@
 import { useForm } from "@tanstack/react-form";
-import { DollarSignIcon, PercentIcon, X } from "lucide-react";
+import { PercentIcon, X } from "lucide-react";
+import { useState } from "react";
 import CategorySelect from "@/components/category-select";
 import CustomSelect from "@/components/custom-select";
 import FormGroup from "@/components/ui/form-group";
@@ -10,11 +11,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS } from "@/constants/common";
 import type { DimensionUnit, WeightUnit } from "@/types/common";
 import type { ProductFormDefaultValues } from "@/types/product";
+import slugify from "@/utils/slugify";
 import getProductFormValues from "../utils/get-product-form-values";
 import getProductFormZSchema from "../utils/get-product-form-z-schema";
 
-const getMargin = (cost: number, price: number) => {
-  return (((price - cost) / price) * 100).toFixed(2);
+const getProfitMargin = (cost: number, price: number) => {
+  if (cost === 0 || price === 0) return 0;
+
+  const profitMargin = ((price - cost) / cost) * 100;
+
+  if (Number.isNaN(profitMargin)) return 0;
+
+  return profitMargin;
 };
 
 interface ProductFormProps {
@@ -23,6 +31,8 @@ interface ProductFormProps {
 }
 
 const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
+  const [margin, setMargin] = useState("0.00");
+
   const form = useForm({
     defaultValues: getProductFormValues(defaultValues),
     onSubmit: ({ value }) => onSubmit(value),
@@ -30,6 +40,12 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
       onChange: getProductFormZSchema(),
     },
   });
+
+  const syncMargin = () => {
+    const profitMargin = getProfitMargin(form.state.values.cost, form.state.values.price);
+
+    setMargin(profitMargin.toFixed(2));
+  };
 
   return (
     <form
@@ -80,7 +96,11 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
                   placeholder="Slug"
                   isInvalid={!field.state.meta.isValid}
                   value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
+                  onChange={(e) => {
+                    const slug = slugify(e.target.value);
+
+                    field.handleChange(slug);
+                  }}
                 />
               </FormGroup>
             )}
@@ -131,7 +151,10 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
                   placeholder="Cost"
                   isInvalid={!field.state.meta.isValid}
                   value={field.state.value}
-                  onChange={(e) => field.handleChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    field.handleChange(Number(e.target.value));
+                    syncMargin();
+                  }}
                 />
               </FormGroup>
             )}
@@ -148,7 +171,10 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
                   placeholder="Price"
                   isInvalid={!field.state.meta.isValid}
                   value={field.state.value}
-                  onChange={(e) => field.handleChange(Number(e.target.value))}
+                  onChange={(e) => {
+                    field.handleChange(Number(e.target.value));
+                    syncMargin();
+                  }}
                 />
               </FormGroup>
             )}
@@ -159,8 +185,8 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
               prefixIcon={<PercentIcon />}
               disabled
               id="margin"
-              type="number"
-              value={getMargin(form.state.values.cost, form.state.values.price)}
+              type="text"
+              value={margin}
               onChange={() => {
                 alert("NICE TRY MR.ROBOT!");
               }}

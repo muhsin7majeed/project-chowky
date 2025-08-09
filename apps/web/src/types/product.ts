@@ -15,10 +15,10 @@ export interface ProductFormDefaultValues {
   isNew: boolean;
   isBestSeller: boolean;
   cost: number;
-  weight?: Weight;
-  length?: Dimension;
-  width?: Dimension;
-  height?: Dimension;
+  weight: Weight;
+  length: Dimension;
+  width: Dimension;
+  height: Dimension;
 }
 
 export interface Product {

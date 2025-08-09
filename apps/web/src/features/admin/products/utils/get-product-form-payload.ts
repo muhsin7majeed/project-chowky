@@ -14,30 +14,22 @@ const getProductFormPayload = (data: ProductFormDefaultValues) => {
     isNew: data.isNew,
     isBestSeller: data.isBestSeller,
     isFeatured: data.isFeatured,
-    weight: data.weight?.value
-      ? {
-          value: data.weight?.value,
-          unit: data.weight?.unit,
-        }
-      : undefined,
-    length: data.length?.value
-      ? {
-          value: data.length?.value,
-          unit: data.length?.unit,
-        }
-      : undefined,
-    width: data.width?.value
-      ? {
-          value: data.width?.value,
-          unit: data.width?.unit,
-        }
-      : undefined,
-    height: data.height?.value
-      ? {
-          value: data.height?.value,
-          unit: data.height?.unit,
-        }
-      : undefined,
+    weight: {
+      value: data.weight.value,
+      unit: data.weight.unit,
+    },
+    length: {
+      value: data.length.value,
+      unit: data.length.unit,
+    },
+    width: {
+      value: data.width.value,
+      unit: data.width.unit,
+    },
+    height: {
+      value: data.height.value,
+      unit: data.height.unit,
+    },
   };
 
   return payload;

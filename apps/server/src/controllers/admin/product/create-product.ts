@@ -14,6 +14,7 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     cost,
     stock,
     categoryId,
+    sku,
     isActive,
     isFeatured,
     isNew,
@@ -24,18 +25,24 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     height,
   } = input;
 
-  console.log({ input });
-
-  // check if duplicate slug or name exists
   const existingProduct = await db
     .select()
     .from(products)
-    .where(or(eq(products.slug, slug), eq(products.name, name)));
+    .where(or(eq(products.slug, slug), eq(products.name, name), eq(products.sku, sku)));
 
   if (existingProduct.length > 0) {
+    const duplicateFields: string[] = [];
+    const [product] = existingProduct;
+
+    if (product.slug === slug) duplicateFields.push("slug");
+    if (product.name === name) duplicateFields.push("name");
+    if (product.sku === sku) duplicateFields.push("sku");
+
+    const fieldList = duplicateFields.join(", ");
+
     throw new TRPCError({
       code: "BAD_REQUEST",
-      message: "Product with this slug or name already exists",
+      message: `Product with this ${fieldList} already exists`,
     });
   }
 
@@ -47,6 +54,7 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     cost,
     stock,
     categoryId,
+    sku,
     isActive,
     isFeatured,
     isNew,
@@ -56,7 +64,6 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     width,
     height,
   });
-
   return product;
 });
 
