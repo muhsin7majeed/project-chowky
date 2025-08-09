@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import type { CategoryFilterStatus } from "@/types/category";
+import type { CategoryFilterStatus, CategoryOrderBy } from "@/types/category";
 import { trpc } from "@/utils/trpc";
 
 interface UseCategoriesParams {
@@ -10,7 +10,7 @@ interface UseCategoriesParams {
   search?: string;
   includeChildren?: boolean;
   orderBy?: {
-    column: "name" | "priority" | "createdAt";
+    column: CategoryOrderBy;
     direction?: "asc" | "desc";
   };
   enabled?: boolean;

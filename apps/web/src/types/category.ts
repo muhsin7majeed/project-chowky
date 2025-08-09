@@ -22,6 +22,7 @@ export interface Category {
   isActive: boolean;
   subCategories?: Category[];
   parentName?: string;
+  createdAt: string;
 }
 
 export type CategoryFilterStatus = "active" | "inactive" | "all";
@@ -36,3 +37,5 @@ export interface FlatCategory extends Category {
   level: number;
   parentName?: string;
 }
+
+export type CategoryOrderBy = "name" | "createdAt";

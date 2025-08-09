@@ -7,9 +7,14 @@ import { CategoryRow } from "./category-row";
 interface CategoryListProps {
   categories: Category[];
   expanded: boolean;
+  handleSort: (column: string) => void;
+  sort: {
+    column: string;
+    direction: "asc" | "desc";
+  };
 }
 
-const CategoryList = ({ categories }: CategoryListProps) => {
+const CategoryList = ({ categories, handleSort, sort }: CategoryListProps) => {
   const { t } = useTranslation();
   const flatCategories = flattenCategories(categories);
 
@@ -23,7 +28,19 @@ const CategoryList = ({ categories }: CategoryListProps) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>{t("name")}</TableHead>
+              <TableHead
+                onClick={() => handleSort("createdAt")}
+                sortDirection={sort.column === "createdAt" ? sort.direction : undefined}
+              >
+                {t("createdAt")}
+              </TableHead>
+
+              <TableHead
+                onClick={() => handleSort("name")}
+                sortDirection={sort.column === "name" ? sort.direction : undefined}
+              >
+                {t("name")}
+              </TableHead>
               <TableHead>{t("slug")}</TableHead>
               <TableHead>{t("description")}</TableHead>
               <TableHead>{t("actions")}</TableHead>

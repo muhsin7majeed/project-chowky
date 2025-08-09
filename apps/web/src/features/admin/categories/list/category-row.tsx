@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import type { FlatCategory } from "@/types/category";
+import formatDateTime from "@/utils/format-date-time";
 import { CategoryActions } from "../crud/category-actions";
 
 interface CategoryRowProps {
@@ -14,6 +15,8 @@ export const CategoryRow = ({ category }: CategoryRowProps) => {
 
   return (
     <TableRow>
+      <TableCell className="font-medium">{formatDateTime(category.createdAt)}</TableCell>
+
       <TableCell style={indentStyle} className="font-medium">
         <div className="flex items-center gap-2">
           {category.level > 0 && <div className="w-4 h-px bg-primary" />}
@@ -27,10 +30,8 @@ export const CategoryRow = ({ category }: CategoryRowProps) => {
         <Badge variant="secondary">{category.slug}</Badge>
       </TableCell>
 
-      <TableCell className="max-w-xs">
-        <div className="truncate">
-          {category.description || <span className="text-muted-foreground italic">{t("noDescription")}</span>}
-        </div>
+      <TableCell className="max-w-xs truncate">
+        {category.description || <span className="text-muted-foreground italic">{t("noDescription")}</span>}
       </TableCell>
 
       <TableCell>

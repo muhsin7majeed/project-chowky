@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CustomPagination from "@/components/custom-pagination";
 import FetchState from "@/components/fetch-state";
+import useSort from "@/hooks/use-sort";
 import { useDebounce, usePagination } from "@/lib/hooks";
-import type { CategoryFilterStatus, CategoryFiltersInterface } from "@/types/category";
+import type { CategoryFilterStatus, CategoryFiltersInterface, CategoryOrderBy } from "@/types/category";
 import useCategories from "./apis/use-categories";
 import CreateCategory from "./crud/create";
 import CategoryFilters from "./filters";
 import CategoryList from "./list";
 
 export default function CategoriesPage() {
+  const { sort, handleSort } = useSort({ column: "name", direction: "asc" });
+
   const [filters, setFilters] = useState<CategoryFiltersInterface>({
     search: "",
     status: "all",
@@ -31,6 +34,10 @@ export default function CategoriesPage() {
     status: filters.status,
     limit: pagination.limit,
     offset: pagination.offset,
+    orderBy: {
+      column: sort.column as CategoryOrderBy,
+      direction: sort.direction,
+    },
   });
 
   const handleSearch = (search: string) => {
@@ -81,7 +88,12 @@ export default function CategoriesPage() {
           retry={refetch}
           isEmpty={categoriesResponse?.rows?.length === 0}
         >
-          <CategoryList categories={categoriesResponse?.rows || []} expanded={filters.expanded} />
+          <CategoryList
+            categories={categoriesResponse?.rows || []}
+            expanded={filters.expanded}
+            handleSort={handleSort}
+            sort={sort}
+          />
         </FetchState>
 
         <div className="flex justify-end">

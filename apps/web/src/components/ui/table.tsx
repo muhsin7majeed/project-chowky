@@ -1,6 +1,7 @@
+import { ArrowDownIcon, ArrowDownZA, ArrowUpDownIcon, ArrowUpIcon, ArrowUpZA } from "lucide-react";
 import type * as React from "react";
-
 import { cn } from "@/lib/utils";
+import { Button } from "./button";
 
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
@@ -38,16 +39,26 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   );
 }
 
-function TableHead({ className, ...props }: React.ComponentProps<"th">) {
+function TableHead({
+  className,
+  sortDirection,
+  ...props
+}: React.ComponentProps<"th"> & { sortDirection?: "asc" | "desc" }) {
   return (
     <th
       data-slot="table-head"
       className={cn(
+        sortDirection && "cursor-pointer flex items-center gap-2",
+
         "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className,
       )}
       {...props}
-    />
+    >
+      {props.children}
+      {sortDirection && sortDirection === "asc" && <ArrowUpZA className="w-4 h-4" />}
+      {sortDirection && sortDirection === "desc" && <ArrowDownZA className="w-4 h-4" />}
+    </th>
   );
 }
 
