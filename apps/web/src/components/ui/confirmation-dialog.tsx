@@ -1,28 +1,19 @@
 import { Button } from "./button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./dialog";
 
 interface ConfirmationDialogProps {
   title: string;
   description: string;
   onConfirm: () => void;
   isLoading: boolean;
-  trigger: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-const ConfirmationDialog = ({ title, description, onConfirm, isLoading, trigger }: ConfirmationDialogProps) => {
+const ConfirmationDialog = ({ title, description, onConfirm, isLoading, isOpen, onClose }: ConfirmationDialogProps) => {
   return (
     <div>
-      <Dialog>
-        <DialogTrigger asChild>{trigger}</DialogTrigger>
-
+      <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -30,8 +21,8 @@ const ConfirmationDialog = ({ title, description, onConfirm, isLoading, trigger 
           </DialogHeader>
 
           <DialogFooter>
-            <Button variant="destructive" onClick={onConfirm} disabled={isLoading}>
-              {isLoading ? "Deleting..." : "Delete"}
+            <Button variant="destructive" onClick={onConfirm} disabled={isLoading} isLoading={isLoading}>
+              Confirm
             </Button>
           </DialogFooter>
         </DialogContent>

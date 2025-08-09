@@ -2,8 +2,6 @@ const formatDateTime = (
   dateTime: string,
   format: "HH:MM A" | "D, MMM, YYYY" | "D, MMM, YYYY HH:MM A" = "D, MMM, YYYY HH:MM A",
 ) => {
-  console.log({ dateTime, format });
-
   switch (format) {
     case "HH:MM A":
       return new Date(dateTime).toLocaleString("en-US", {

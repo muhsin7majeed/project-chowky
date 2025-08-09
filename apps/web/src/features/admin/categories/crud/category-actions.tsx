@@ -1,6 +1,7 @@
 import { EditIcon, MoreHorizontalIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import ConfirmationDialog from "@/components/ui/confirmation-dialog";
 import {
@@ -29,14 +30,34 @@ export const CategoryActions = ({ category }: CategoryActionsProps) => {
     setShowUpdateDialog(true);
   };
 
-  const handleDelete = () => {
-    // TODO: Implement delete functionality
-    console.log("Delete category:", category.id);
+  const handleDeleteConfirm = async () => {
+    deleteCategory(
+      { id: category.id },
+      {
+        onSuccess: () => {
+          setShowDeleteDialog(false);
+          toast.success(t("categoryDeleted"));
+        },
+      },
+    );
+  };
+
+  const handleDeleteClick = () => {
+    setShowDeleteDialog(true);
   };
 
   return (
     <div className="flex items-center gap-2 justify-between">
       <ChangeStatus category={category} />
+
+      <ConfirmationDialog
+        title={`${t("deleteCategory")} ${category.name}`}
+        description={t("deleteCategoryDescription")}
+        isLoading={isPending}
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleDeleteConfirm}
+      />
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -51,19 +72,9 @@ export const CategoryActions = ({ category }: CategoryActionsProps) => {
             {t("edit")}
           </DropdownMenuItem>
 
-          <DropdownMenuItem onClick={handleDelete} className="text-destructive">
-            <ConfirmationDialog
-              trigger={
-                <>
-                  <TrashIcon className="mr-2 h-4 w-4" />
-                  {t("delete")}
-                </>
-              }
-              title={t("deleteCategory")}
-              description={t("deleteCategoryDescription")}
-              onConfirm={() => deleteCategory({ id: category.id })}
-              isLoading={isPending}
-            />
+          <DropdownMenuItem onClick={handleDeleteClick} className="text-destructive">
+            <TrashIcon className="mr-2 h-4 w-4" />
+            {t("delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
