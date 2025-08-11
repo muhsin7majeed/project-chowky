@@ -25,12 +25,22 @@ const productInputZodSchema = z.object({
     value: z.number().min(0),
     unit: z.enum(dimensionUnits),
   }),
-  //   images: z.array(z.string()).optional(),
+  imagePaths: z.array(z.string()).optional(),
+  imageCountForPreSignedGcpPutUrl: z.number().min(0).optional(),
   categoryId: z.number(),
   isActive: z.boolean(),
   isFeatured: z.boolean(),
   isNew: z.boolean(),
   isBestSeller: z.boolean(),
+  imagesToSign: z
+    .array(
+      z.object({
+        originalName: z.string(),
+        contentType: z.string(),
+        suffix: z.string().optional(),
+      }),
+    )
+    .optional(),
 });
 
 export const createProductInputZodSchema = productInputZodSchema;

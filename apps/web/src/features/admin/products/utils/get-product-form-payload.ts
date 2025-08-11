@@ -14,6 +14,7 @@ const getProductFormPayload = (data: ProductFormDefaultValues) => {
     isNew: data.isNew,
     isBestSeller: data.isBestSeller,
     isFeatured: data.isFeatured,
+    imageCountForPreSignedGcpPutUrl: data.images?.length || 0,
     weight: {
       value: data.weight.value,
       unit: data.weight.unit,

@@ -10,6 +10,7 @@ export const products = pgTable("products", {
   name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),
   description: text("description"),
+  imagePaths: text("image_paths").array(),
 
   price: integer("price").notNull(),
   cost: integer("cost"),

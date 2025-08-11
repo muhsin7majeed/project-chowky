@@ -10,6 +10,7 @@ import { appRouter } from "./routers/index";
 const app = new Hono();
 
 app.use(logger());
+
 app.use(
   "/*",
   cors({
@@ -26,6 +27,11 @@ app.use(
   "/trpc/*",
   trpcServer({
     router: appRouter,
+    onError: (error: unknown) => {
+      console.log("ERROR", { error });
+
+      throw new Error("Internal Server Error", { cause: error });
+    },
     createContext: (_opts, context) => {
       return createContext({ context });
     },

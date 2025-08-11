@@ -26,15 +26,62 @@ const CreateProduct = () => {
     setOpen(!open);
   };
 
-  const handleSubmit = (data: ProductFormDefaultValues) => {
+  const handleImagesUpload = async (
+    signedUploads: { url: string; objectPath: string; contentType: string }[],
+    images: File[],
+  ) => {
+    if (!signedUploads?.length || !images?.length) return;
+
+    if (signedUploads.length !== images.length) {
+      throw new Error("Signed URLs count does not match images count");
+    }
+
+    const uploads = images.map((image, index) => {
+      const { url, contentType } = signedUploads[index];
+
+      return fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": contentType || image.type || "application/octet-stream",
+        },
+        body: image,
+      });
+    });
+
+    const responses = await Promise.all(uploads);
+
+    responses.forEach((res, i) => {
+      if (!res.ok) {
+        console.error("Upload failed for index", i, res.status, res.statusText);
+      }
+    });
+
+    return responses;
+  };
+
+  const handleSubmit = async (data: ProductFormDefaultValues) => {
     const payload = getProductFormPayload(data);
 
-    createProduct(payload, {
-      onSuccess: () => {
-        toast.success(t("productCreated"));
-        toggleOpen();
+    const images = data.images || [];
+    const imagesToSign = images.map((file, idx) => ({
+      originalName: file.name,
+      contentType: file.type || "application/octet-stream",
+      suffix: `${crypto.randomUUID?.() ?? Date.now()}-${idx}`,
+    }));
+
+    createProduct(
+      { ...payload, imagesToSign },
+      {
+        onSuccess: async (response) => {
+          const { signedUploads } = response || {};
+
+          await handleImagesUpload(signedUploads || [], images);
+
+          toast.success(t("productCreated"));
+          toggleOpen();
+        },
       },
-    });
+    );
   };
 
   const defaultValues = getProductFormValues();

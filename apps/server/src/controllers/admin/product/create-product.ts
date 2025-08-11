@@ -2,6 +2,9 @@ import { TRPCError } from "@trpc/server";
 import { eq, or } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema/product";
+import getPreSignedGcpPutUrl from "@/lib/get-pre-signed-gcp-put-url";
+import getPreSignedGcpPutUrls from "@/lib/get-pre-signed-gcp-put-url";
+import storage from "@/lib/storage";
 import { adminProcedure } from "@/lib/trpc";
 import { createProductInputZodSchema } from "@/lib/zod-schema/products";
 
@@ -23,6 +26,8 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     length,
     width,
     height,
+    imagePaths,
+    imagesToSign,
   } = input;
 
   const existingProduct = await db
@@ -46,25 +51,48 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     });
   }
 
-  const product = await db.insert(products).values({
-    name,
-    slug,
-    description,
-    price,
-    cost,
-    stock,
-    categoryId,
-    sku,
-    isActive,
-    isFeatured,
-    isNew,
-    isBestSeller,
-    weight,
-    length,
-    width,
-    height,
-  });
-  return product;
+  const product = await db
+    .insert(products)
+    .values({
+      name,
+      slug,
+      description,
+      price,
+      cost,
+      stock,
+      categoryId,
+      sku,
+      isActive,
+      isFeatured,
+      isNew,
+      isBestSeller,
+      weight,
+      length,
+      width,
+      height,
+      imagePaths,
+    })
+    .returning({
+      id: products.id,
+    });
+
+  const productId = product[0].id;
+
+  // Build base path and request one signed URL per file (unique)
+  const basePath = `products/${slug}/${productId}`;
+
+  // Get signed URLs for each image to be uploaded to GCP
+  const signedUploads = imagesToSign?.length
+    ? await getPreSignedGcpPutUrls({
+        basePath,
+        files: imagesToSign,
+      })
+    : [];
+
+  return {
+    productId,
+    signedUploads,
+  };
 });
 
 export default createProductController;
