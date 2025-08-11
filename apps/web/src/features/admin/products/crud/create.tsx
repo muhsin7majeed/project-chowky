@@ -60,7 +60,7 @@ const CreateProduct = () => {
 
           await updateProductImages({
             productId: response.productId,
-            images: imagePaths,
+            imagePaths,
           });
 
           toast.success(t("productCreated"));
@@ -71,6 +71,8 @@ const CreateProduct = () => {
   };
 
   const defaultValues = getProductFormValues();
+
+  const isLoading = isPending || isUpdatingImages || isUploadingImages;
 
   return (
     <div>
@@ -86,14 +88,14 @@ const CreateProduct = () => {
             <DialogDescription>{t("createProductDescription")}</DialogDescription>
           </DialogHeader>
 
-          <ProductForm onSubmit={handleSubmit} defaultValues={defaultValues} />
+          <ProductForm onSubmit={handleSubmit} defaultValues={defaultValues} isLoading={isLoading} />
 
           <DialogFooter>
             <Button variant="outline" type="button" onClick={toggleOpen}>
               {t("cancel")}
             </Button>
 
-            <Button type="submit" form="product-form" isLoading={isPending} disabled={isPending}>
+            <Button type="submit" form="product-form" isLoading={isLoading} disabled={isLoading}>
               {t("save")}
             </Button>
           </DialogFooter>

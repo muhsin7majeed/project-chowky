@@ -7,15 +7,15 @@ import { updateProductImagesInputZodSchema } from "@/lib/zod-schema/products";
 const updateProductImagesController = adminProcedure
   .input(updateProductImagesInputZodSchema)
   .mutation(async ({ input }) => {
-    const { productId, images, status } = input;
+    const { productId, imagePaths, status } = input;
 
-    const imagePaths = images.map((i) => ({
+    const imagePathsPayload = imagePaths.map((i) => ({
       objectPath: i.objectPath,
       sortOrder: i.sortOrder ?? 0,
       isPrimary: i.isPrimary ?? false,
     }));
 
-    await db.update(products).set({ imagePaths, status }).where(eq(products.id, productId));
+    await db.update(products).set({ imagePaths: imagePathsPayload, status }).where(eq(products.id, productId));
 
     return {
       success: true,

@@ -28,9 +28,10 @@ const getProfitMargin = (cost: number, price: number) => {
 interface ProductFormProps {
   onSubmit: (data: ProductFormDefaultValues) => void;
   defaultValues?: ProductFormDefaultValues;
+  isLoading?: boolean;
 }
 
-const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
+const ProductForm = ({ onSubmit, defaultValues, isLoading }: ProductFormProps) => {
   const [margin, setMargin] = useState("0.00");
 
   const form = useForm({
@@ -407,6 +408,8 @@ const ProductForm = ({ onSubmit, defaultValues }: ProductFormProps) => {
                           className="absolute right-1 top-1 inline-flex items-center justify-center rounded-full bg-background/80 p-1 text-foreground shadow hover:bg-background"
                           type="button"
                           onClick={() => {
+                            if (isLoading) return;
+
                             field.handleChange(field.state.value?.filter((_, i) => i !== index));
                           }}
                         >

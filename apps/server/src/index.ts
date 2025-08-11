@@ -30,7 +30,7 @@ app.use(
     onError: (error: unknown) => {
       console.log("ERROR", { error });
 
-      throw new Error("Internal Server Error", { cause: error });
+      // throw new Error("Internal Server Error", { cause: error });
     },
     createContext: (_opts, context) => {
       return createContext({ context });

@@ -25,7 +25,6 @@ const productInputZodSchema = z.object({
     value: z.number().min(0),
     unit: z.enum(dimensionUnits),
   }),
-  imageCountForPreSignedGcpPutUrl: z.number().min(0).optional(),
   categoryId: z.number(),
   status: z.enum(["active", "inactive", "draft"]),
   isFeatured: z.boolean(),
@@ -50,7 +49,7 @@ export const updateProductInputZodSchema = productInputZodSchema.partial().exten
 
 export const updateProductImagesInputZodSchema = z.object({
   productId: z.number(),
-  images: z.array(
+  imagePaths: z.array(
     z.object({
       objectPath: z.string(),
       sortOrder: z.number().optional(),
