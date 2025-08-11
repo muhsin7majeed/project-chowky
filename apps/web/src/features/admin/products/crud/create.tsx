@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/dialog";
 import type { ProductFormDefaultValues } from "@/types/product";
 import useCreateProduct from "../apis/use-create-product";
+import useUpdateProductImages from "../apis/use-update-product-images";
+import useUploadProductImage from "../apis/use-upload-product-image";
 import getProductFormPayload from "../utils/get-product-form-payload";
 import getProductFormValues from "../utils/get-product-form-values";
 import ProductForm from "./form";
@@ -20,47 +22,16 @@ import ProductForm from "./form";
 const CreateProduct = () => {
   const { t } = useTranslation();
   const { mutate: createProduct, isPending } = useCreateProduct();
+  const { mutateAsync: updateProductImages, isPending: isUpdatingImages } = useUpdateProductImages();
+  const { mutateAsync: uploadProductImage, isPending: isUploadingImages } = useUploadProductImage();
   const [open, setOpen] = useState(false);
 
   const toggleOpen = () => {
     setOpen(!open);
   };
 
-  const handleImagesUpload = async (
-    signedUploads: { url: string; objectPath: string; contentType: string }[],
-    images: File[],
-  ) => {
-    if (!signedUploads?.length || !images?.length) return;
-
-    if (signedUploads.length !== images.length) {
-      throw new Error("Signed URLs count does not match images count");
-    }
-
-    const uploads = images.map((image, index) => {
-      const { url, contentType } = signedUploads[index];
-
-      return fetch(url, {
-        method: "PUT",
-        headers: {
-          "Content-Type": contentType || image.type || "application/octet-stream",
-        },
-        body: image,
-      });
-    });
-
-    const responses = await Promise.all(uploads);
-
-    responses.forEach((res, i) => {
-      if (!res.ok) {
-        console.error("Upload failed for index", i, res.status, res.statusText);
-      }
-    });
-
-    return responses;
-  };
-
   const handleSubmit = async (data: ProductFormDefaultValues) => {
-    const payload = getProductFormPayload(data);
+    const payload = getProductFormPayload({ data, isCreate: true });
 
     const images = data.images || [];
     const imagesToSign = images.map((file, idx) => ({
@@ -75,7 +46,22 @@ const CreateProduct = () => {
         onSuccess: async (response) => {
           const { signedUploads } = response || {};
 
-          await handleImagesUpload(signedUploads || [], images);
+          const imageUploads = await uploadProductImage({
+            images,
+            signedUploads,
+            bucketName: import.meta.env.VITE_GCS_BUCKET_NAME || "",
+          });
+
+          const imagePaths = imageUploads.map((res, idx) => ({
+            objectPath: res.objectPath,
+            sortOrder: idx,
+            isPrimary: idx === 0,
+          }));
+
+          await updateProductImages({
+            productId: response.productId,
+            images: imagePaths,
+          });
 
           toast.success(t("productCreated"));
           toggleOpen();

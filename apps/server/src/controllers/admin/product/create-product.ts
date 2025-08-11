@@ -2,13 +2,13 @@ import { TRPCError } from "@trpc/server";
 import { eq, or } from "drizzle-orm";
 import { db } from "@/db";
 import { products } from "@/db/schema/product";
-import getPreSignedGcpPutUrl from "@/lib/get-pre-signed-gcp-put-url";
 import getPreSignedGcpPutUrls from "@/lib/get-pre-signed-gcp-put-url";
-import storage from "@/lib/storage";
 import { adminProcedure } from "@/lib/trpc";
 import { createProductInputZodSchema } from "@/lib/zod-schema/products";
 
 const createProductController = adminProcedure.input(createProductInputZodSchema).mutation(async ({ input }) => {
+  console.log({ input });
+
   const {
     name,
     slug,
@@ -18,7 +18,7 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     stock,
     categoryId,
     sku,
-    isActive,
+    status,
     isFeatured,
     isNew,
     isBestSeller,
@@ -26,7 +26,6 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     length,
     width,
     height,
-    imagePaths,
     imagesToSign,
   } = input;
 
@@ -36,6 +35,8 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     .where(or(eq(products.slug, slug), eq(products.name, name), eq(products.sku, sku)));
 
   if (existingProduct.length > 0) {
+    console.log("DUPLICATE PRODUCT");
+
     const duplicateFields: string[] = [];
     const [product] = existingProduct;
 
@@ -62,7 +63,7 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
       stock,
       categoryId,
       sku,
-      isActive,
+      status,
       isFeatured,
       isNew,
       isBestSeller,
@@ -70,7 +71,6 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
       length,
       width,
       height,
-      imagePaths,
     })
     .returning({
       id: products.id,

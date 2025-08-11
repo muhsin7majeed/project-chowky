@@ -10,7 +10,14 @@ export const products = pgTable("products", {
   name: text("name").notNull().unique(),
   slug: text("slug").notNull().unique(),
   description: text("description"),
-  imagePaths: text("image_paths").array(),
+  imagePaths:
+    jsonb("image_paths").$type<
+      {
+        objectPath: string;
+        sortOrder: number;
+        isPrimary: boolean;
+      }[]
+    >(),
 
   price: integer("price").notNull(),
   cost: integer("cost"),
@@ -19,7 +26,7 @@ export const products = pgTable("products", {
   categoryId: integer("category_id").references(() => categories.id),
   sku: text("sku").notNull(),
 
-  isActive: boolean("is_active").default(true),
+  status: text("status").default("draft").notNull(),
   isNew: boolean("is_new").default(false),
   isBestSeller: boolean("is_best_seller").default(false),
   isFeatured: boolean("is_featured").default(false),

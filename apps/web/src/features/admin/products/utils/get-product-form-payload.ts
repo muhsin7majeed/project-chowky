@@ -1,6 +1,11 @@
-import type { ProductFormDefaultValues } from "@/types/product";
+import type { ProductFormDefaultValues, ProductStatus } from "@/types/product";
 
-const getProductFormPayload = (data: ProductFormDefaultValues) => {
+interface GetProductFormPayloadProps {
+  data: ProductFormDefaultValues;
+  isCreate: boolean;
+}
+
+const getProductFormPayload = ({ data, isCreate }: GetProductFormPayloadProps) => {
   const payload = {
     name: data.name,
     slug: data.slug,
@@ -10,7 +15,7 @@ const getProductFormPayload = (data: ProductFormDefaultValues) => {
     stock: data.stock,
     categoryId: data.category?.value as number,
     sku: data.sku,
-    isActive: data.isActive,
+    status: (isCreate ? "draft" : data.isActive ? "active" : "inactive") as ProductStatus,
     isNew: data.isNew,
     isBestSeller: data.isBestSeller,
     isFeatured: data.isFeatured,

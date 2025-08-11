@@ -1,5 +1,7 @@
 import type { Dimension, GenericLabelValue, Weight } from "./common";
 
+export type ProductStatus = "active" | "inactive" | "draft";
+
 export interface ProductFormDefaultValues {
   id?: string;
   name: string;

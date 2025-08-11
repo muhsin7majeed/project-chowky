@@ -1,13 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { queryClient, trpc } from "@/utils/trpc";
+import { trpc } from "@/utils/trpc";
 
 const useCreateProduct = () => {
   const mutation = useMutation(
     trpc.admin.product.create.mutationOptions({
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: [["admin", "product"]] });
-      },
+      onSuccess: () => {},
       onError: (error) => {
         toast.error(error.message);
       },

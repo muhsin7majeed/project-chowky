@@ -25,10 +25,9 @@ const productInputZodSchema = z.object({
     value: z.number().min(0),
     unit: z.enum(dimensionUnits),
   }),
-  imagePaths: z.array(z.string()).optional(),
   imageCountForPreSignedGcpPutUrl: z.number().min(0).optional(),
   categoryId: z.number(),
-  isActive: z.boolean(),
+  status: z.enum(["active", "inactive", "draft"]),
   isFeatured: z.boolean(),
   isNew: z.boolean(),
   isBestSeller: z.boolean(),
@@ -47,4 +46,16 @@ export const createProductInputZodSchema = productInputZodSchema;
 
 export const updateProductInputZodSchema = productInputZodSchema.partial().extend({
   id: z.number(),
+});
+
+export const updateProductImagesInputZodSchema = z.object({
+  productId: z.number(),
+  images: z.array(
+    z.object({
+      objectPath: z.string(),
+      sortOrder: z.number().optional(),
+      isPrimary: z.boolean().optional(),
+    }),
+  ),
+  status: z.enum(["active", "inactive", "draft"]).default("active"),
 });
