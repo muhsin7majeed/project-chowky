@@ -13,8 +13,9 @@ import getProfitMargin from "@/features/admin/utils/get-profit-margin";
 import type { DimensionUnit, WeightUnit } from "@/types/common";
 import type { ProductFormDefaultValues } from "@/types/product";
 import slugify from "@/utils/slugify";
-import getProductFormValues from "../utils/get-product-form-values";
+
 import getProductFormZSchema from "../utils/get-product-form-z-schema";
+import { getImageId, getImagePreviewUrl, isFileImage } from "../utils/image-helpers";
 
 interface ProductFormProps {
   onSubmit: (data: ProductFormDefaultValues) => void;
@@ -46,6 +47,7 @@ const ProductForm = ({ onSubmit, defaultValues, isLoading }: ProductFormProps) =
       onSubmit={(e) => {
         e.preventDefault();
         form.handleSubmit();
+        console.log(form.state.values, form.state.errors);
       }}
     >
       <div className="border p-4 rounded-lg">
@@ -388,13 +390,17 @@ const ProductForm = ({ onSubmit, defaultValues, isLoading }: ProductFormProps) =
                     />
                   </FormGroup>
 
-                  <div className="mt-2 flex gap-2 overflow-x-auto pb-2">
+                  <div className="mt-2 flex gap-2 overflow-x-auto pb-2 flex-wrap">
                     {field.state.value?.map((img, index) => (
                       <div
-                        key={`${img.name}-${index}`}
+                        key={getImageId(img, index)}
                         className="relative h-24 w-24 shrink-0 rounded-md border overflow-hidden"
                       >
-                        <img src={URL.createObjectURL(img)} alt="Preview" className="h-full w-full object-cover" />
+                        <img
+                          src={getImagePreviewUrl(img)}
+                          alt={isFileImage(img) ? "New upload preview" : "Existing product image"}
+                          className="h-full w-full object-cover"
+                        />
                         <button
                           className="absolute right-1 top-1 inline-flex items-center justify-center rounded-full bg-background/80 p-1 text-foreground shadow hover:bg-background"
                           type="button"
@@ -406,6 +412,16 @@ const ProductForm = ({ onSubmit, defaultValues, isLoading }: ProductFormProps) =
                         >
                           <X className="h-4 w-4" />
                         </button>
+
+                        <div className="absolute bottom-1 left-1">
+                          <span
+                            className={`text-xs px-1.5 py-0.5 rounded text-white font-medium ${
+                              isFileImage(img) ? "bg-blue-500" : "bg-green-500"
+                            }`}
+                          >
+                            {isFileImage(img) ? "New" : "Saved"}
+                          </span>
+                        </div>
                       </div>
                     ))}
                   </div>

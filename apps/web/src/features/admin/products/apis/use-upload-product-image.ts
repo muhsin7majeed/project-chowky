@@ -1,5 +1,4 @@
 import { useMutation } from "@tanstack/react-query";
-import getProductImagePublicUrl from "../utils/get-product-image-path";
 
 interface UploadProductImagePayload {
   images: File[];
@@ -8,12 +7,11 @@ interface UploadProductImagePayload {
     contentType: string;
     objectPath: string;
   }[];
-  bucketName: string;
 }
 
 const useUploadProductImage = () => {
   const mutation = useMutation({
-    mutationFn: async ({ images, signedUploads, bucketName }: UploadProductImagePayload) => {
+    mutationFn: async ({ images, signedUploads }: UploadProductImagePayload) => {
       if (images.length !== signedUploads.length) {
         throw new Error("Images and signedUploads length mismatch");
       }

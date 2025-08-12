@@ -2,6 +2,8 @@ import type { Dimension, GenericLabelValue, Weight } from "./common";
 
 export type ProductStatus = "active" | "inactive" | "draft";
 
+export type ProductFormImage = ProductImage | File;
+
 export interface ProductFormDefaultValues {
   id?: string;
   name: string;
@@ -12,7 +14,7 @@ export interface ProductFormDefaultValues {
   price: number;
   stock: number;
   isActive: boolean;
-  images?: File[];
+  images?: ProductFormImage[];
   isFeatured: boolean;
   isNew: boolean;
   isBestSeller: boolean;

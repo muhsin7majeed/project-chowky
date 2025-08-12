@@ -32,39 +32,39 @@ const CreateProduct = () => {
   };
 
   const handleSubmit = async (data: ProductFormDefaultValues) => {
-    const payload = getProductFormPayload({ data, isCreate: true });
+    const { productData, imageData } = getProductFormPayload({ data, isCreate: true });
+    const { newFiles } = imageData;
 
-    const images = data.images || [];
-    const imagesToSign = images.map((file, idx) => ({
+    const imagesToSign = newFiles.map((file, idx) => ({
       originalName: file.name,
       contentType: file.type || "application/octet-stream",
       suffix: `${crypto.randomUUID?.() ?? Date.now()}-${idx}`,
     }));
 
     createProduct(
-      { ...payload, imagesToSign },
+      { ...productData, imagesToSign },
       {
         onSuccess: async (response) => {
           const { signedUploads } = response || {};
 
-          const imageUploads = await uploadProductImage({
-            images,
-            signedUploads,
-            bucketName: import.meta.env.VITE_GCS_BUCKET_NAME || "",
-          });
+          // Only upload new files if there are any
+          if (newFiles.length > 0 && signedUploads) {
+            const imageUploads = await uploadProductImage({
+              images: newFiles,
+              signedUploads,
+            });
 
-          const imagePaths = imageUploads.map((res, idx) => ({
-            objectPath: res.objectPath,
-            sortOrder: idx,
-            isPrimary: idx === 0,
-          }));
+            const imagePaths = imageUploads.map((res, idx) => ({
+              objectPath: res.objectPath,
+              sortOrder: idx,
+              isPrimary: idx === 0,
+            }));
 
-          console.log({ imagePaths });
-
-          await updateProductImages({
-            productId: response.productId,
-            imagePaths,
-          });
+            await updateProductImages({
+              productId: response.productId,
+              imagePaths,
+            });
+          }
 
           queryClient.invalidateQueries({ queryKey: [["app", "product"]] });
           toast.success(t("productCreated"));

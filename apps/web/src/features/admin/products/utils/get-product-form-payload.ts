@@ -1,4 +1,5 @@
 import type { ProductFormDefaultValues, ProductStatus } from "@/types/product";
+import { separateImages } from "./image-helpers";
 
 interface GetProductFormPayloadProps {
   data: ProductFormDefaultValues;
@@ -6,10 +7,12 @@ interface GetProductFormPayloadProps {
 }
 
 const getProductFormPayload = ({ data, isCreate }: GetProductFormPayloadProps) => {
-  const payload = {
+  const { existingImages, newFiles } = separateImages(data.images || []);
+
+  const productData = {
     name: data.name,
     slug: data.slug,
-    description: data.description,
+    description: data.description || "",
     price: data.price,
     cost: data.cost,
     stock: data.stock,
@@ -37,7 +40,13 @@ const getProductFormPayload = ({ data, isCreate }: GetProductFormPayloadProps) =
     },
   };
 
-  return payload;
+  return {
+    productData,
+    imageData: {
+      existingImages,
+      newFiles,
+    },
+  };
 };
 
 export default getProductFormPayload;
