@@ -1,15 +1,15 @@
 import { DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS } from "@/constants/common";
-import type { ProductFormDefaultValues } from "@/types/product";
+import type { Product, ProductFormDefaultValues } from "@/types/product";
 
-const getProductFormValues = (product?: ProductFormDefaultValues): ProductFormDefaultValues => {
+const getProductFormValues = (product?: Product): ProductFormDefaultValues => {
   const values = {
     name: product?.name || "",
     sku: product?.sku || "",
     slug: product?.slug || "",
     price: product?.price || 0,
     stock: product?.stock || 0,
-    isActive: product?.isActive || true,
-    images: product?.images || [],
+    isActive: product?.status === "active" || true,
+    images: product?.imagePaths || [],
     category: product?.category || null,
     isFeatured: product?.isFeatured || false,
     isNew: product?.isNew || false,

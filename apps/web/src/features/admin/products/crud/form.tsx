@@ -26,7 +26,7 @@ const ProductForm = ({ onSubmit, defaultValues, isLoading }: ProductFormProps) =
   const [margin, setMargin] = useState("0.00");
 
   const form = useForm({
-    defaultValues: getProductFormValues(defaultValues),
+    defaultValues: defaultValues,
     onSubmit: ({ value }) => onSubmit(value),
     validators: {
       onChange: getProductFormZSchema(),

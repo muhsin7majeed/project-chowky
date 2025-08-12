@@ -11,6 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Product } from "@/types/product";
+import UpdateCategory from "../../categories/crud/update";
+import UpdateProduct from "./update";
 
 interface ProductActionsProps {
   product: Product;
@@ -46,6 +48,10 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
   return (
     <div className="flex items-center gap-2 justify-between">
       {/* <ChangeStatus product={product} /> */}
+
+      {showUpdateDialog && (
+        <UpdateProduct product={product} open={showUpdateDialog} onOpenChange={setShowUpdateDialog} />
+      )}
 
       <ConfirmationDialog
         title={`${t("deleteProduct")} ${product.name}`}
