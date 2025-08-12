@@ -1,138 +1,7 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
-
-// Translation resources
-const resources = {
-  en: {
-    translation: {
-      // Navigation
-      dashboard: "Dashboard",
-      todos: "Todos",
-      login: "Login",
-      logout: "Logout",
-
-      // Common
-      welcome: "Welcome",
-      home: "Home",
-      loading: "Loading...",
-      save: "Save",
-      cancel: "Cancel",
-      delete: "Delete",
-      create: "Create",
-      update: "Update",
-      search: "Search",
-      language: "Language",
-
-      // Application specific
-      projectTitle: "Project Chowky",
-      projectDescription: "A modern web application built with Better-T-Stack",
-
-      // Todos
-      addTodo: "Add Todo",
-      todoTitle: "Todo Title",
-      todoDescription: "Todo Description",
-      completed: "Completed",
-      pending: "Pending",
-      noTodos: "No todos found",
-      createFirstTodo: "Create your first todo",
-
-      // Auth
-      signIn: "Sign In",
-      signUp: "Sign Up",
-      signOut: "Sign Out",
-      username: "Username",
-      password: "Password",
-      email: "Email",
-
-      // Admin
-      admin: "Admin",
-      categories: "Categories",
-      products: "Products",
-      orders: "Orders",
-      users: "Users",
-      settings: "Settings",
-
-      // Theme
-      lightMode: "Light Mode",
-      darkMode: "Dark Mode",
-      systemMode: "System",
-
-      // Messages
-      welcomeMessage: "Welcome to Project Chowky",
-      getStarted: "Get started by creating your first todo",
-
-      // Categories
-      createCategory: "Create Category",
-      updateCategory: "Update Category",
-      createCategoryDescription: "Create a new category",
-    },
-  },
-  de: {
-    translation: {
-      // Navigation
-      dashboard: "Dashboard",
-      todos: "Aufgaben",
-      login: "Anmelden",
-      logout: "Abmelden",
-
-      // Common
-      welcome: "Willkommen",
-      home: "Startseite",
-      loading: "Laden...",
-      save: "Speichern",
-      cancel: "Abbrechen",
-      delete: "Löschen",
-      create: "Erstellen",
-      update: "Aktualisieren",
-      search: "Suchen",
-      language: "Sprache",
-
-      // Application specific
-      projectTitle: "Project Chowky",
-      projectDescription: "Eine moderne Webanwendung, erstellt mit Better-T-Stack",
-
-      // Todos
-      addTodo: "Aufgabe hinzufügen",
-      todoTitle: "Aufgabentitel",
-      todoDescription: "Aufgabenbeschreibung",
-      completed: "Abgeschlossen",
-      pending: "Ausstehend",
-      noTodos: "Keine Aufgaben gefunden",
-      createFirstTodo: "Erstelle deine erste Aufgabe",
-
-      // Auth
-      signIn: "Anmelden",
-      signUp: "Registrieren",
-      signOut: "Abmelden",
-      username: "Benutzername",
-      password: "Passwort",
-      email: "E-Mail",
-
-      // Admin
-      admin: "Admin",
-      categories: "Kategorien",
-      products: "Produkte",
-      orders: "Bestellungen",
-      users: "Benutzer",
-      settings: "Einstellungen",
-
-      // Theme
-      lightMode: "Heller Modus",
-      darkMode: "Dunkler Modus",
-      systemMode: "System",
-
-      // Messages
-      welcomeMessage: "Willkommen bei Project Chowky",
-      getStarted: "Beginne mit der Erstellung deiner ersten Aufgabe",
-
-      // Categories
-      createCategory: "Kategorie erstellen",
-      updateCategory: "Kategorie aktualisieren",
-      createCategoryDescription: "Erstelle eine neue Kategorie",
-    },
-  },
-};
+import { resources } from "./i18n/locales";
 
 i18n
   .use(LanguageDetector)
@@ -154,8 +23,8 @@ i18n
     },
 
     // Namespace configuration
-    defaultNS: "translation",
-    ns: ["translation"],
+    defaultNS: "common",
+    ns: ["common", "app", "auth", "todos", "admin", "categories", "products"],
   });
 
 export default i18n;
