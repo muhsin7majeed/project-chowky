@@ -18,3 +18,8 @@ export interface Weight {
   value: number;
   unit: WeightUnit;
 }
+
+export interface Sort<T = string> {
+  column: T;
+  direction: "asc" | "desc";
+}

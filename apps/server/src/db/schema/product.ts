@@ -1,4 +1,4 @@
-import { boolean, integer, jsonb, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { categories } from "./category";
 
 export const dimensionUnits = ["cm", "m", "in", "ft"] as const;
@@ -36,4 +36,7 @@ export const products = pgTable("products", {
   length: jsonb("length").$type<{ value: number; unit: string }>(),
   width: jsonb("width").$type<{ value: number; unit: string }>(),
   height: jsonb("height").$type<{ value: number; unit: string }>(),
+
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

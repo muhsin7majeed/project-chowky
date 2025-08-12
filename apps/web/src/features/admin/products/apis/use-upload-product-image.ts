@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import getProductImagePublicUrl from "../utils/get-product-image-path";
 
 interface UploadProductImagePayload {
   images: File[];
@@ -9,9 +10,6 @@ interface UploadProductImagePayload {
   }[];
   bucketName: string;
 }
-
-const getProductImagePublicUrl = (bucketName: string, objectPath: string) =>
-  `https://storage.googleapis.com/${bucketName}/${objectPath}`;
 
 const useUploadProductImage = () => {
   const mutation = useMutation({
@@ -41,7 +39,6 @@ const useUploadProductImage = () => {
           ok: res.ok,
           status: res.status,
           objectPath,
-          publicUrl: getProductImagePublicUrl(bucketName, objectPath),
         };
       });
 

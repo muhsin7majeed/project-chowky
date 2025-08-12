@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { ProductFormDefaultValues } from "@/types/product";
+import { queryClient } from "@/utils/trpc";
 import useCreateProduct from "../apis/use-create-product";
 import useUpdateProductImages from "../apis/use-update-product-images";
 import useUploadProductImage from "../apis/use-upload-product-image";
@@ -58,11 +59,14 @@ const CreateProduct = () => {
             isPrimary: idx === 0,
           }));
 
+          console.log({ imagePaths });
+
           await updateProductImages({
             productId: response.productId,
             imagePaths,
           });
 
+          queryClient.invalidateQueries({ queryKey: [["app", "product"]] });
           toast.success(t("productCreated"));
           toggleOpen();
         },

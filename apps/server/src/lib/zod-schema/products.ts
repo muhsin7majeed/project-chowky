@@ -1,5 +1,8 @@
 import { z } from "zod";
 import { dimensionUnits, weightUnits } from "@/db/schema/product";
+import { orderBySchema } from "./common";
+
+export const productStatusSchema = z.enum(["active", "inactive", "draft"]);
 
 const productInputZodSchema = z.object({
   name: z.string().min(1),
@@ -26,7 +29,7 @@ const productInputZodSchema = z.object({
     unit: z.enum(dimensionUnits),
   }),
   categoryId: z.number(),
-  status: z.enum(["active", "inactive", "draft"]),
+  status: productStatusSchema,
   isFeatured: z.boolean(),
   isNew: z.boolean(),
   isBestSeller: z.boolean(),
@@ -56,5 +59,18 @@ export const updateProductImagesInputZodSchema = z.object({
       isPrimary: z.boolean().optional(),
     }),
   ),
-  status: z.enum(["active", "inactive", "draft"]).default("active"),
+  status: productStatusSchema.default("active"),
+});
+
+export const getProductsInputZodSchema = z.object({
+  status: productStatusSchema.default("active"),
+  limit: z.number().min(1).max(100).default(10),
+  offset: z.number().min(0).default(0),
+  search: z.string().optional(),
+  orderBy: z
+    .object({
+      column: z.enum(["name", "price", "stock", "createdAt", "sku"]),
+      direction: z.enum(["asc", "desc"]).optional(),
+    })
+    .optional(),
 });

@@ -23,13 +23,38 @@ export interface ProductFormDefaultValues {
   height: Dimension;
 }
 
-export interface Product {
-  id: string;
-  name: string;
-  sku: string;
-  category: string;
-  price: number;
-  stock: number;
-  status: "active" | "inactive" | "draft";
-  createdAt: string;
+export interface ProductImage {
+  isPrimary: boolean;
+  sortOrder: number;
+  objectPath: string;
 }
+
+export interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  imagePaths: ProductImage[];
+  price: number;
+  cost: number;
+  stock: number;
+  sku: string;
+  status: ProductStatus;
+  isNew: boolean;
+  isBestSeller: boolean;
+  isFeatured: boolean;
+  weight: Weight;
+  length: Dimension;
+  width: Dimension;
+  height: Dimension;
+  createdAt: string;
+  updatedAt: string;
+  category: GenericLabelValue<number>;
+}
+
+export interface ProductFiltersInterface {
+  search: string;
+  status: ProductStatus | "all";
+}
+
+export type ProductOrderBy = "name" | "sku" | "price" | "stock" | "createdAt";

@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
-import { and, asc, desc, eq, ilike } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, type SQL } from "drizzle-orm";
+import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from "@/constants/common";
 import { db } from "@/db";
 import { categories } from "@/db/schema/category";
 import { protectedProcedure } from "@/lib/trpc";
@@ -18,9 +19,6 @@ type CategoryWithChildren = {
   updatedAt: Date;
   subCategories?: CategoryWithChildren[];
 };
-
-const DEFAULT_LIMIT = 10;
-const DEFAULT_OFFSET = 0;
 
 const orderColumns = {
   name: categories.name,
@@ -85,8 +83,8 @@ const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSche
 
       // Apply pagination to root categories only
       const paginatedRoots = rootCategories.slice(
-        offset ?? DEFAULT_OFFSET,
-        (offset ?? DEFAULT_OFFSET) + (limit ?? DEFAULT_LIMIT),
+        offset ?? DEFAULT_PAGINATION_OFFSET,
+        (offset ?? DEFAULT_PAGINATION_OFFSET) + (limit ?? DEFAULT_PAGINATION_LIMIT),
       );
 
       return {
@@ -106,8 +104,7 @@ const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSche
       filters.push(eq(categories.parentId, parentId));
     }
 
-    // biome-ignore lint/suspicious/noExplicitAny: No idea how to type this!
-    let orderClause: any;
+    let orderClause: SQL | undefined;
 
     if (orderBy) {
       const column = orderColumns[orderBy.column];
@@ -123,7 +120,7 @@ const getCategoriesController = protectedProcedure.input(getAllCategoriesZodSche
       query.orderBy(orderClause);
     }
 
-    query.limit(limit ?? DEFAULT_LIMIT).offset(offset ?? DEFAULT_OFFSET);
+    query.limit(limit ?? DEFAULT_PAGINATION_LIMIT).offset(offset ?? DEFAULT_PAGINATION_OFFSET);
 
     const response = await query;
 

@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
+import type { Sort } from "@/types/common";
 
-interface Sort {
-  column: string;
-  direction: "asc" | "desc";
-}
-
-const useSort = (initialSort: Sort) => {
-  const [sort, setSort] = useState<Sort>(initialSort);
+const useSort = <T = string>(initialSort: Sort<T>) => {
+  const [sort, setSort] = useState<Sort<T>>(initialSort);
 
   useEffect(() => {
     // if (initialSort.column) {
@@ -14,7 +10,7 @@ const useSort = (initialSort: Sort) => {
     // }
   }, [initialSort]);
 
-  const handleSort = (column: string) => {
+  const handleSort = (column: T) => {
     setSort((prev) => ({
       column,
       direction: prev.column === column && prev.direction === "asc" ? "desc" : "asc",
