@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Product } from "@/types/product";
-import UpdateCategory from "../../categories/crud/update";
+import useDeleteProduct from "../apis/use-delete-product";
 import UpdateProduct from "./update";
 
 interface ProductActionsProps {
@@ -23,22 +23,22 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
-  // const { mutate: deleteProduct, isPending } = useDeleteProduct();
+  const { mutate: deleteProduct, isPending } = useDeleteProduct();
 
   const handleEdit = () => {
     setShowUpdateDialog(true);
   };
 
   const handleDeleteConfirm = async () => {
-    // deleteProduct(
-    //   { id: product.id },
-    //   {
-    //     onSuccess: () => {
-    //       setShowDeleteDialog(false);
-    //       toast.success(t("categoryDeleted"));
-    //     },
-    //   },
-    // );
+    deleteProduct(
+      { id: product.id },
+      {
+        onSuccess: () => {
+          setShowDeleteDialog(false);
+          toast.success(t("productDeleted"));
+        },
+      },
+    );
   };
 
   const handleDeleteClick = () => {
@@ -56,7 +56,7 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
       <ConfirmationDialog
         title={`${t("deleteProduct")} ${product.name}`}
         description={t("deleteProductDescription")}
-        // isLoading={isPending}
+        isLoading={isPending}
         isOpen={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onConfirm={handleDeleteConfirm}
@@ -81,10 +81,6 @@ export const ProductActions = ({ product }: ProductActionsProps) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {/* {showUpdateDialog && (
-        <UpdateProduct product={product} open={showUpdateDialog} onOpenChange={setShowUpdateDialog} />
-      )} */}
     </div>
   );
 };
