@@ -70,9 +70,7 @@ function RootComponent() {
                 // Admin routes handle their own layout
                 <div className="">{isFetching ? <Loader /> : <Outlet />}</div>
               ) : (
-                <main className="container mx-auto max-w-6xl overflow-auto px-4 py-6">
-                  {isFetching ? <Loader /> : <Outlet />}
-                </main>
+                <main className="container mx-auto max-w-6xl px-4 py-6">{isFetching ? <Loader /> : <Outlet />}</main>
               )}
             </>
           )}
