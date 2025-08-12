@@ -55,6 +55,10 @@ const ProductList = ({ products, handleSort, sort }: ProductListProps) => {
                 {t("price")}
               </TableHead>
 
+              <TableHead className="text-right">{t("cost")}</TableHead>
+
+              <TableHead className="text-right">{t("margin")}</TableHead>
+
               <TableHead
                 onClick={() => handleSort("stock")}
                 sortDirection={sort.column === "stock" ? sort.direction : undefined}

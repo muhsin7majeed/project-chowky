@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import CustomPagination from "@/components/custom-pagination";
 import FetchState from "@/components/fetch-state";
@@ -38,8 +38,6 @@ export default function ProductsPage() {
     },
   });
 
-  console.log(productsResponse);
-
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -56,6 +54,7 @@ export default function ProductsPage() {
           isError={error?.message}
           retry={refetch}
           isEmpty={productsResponse?.rows?.length === 0}
+          sectionName={t("products")}
         >
           <ProductList products={(productsResponse?.rows as Product[]) || []} handleSort={handleSort} sort={sort} />
         </FetchState>

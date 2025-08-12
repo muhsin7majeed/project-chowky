@@ -9,21 +9,12 @@ import MoneyIcon from "@/components/ui/money-icon";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { DIMENSION_UNIT_OPTIONS, WEIGHT_UNIT_OPTIONS } from "@/constants/common";
+import getProfitMargin from "@/features/admin/utils/get-profit-margin";
 import type { DimensionUnit, WeightUnit } from "@/types/common";
 import type { ProductFormDefaultValues } from "@/types/product";
 import slugify from "@/utils/slugify";
 import getProductFormValues from "../utils/get-product-form-values";
 import getProductFormZSchema from "../utils/get-product-form-z-schema";
-
-const getProfitMargin = (cost: number, price: number) => {
-  if (cost === 0 || price === 0) return 0;
-
-  const profitMargin = ((price - cost) / cost) * 100;
-
-  if (Number.isNaN(profitMargin)) return 0;
-
-  return profitMargin;
-};
 
 interface ProductFormProps {
   onSubmit: (data: ProductFormDefaultValues) => void;
