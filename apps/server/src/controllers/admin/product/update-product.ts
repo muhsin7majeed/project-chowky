@@ -7,7 +7,25 @@ import { adminProcedure } from "@/lib/trpc";
 import { updateProductInputZodSchema } from "@/lib/zod-schema/products";
 
 const updateProductController = adminProcedure.input(updateProductInputZodSchema).mutation(async ({ input }) => {
-  const { id, name, slug, description, sku } = input;
+  const {
+    id,
+    name,
+    slug,
+    description,
+    sku,
+    cost,
+    price,
+    stock,
+    categoryId,
+    isNew,
+    isBestSeller,
+    isFeatured,
+    weight,
+    length,
+    width,
+    height,
+    status,
+  } = input;
 
   const existingProduct = await db.select().from(products).where(eq(products.id, id));
 
@@ -34,7 +52,23 @@ const updateProductController = adminProcedure.input(updateProductInputZodSchema
   }
 
   const updateData = Object.fromEntries(
-    Object.entries({ name, slug, description }).filter(([_, value]) => value !== undefined),
+    Object.entries({
+      name,
+      slug,
+      description,
+      cost,
+      price,
+      stock,
+      categoryId,
+      isNew,
+      isBestSeller,
+      isFeatured,
+      weight,
+      length,
+      width,
+      height,
+      status,
+    }).filter(([_, value]) => value !== undefined),
   );
 
   const product = await db.update(products).set(updateData).where(eq(products.id, id));
