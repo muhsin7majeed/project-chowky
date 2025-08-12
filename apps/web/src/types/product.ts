@@ -57,6 +57,7 @@ export interface Product {
 export interface ProductFiltersInterface {
   search: string;
   status: ProductStatus | "all";
+  category?: GenericLabelValue<number>;
 }
 
 export type ProductOrderBy = "name" | "sku" | "price" | "stock" | "createdAt";

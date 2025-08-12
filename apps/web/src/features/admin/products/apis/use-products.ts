@@ -7,6 +7,7 @@ interface UseProductsParams {
   limit?: number;
   offset?: number;
   search?: string;
+  categoryId?: number;
   orderBy?: {
     column: ProductOrderBy;
     direction?: "asc" | "desc";

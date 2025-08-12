@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, ilike, type SQL } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, or, type SQL } from "drizzle-orm";
 import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from "@/constants/common";
 import { db } from "@/db";
 import { categories } from "@/db/schema/category";
@@ -17,7 +17,7 @@ const orderColumns = {
 } as const;
 
 const getProductsController = protectedProcedure.input(getProductsInputZodSchema).query(async ({ input }) => {
-  const { status, limit, offset, search, orderBy } = input ?? {};
+  const { status, limit, offset, search, categoryId, orderBy } = input ?? {};
 
   const filters: SQL[] = [];
 
@@ -26,7 +26,18 @@ const getProductsController = protectedProcedure.input(getProductsInputZodSchema
   }
 
   if (search) {
-    filters.push(ilike(products.name, `%${search}%`));
+    const searchTerm = `%${search}%`;
+    const searchTermForSku = `%${search}%`;
+
+    const searchFilters = or(ilike(products.name, searchTerm), ilike(products.sku, searchTermForSku));
+
+    if (searchFilters) {
+      filters.push(searchFilters);
+    }
+  }
+
+  if (categoryId) {
+    filters.push(eq(products.categoryId, categoryId));
   }
 
   let orderClause: SQL | undefined;
