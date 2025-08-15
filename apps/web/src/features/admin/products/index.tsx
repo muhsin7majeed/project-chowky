@@ -6,17 +6,17 @@ import useDebounce from "@/hooks/use-debounce";
 import usePagination from "@/hooks/use-pagination";
 import useSort from "@/hooks/use-sort";
 import type { GenericLabelValue } from "@/types/common";
-import type { Product, ProductFiltersInterface, ProductOrderBy, ProductStatus } from "@/types/product";
+import type { AdminProductFiltersInterface, Product, ProductOrderBy, ProductStatus } from "@/types/product";
 import useProducts from "./apis/use-products";
 import CreateProduct from "./crud/create";
-import ProductFilters from "./filters";
+import AdminProductFilters from "./filters";
 import ProductList from "./list";
 
 export default function ProductsPage() {
   const { t } = useTranslation();
   const { sort, handleSort } = useSort<ProductOrderBy>({ column: "name", direction: "asc" });
 
-  const [filters, setFilters] = useState<ProductFiltersInterface>({
+  const [filters, setFilters] = useState<AdminProductFiltersInterface>({
     search: "",
     status: "all",
     category: undefined,
@@ -72,7 +72,7 @@ export default function ProductsPage() {
       </div>
 
       <div className="my-6">
-        <ProductFilters
+        <AdminProductFilters
           filters={filters}
           onSearch={handleSearch}
           onStatusChange={handleStatusChange}

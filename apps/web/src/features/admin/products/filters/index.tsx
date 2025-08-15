@@ -4,16 +4,16 @@ import CategorySelect from "@/components/category-select";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { GenericLabelValue } from "@/types/common";
-import type { ProductFiltersInterface, ProductStatus } from "@/types/product";
+import type { AdminProductFiltersInterface, ProductStatus } from "@/types/product";
 
-interface ProductFiltersProps {
-  filters: ProductFiltersInterface;
+interface AdminProductFiltersProps {
+  filters: AdminProductFiltersInterface;
   onSearch: (search: string) => void;
   onStatusChange: (status: ProductStatus | "all") => void;
   onCategoryChange: (category: GenericLabelValue<number> | undefined) => void;
 }
 
-const ProductFilters = ({ filters, onSearch, onStatusChange, onCategoryChange }: ProductFiltersProps) => {
+const AdminProductFilters = ({ filters, onSearch, onStatusChange, onCategoryChange }: AdminProductFiltersProps) => {
   const { t } = useTranslation();
   const { search, status, category } = filters;
 
@@ -46,4 +46,4 @@ const ProductFilters = ({ filters, onSearch, onStatusChange, onCategoryChange }:
   );
 };
 
-export default ProductFilters;
+export default AdminProductFilters;

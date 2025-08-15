@@ -94,7 +94,7 @@ ADMIN_EMAIL=admin@yourapp.com
 ADMIN_NAME=Admin User
 
 # Google Cloud Storage
-GCP_BUCKET_NAME=your-bucket-name
+GCS_BUCKET_NAME=your-bucket-name
 ```
 
 #### Generating Secure Secrets
@@ -152,7 +152,7 @@ openssl rand -base64 32
    VITE_GCS_BUCKET_NAME=your-bucket-name
    
    # In apps/server/.env
-   GCP_BUCKET_NAME=your-bucket-name
+   GCS_BUCKET_NAME=your-bucket-name
    ```
 
 ## 🔄 Switching to a Different GCP Account
@@ -161,7 +161,7 @@ When changing GCP accounts or bucket names, update these files:
 
 ### 1. Environment Variables
 - `apps/web/.env` - Update `VITE_GCS_BUCKET_NAME`
-- `apps/server/.env` - Update `GCP_BUCKET_NAME`
+- `apps/server/.env` - Update `GCS_BUCKET_NAME`
 
 ### 2. Service Account Key
 - Replace `apps/server/gcs-key.json` with new service account key

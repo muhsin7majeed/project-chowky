@@ -7,8 +7,6 @@ import { adminProcedure } from "@/lib/trpc";
 import { createProductInputZodSchema } from "@/lib/zod-schema/products";
 
 const createProductController = adminProcedure.input(createProductInputZodSchema).mutation(async ({ input }) => {
-  console.log({ input });
-
   const {
     name,
     slug,
@@ -35,8 +33,6 @@ const createProductController = adminProcedure.input(createProductInputZodSchema
     .where(or(eq(products.slug, slug), eq(products.name, name), eq(products.sku, sku)));
 
   if (existingProduct.length > 0) {
-    console.log("DUPLICATE PRODUCT");
-
     const duplicateFields: string[] = [];
     const [product] = existingProduct;
 

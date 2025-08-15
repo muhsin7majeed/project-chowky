@@ -18,6 +18,8 @@ const ProductRow = ({ product }: ProductRowProps) => {
   const [showProductImages, setShowProductImages] = useState(false);
   const { t } = useTranslation();
 
+  console.log(product);
+
   return (
     <>
       {showProductImages && (
@@ -42,7 +44,7 @@ const ProductRow = ({ product }: ProductRowProps) => {
 
         <TableCell>
           <Image
-            src={getProductImagePublicUrl(product.imagePaths[0].objectPath)}
+            src={getProductImagePublicUrl(product.imagePaths?.[0].objectPath)}
             alt={`${product.name} image`}
             className="border rounded-md cursor-pointer"
             onClick={() => setShowProductImages(true)}

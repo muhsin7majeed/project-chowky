@@ -54,10 +54,15 @@ export interface Product {
   category: GenericLabelValue<number>;
 }
 
-export interface ProductFiltersInterface {
+export interface AdminProductFiltersInterface {
   search: string;
   status: ProductStatus | "all";
   category?: GenericLabelValue<number>;
 }
 
 export type ProductOrderBy = "name" | "sku" | "price" | "stock" | "createdAt";
+
+export interface UserProductFilters {
+  search: string;
+  category: GenericLabelValue<number> | null;
+}

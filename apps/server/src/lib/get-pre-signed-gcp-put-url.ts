@@ -19,6 +19,8 @@ const getPreSignedGcpPutUrls = async ({
   files,
   expiresInMs = 5 * 60 * 1000,
 }: GetPreSignedGcpPutUrlsProps) => {
+  console.log({ bucketName });
+
   if (!bucketName) throw new Error("GCS_BUCKET_NAME is not configured");
   if (!basePath) throw new Error("basePath is required");
   if (!files?.length) throw new Error("files array is required");

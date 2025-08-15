@@ -14,8 +14,8 @@ const ProductList = ({ products, handleSort, sort }: ProductListProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className="rounded-md border overflow-hidden">
-      <div className="max-w-screen">
+    <div className="rounded-md border">
+      <div className="max-w-screen overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>

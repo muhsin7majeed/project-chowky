@@ -6,7 +6,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 export const Route = createFileRoute("/admin")({
   beforeLoad: ({ context }) => {
     if (context.auth.isPending) {
-      // Still loading auth state, let it continue
+      // Still loading auth state, poor thing, let it continue
       return;
     }
 
@@ -35,7 +35,7 @@ function RouteComponent() {
           <AppSidebar />
         </div>
 
-        <div className="container mx-auto p-2">
+        <div className="container mx-auto p-2 overflow-y-hidden">
           <Header />
 
           <main className="border rounded-lg bg-sidebar p-3 h-full">

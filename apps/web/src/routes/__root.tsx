@@ -54,31 +54,30 @@ function RootComponent() {
   return (
     <>
       <HeadContent />
-      <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange storageKey="vite-ui-theme">
-        <div className="grid h-svh grid-rows-[auto_1fr]">
+      <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange storageKey="chowky-ui-theme">
+        <div className="">
           {isAuthPage ? (
-            <div className="overflow-auto">{isFetching ? <Loader /> : <Outlet />}</div>
+            <div className="">{isFetching ? <Loader /> : <Outlet />}</div>
+          ) : isAdminRoute ? (
+            // Admin routes handle their own layout
+            <div className="">{isFetching ? <Loader /> : <Outlet />}</div>
           ) : (
             <>
-              {!isAdminRoute && (
-                <div>
-                  <Header />
-                </div>
-              )}
-
-              {isAdminRoute ? (
-                // Admin routes handle their own layout
-                <div className="">{isFetching ? <Loader /> : <Outlet />}</div>
-              ) : (
-                <main className="container mx-auto max-w-6xl px-4 py-6">{isFetching ? <Loader /> : <Outlet />}</main>
-              )}
+              <Header />
+              <main className="container mx-auto max-w-6xl px-4 py-6">{isFetching ? <Loader /> : <Outlet />}</main>
             </>
           )}
         </div>
+
         <Toaster richColors />
       </ThemeProvider>
-      <TanStackRouterDevtools position="bottom-left" />
-      <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+
+      {import.meta.env.DEV && (
+        <>
+          <TanStackRouterDevtools position="bottom-left" />
+          <ReactQueryDevtools position="bottom" buttonPosition="bottom-right" />
+        </>
+      )}
     </>
   );
 }

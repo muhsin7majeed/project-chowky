@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Bell, Home, Menu, Package, Search, ShoppingBag, ShoppingCart, User } from "lucide-react";
+import { Bell, Home, Menu, Package, ShoppingCart, User } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { authClient } from "@/lib/auth-client";
@@ -8,7 +8,6 @@ import LanguageSwitcher from "./language-switcher";
 import { ModeToggle } from "./mode-toggle";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import { SidebarTrigger } from "./ui/sidebar";
 import UserMenu from "./user-menu";
@@ -19,19 +18,21 @@ export default function Header() {
   const isAdminRoute = location.pathname.startsWith("/admin");
   const { data: session } = authClient.useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+
+  interface UserLink {
+    to: string;
+    label: string;
+    icon: React.ElementType;
+  }
 
   // Enhanced user navigation links
-  const userLinks = [
+  const userLinks: UserLink[] = [
     { to: "/", label: t("home"), icon: Home },
     { to: "/app/products", label: "Products", icon: Package },
   ];
 
   // Additional links for authenticated users
-  const authenticatedLinks = [
-    { to: "/app/orders", label: "My Orders", icon: ShoppingBag },
-    { to: "/app/profile", label: "Profile", icon: User },
-  ];
+  const authenticatedLinks: UserLink[] = [];
 
   const cartItemCount = 0;
 
@@ -52,8 +53,20 @@ export default function Header() {
               <SidebarTrigger />
             ) : (
               <>
+                {/* Mobile Menu Toggle - Non-admin routes only */}
+                {!isAdminRoute && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="lg:hidden transition-all"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  >
+                    <Menu className="h-4 w-4 transition-transform" />
+                  </Button>
+                )}
+
                 {/* Brand/Logo */}
-                <Link to="/" className="font-bold text-lg md:text-xl shrink-0">
+                <Link to="/" className="font-bold text-sm md:text-xl shrink-0">
                   Project Chowky
                 </Link>
 
@@ -61,6 +74,7 @@ export default function Header() {
                 <nav className="hidden lg:flex gap-1 ml-4">
                   {allUserLinks.map(({ to, label, icon: Icon }) => {
                     const isActive = isActiveLink(to);
+
                     return (
                       <Link key={to} to={to}>
                         <Button
@@ -84,43 +98,9 @@ export default function Header() {
 
           {/* Right Section */}
           <div className="flex items-center gap-1 md:gap-3">
-            {/* Desktop Search Bar */}
-            {!isAdminRoute && !isMobileSearchOpen && (
-              <div className="relative hidden md:block">
-                <Input
-                  placeholder="Search products..."
-                  className="pl-8 w-48 lg:w-64"
-                  prefixIcon={<Search className="h-5 w-5" />}
-                />
-              </div>
-            )}
-
-            {/* Mobile Search Toggle */}
-            {!isAdminRoute && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="md:hidden transition-all"
-                onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-              >
-                <Search className={cn("h-4 w-4 transition-transform", isMobileSearchOpen && "rotate-90")} />
-              </Button>
-            )}
-
             {/* User Actions for authenticated users */}
             {session?.user && !isAdminRoute && (
               <div className="flex items-center gap-1">
-                {/* Notifications - Hidden on small screens */}
-                <Button variant="ghost" size="icon" className="relative hidden sm:flex transition-all hover:scale-105">
-                  <Bell className="h-4 w-4" />
-                  <Badge
-                    variant="destructive"
-                    className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center text-xs p-0 animate-pulse"
-                  >
-                    3
-                  </Badge>
-                </Button>
-
                 {/* Shopping Cart */}
                 <Button variant="ghost" size="icon" className="relative transition-all hover:scale-105">
                   <Link to="/app/cart">
@@ -153,41 +133,22 @@ export default function Header() {
               <ModeToggle />
             </div>
             {session?.user && <UserMenu />}
-
-            {/* Mobile Menu Toggle - Non-admin routes only */}
-            {!isAdminRoute && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="lg:hidden transition-all"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                <Menu className="h-4 w-4 transition-transform" />
-              </Button>
-            )}
           </div>
         </div>
-
-        {/* Mobile Search Bar */}
-        {isMobileSearchOpen && !isAdminRoute && (
-          <div className="mt-3 md:hidden transform transition-all duration-200 ease-in-out">
-            <Input
-              placeholder="Search products..."
-              className="pl-8 w-full"
-              prefixIcon={<Search className="h-5 w-5" />}
-            />
-          </div>
-        )}
 
         {/* Mobile Menu Sheet */}
         {!isAdminRoute && (
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetContent side="left" className="w-80 sm:w-96">
               <SheetHeader>
-                <SheetTitle className="text-left">Navigation</SheetTitle>
+                <SheetTitle className="text-left">
+                  <Link to="/" className="font-bold text-lg md:text-xl shrink-0">
+                    Project Chowky
+                  </Link>
+                </SheetTitle>
               </SheetHeader>
 
-              <div className="flex flex-col gap-6 mt-6">
+              <div className="flex flex-col gap-6 mt-6 p-4">
                 {/* Mobile Navigation Links */}
                 <nav className="flex flex-col gap-2">
                   {allUserLinks.map(({ to, label, icon: Icon }) => {
@@ -234,8 +195,8 @@ export default function Header() {
                   )}
 
                   {/* Mobile Utility Controls */}
-                  <div className="flex items-center justify-between pt-2">
-                    <span className="text-sm font-medium">Settings</span>
+                  <div className="flex items-center justify-between pt-2 bg-accent-foreground p-3 rounded-md">
+                    <span className="text-sm font-medium block">Settings</span>
                     <div className="flex items-center gap-2">
                       <LanguageSwitcher />
                       <ModeToggle />

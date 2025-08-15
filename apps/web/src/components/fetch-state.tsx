@@ -35,13 +35,15 @@ const FetchState = ({ retry, children, isLoading, isEmpty, isError, sectionName 
         </div>
       ) : isEmpty ? (
         <div className="text-center h-96 flex flex-col justify-center items-center border rounded-lg p-4 gap-4">
-          <Cat size={40} className="mx-aut" />
+          <Cat size={40} className="mx-aut animate-bounce" />
 
           <h1 className="text-2xl font-bold text-neutral-500">Such empty space!</h1>
 
-          <div className="text-neutral-500">
-            Make use of the space by adding new <span className="font-bold">{sectionName || "items"}</span>.
-          </div>
+          {sectionName && (
+            <div className="text-neutral-500">
+              Make use of the space by adding new <span className="font-bold">{sectionName}</span>.
+            </div>
+          )}
         </div>
       ) : (
         children
