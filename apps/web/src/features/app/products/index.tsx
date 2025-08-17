@@ -1,21 +1,17 @@
-import { Filter, Grid3X3, List, Search, ShoppingCart, Star } from "lucide-react";
+import { Grid3X3, List } from "lucide-react";
 import { useState } from "react";
-import CategorySelect from "@/components/category-select";
 import FetchState from "@/components/fetch-state";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import useCategories from "@/features/admin/categories/apis/use-categories";
 import useProducts from "@/features/admin/products/apis/use-products";
 import useDebounce from "@/hooks/use-debounce";
 import { cn } from "@/lib/utils";
-import type { Product, ProductStatus, UserProductFilters } from "@/types/product";
+import type { Product, UserProductFilters } from "@/types/product";
+import FilterByCategory from "./components/filter-by-category";
 import ProductCard from "./components/product-card";
 
 const Products = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [filters, setFilters] = useState<UserProductFilters>({
     search: "",
     category: null,
@@ -31,7 +27,6 @@ const Products = () => {
     search: debouncedSearch,
     categoryId: filters.category?.value,
   });
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories();
 
   console.log(products);
 
@@ -57,11 +52,6 @@ const Products = () => {
               }}
               className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
-
-            <CategorySelect
-              value={filters.category || undefined}
-              onChange={(value) => setFilters({ ...filters, category: value || null })}
-            />
           </div>
 
           {/* View Mode Toggle */}
@@ -82,6 +72,13 @@ const Products = () => {
             </Button>
           </div>
         </div>
+      </div>
+
+      <div className="mb-4">
+        <FilterByCategory
+          selectedCategory={filters.category}
+          onCategorySelect={(category) => setFilters({ ...filters, category })}
+        />
       </div>
 
       <FetchState isLoading={isProductsLoading} isError={productsError?.message} isEmpty={products?.rows?.length === 0}>

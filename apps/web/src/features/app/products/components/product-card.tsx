@@ -17,7 +17,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <Card className="py-0 gap-2 group relative transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-      <div className="relative aspect-square p-2">
+      <div className="aspect-square p-2">
         <Image
           src={getProductImagePublicUrl(primaryImage)}
           alt={product.name}
