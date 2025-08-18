@@ -1,8 +1,6 @@
 interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {}
 
 const Image = ({ src, alt, ...props }: ImageProps) => {
-  console.log(src);
-
   const onError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     e.currentTarget.src = "/assets/images/placeholder.svg";
   };
