@@ -1,4 +1,4 @@
-import { Check, ChevronDown, Snail, X } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, Snail, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import useCategories from "@/features/admin/categories/apis/use-categories";
@@ -35,8 +35,8 @@ const FilterByCategory: React.FC<Props> = ({ onSelect, selectedId }) => {
     : null;
 
   return (
-    <div className="w-fit">
-      <div className="flex items-center border rounded-lg  p-1">
+    <div className="relative">
+      <div className="flex items-center border rounded-lg p-1 w-fit">
         <Button
           variant="ghost"
           type="button"
@@ -64,7 +64,7 @@ const FilterByCategory: React.FC<Props> = ({ onSelect, selectedId }) => {
       </div>
 
       {openId !== null && (
-        <div className="border rounded-lg p-1 w-fit">
+        <div className="border rounded-lg p-1 w-fit absolute top-full left-0 z-1 bg-background">
           {categories.map((cat) => (
             <DropdownItem
               key={cat.id}
@@ -95,20 +95,24 @@ const DropdownItem = ({ category, depth, onSelect, selectedId }: DropdownItemPro
 
   return (
     <div className="">
-      <div className="flex ">
-        <Button
+      <div className="flex items-center w-full">
+        <button
           type="button"
-          className="w-full"
-          variant="ghost"
+          className={cn(
+            "flex-1 text-left hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 rounded-md py-1 pr-4 cursor-pointer flex items-center gap-2",
+            selectedId === category.id && "bg-accent text-accent-foreground",
+          )}
           style={{ paddingLeft: `${8 + depth * 16}px` }}
           onClick={() => {
             onSelect(category);
           }}
         >
-          <span className="">{category.name}</span>
+          {category.subCategories && category.subCategories.length > 0 && <ChevronRight className="h-4 w-4" />}
+
+          <span>{category.name}</span>
 
           {selectedId === category.id && <Check className="h-4 w-4" />}
-        </Button>
+        </button>
 
         {category.subCategories && category.subCategories.length > 0 && (
           <Button variant="ghost" size="icon" onClick={() => setOpen((prev) => !prev)}>
