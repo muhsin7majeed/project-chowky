@@ -25,8 +25,8 @@ const ProductImageCarousel = ({ images, showArrows = true, imageClassName }: Pro
 
       {images.length > 1 && showArrows && (
         <>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2" />
+          <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2" />
         </>
       )}
     </Carousel>
