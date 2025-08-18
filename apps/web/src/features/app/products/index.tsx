@@ -1,4 +1,4 @@
-import { Grid3X3, List } from "lucide-react";
+import { Grid3X3, List, Search } from "lucide-react";
 import { useState } from "react";
 import FetchState from "@/components/fetch-state";
 import { Button } from "@/components/ui/button";
@@ -28,8 +28,6 @@ const Products = () => {
     categoryId: filters.category?.id,
   });
 
-  console.log(products);
-
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Header */}
@@ -50,6 +48,7 @@ const Products = () => {
               onChange={(e) => {
                 setFilters({ ...filters, search: e.target.value });
               }}
+              prefixIcon={<Search className="h-4 w-4" />}
               className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
           </div>

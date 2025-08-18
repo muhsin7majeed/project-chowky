@@ -1,8 +1,8 @@
-import { ShoppingCart, Star } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import Image from "@/components/ui/Image";
+import ProductImageCarousel from "@/features/admin/products/list/product-image-carousel";
 import getProductImagePublicUrl from "@/features/admin/products/utils/get-product-image-path";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/types/product";
@@ -13,15 +13,16 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product }: ProductCardProps) => {
-  const primaryImage = product.imagePaths?.find((img) => img.isPrimary)?.objectPath || "";
-
   return (
     <Card className="py-0 gap-2 group relative transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
       <div className="aspect-square p-2">
-        <Image
-          src={getProductImagePublicUrl(primaryImage)}
-          alt={product.name}
-          className="h-full w-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+        <ProductImageCarousel
+          showArrows={false}
+          imageClassName="h-full w-full object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+          images={product.imagePaths.map((img) => ({
+            path: getProductImagePublicUrl(img.objectPath),
+            alt: product.name,
+          }))}
         />
 
         <ProductBadges isNew={product.isNew} isBestSeller={product.isBestSeller} isFeatured={product.isFeatured} />
@@ -57,9 +58,13 @@ const ProductCard = ({ product }: ProductCardProps) => {
           </div>
 
           <div className="text-right">
-            <div className={cn("text-sm font-medium", product.stock > 10 ? "text-green-600" : "text-orange-600")}>
-              {product.stock > 10 ? "In Stock" : `Only ${product.stock} left`}
-            </div>
+            {product.stock > 0 ? (
+              <div className={cn("text-sm font-medium", product.stock > 10 ? "text-green-600" : "text-orange-600")}>
+                {product.stock > 10 ? "In Stock" : `Only ${product.stock} left`}
+              </div>
+            ) : (
+              <div className="text-sm font-medium text-red-600">Out of Stock</div>
+            )}
           </div>
         </div>
       </CardContent>

@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, ilike, or, type SQL } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, inArray, or, type SQL } from "drizzle-orm";
 import { DEFAULT_PAGINATION_LIMIT, DEFAULT_PAGINATION_OFFSET } from "@/constants/common";
 import { db } from "@/db";
 import { categories } from "@/db/schema/category";
@@ -37,7 +37,11 @@ const getProductsController = protectedProcedure.input(getProductsInputZodSchema
   }
 
   if (categoryId) {
-    filters.push(eq(products.categoryId, categoryId));
+    const childCategories = await db.select().from(categories).where(eq(categories.parentId, categoryId));
+
+    const childCategoryIds = childCategories.map((category) => category.id);
+
+    filters.push(inArray(products.categoryId, [categoryId, ...childCategoryIds]));
   }
 
   let orderClause: SQL | undefined;
