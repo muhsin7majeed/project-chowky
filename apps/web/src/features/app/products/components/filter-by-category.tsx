@@ -1,17 +1,20 @@
-import { Snail, X } from "lucide-react";
+import { Check, ChevronDown, Snail, X } from "lucide-react";
 import { useState } from "react";
-import NavigationMenu from "@/components/ui/navigation-menu";
+import { Button } from "@/components/ui/button";
 import useCategories from "@/features/admin/categories/apis/use-categories";
+import { cn } from "@/lib/utils";
 import type { Category } from "@/types/category";
-import type { GenericLabelValue } from "@/types/common";
 
-interface FilterByCategoryProps {
-  selectedCategory: GenericLabelValue<number> | null;
-  onCategorySelect: (category: GenericLabelValue<number> | null) => void;
+interface Props {
+  onSelect: (category: Category | null) => void;
+  selectedId?: number | null;
 }
 
-const FilterByCategory = ({ selectedCategory, onCategorySelect }: FilterByCategoryProps) => {
-  const { data: categories, isLoading: isCategoriesLoading } = useCategories({ includeChildren: true });
+const FilterByCategory: React.FC<Props> = ({ onSelect, selectedId }) => {
+  const [openId, setOpenId] = useState<number | null>(null);
+  const { data: categoriesResponse, isLoading: isCategoriesLoading } = useCategories({ includeChildren: true });
+
+  const categories = categoriesResponse?.rows || [];
 
   if (isCategoriesLoading) {
     return (
@@ -21,59 +24,107 @@ const FilterByCategory = ({ selectedCategory, onCategorySelect }: FilterByCatego
     );
   }
 
+  const selectedCategory = selectedId
+    ? categories
+        .flatMap(function getNames(cat: Category): string[] {
+          const own = cat.id === selectedId ? [cat.name] : [];
+          const children = cat.subCategories?.flatMap(getNames) || [];
+          return [...own, ...children];
+        })
+        .find(Boolean)
+    : null;
+
   return (
-    <NavigationMenu viewport={false} className="w-full flex-wrap">
-      {Array.from({ length: 15 }).map((_) => {
-        return (
-          <NavigationMenu.List
-            // TODO: update key
-            key={crypto.randomUUID()}
-            className="relative z-1"
-          >
-            <NavigationMenu.Item>
-              <NavigationMenu.Trigger>List</NavigationMenu.Trigger>
+    <div className="w-fit">
+      <div className="flex items-center border rounded-lg  p-1">
+        <Button
+          variant="ghost"
+          type="button"
+          aria-haspopup="true"
+          onClick={() => {
+            setOpenId((prev) => (prev === null ? -1 : null));
+          }}
+          aria-expanded={openId !== null}
+          data-placeholder={!selectedCategory}
+        >
+          {selectedCategory ? <span>{selectedCategory}</span> : <span>Select category</span>}
+        </Button>
 
-              <NavigationMenu.Content>
-                <NavigationMenu.Sub>
-                  <NavigationMenu.List>
-                    <NavigationMenu.Item>
-                      <NavigationMenu.Trigger>Child</NavigationMenu.Trigger>
+        {selectedCategory && (
+          <Button variant="ghost" size="icon" onClick={() => onSelect(null)}>
+            <X className="h-4 w-4" />
+          </Button>
+        )}
 
-                      <NavigationMenu.Content>Hello World</NavigationMenu.Content>
-                    </NavigationMenu.Item>
-                  </NavigationMenu.List>
-                </NavigationMenu.Sub>
+        <Button variant="ghost" size="icon" onClick={() => setOpenId((prev) => (prev === null ? -1 : null))}>
+          <ChevronDown
+            className={cn("h-4 w-4 opacity-50 transition-transform duration-200", openId !== null && "rotate-180")}
+          />
+        </Button>
+      </div>
 
-                <ul className="md:w-[400px] lg:w-[500px]">
-                  <li className="">
-                    <NavigationMenu.Link asChild>
-                      <div>
-                        <div className="font-medium">Components</div>
-                        <div className="text-muted-foreground">Browse all components in the library.</div>
-                      </div>
-                    </NavigationMenu.Link>
+      {openId !== null && (
+        <div className="border rounded-lg p-1 w-fit">
+          {categories.map((cat) => (
+            <DropdownItem
+              key={cat.id}
+              category={cat}
+              depth={0}
+              onSelect={(category) => {
+                onSelect(category);
+                setOpenId(null);
+              }}
+              selectedId={selectedId}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
-                    <NavigationMenu.Link asChild>
-                      <div>
-                        <div className="font-medium">Documentation</div>
-                        <div className="text-muted-foreground">Learn how to use the library.</div>
-                      </div>
-                    </NavigationMenu.Link>
+interface DropdownItemProps {
+  category: Category;
+  depth: number;
+  onSelect: (category: Category) => void;
+  selectedId?: number | null;
+}
 
-                    <NavigationMenu.Link asChild>
-                      <div>
-                        <div className="font-medium">Blog</div>
-                        <div className="text-muted-foreground">Read our latest blog posts.</div>
-                      </div>
-                    </NavigationMenu.Link>
-                  </li>
-                </ul>
-              </NavigationMenu.Content>
-            </NavigationMenu.Item>
-          </NavigationMenu.List>
-        );
-      })}
-    </NavigationMenu>
+const DropdownItem = ({ category, depth, onSelect, selectedId }: DropdownItemProps) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="">
+      <div className="flex ">
+        <Button
+          type="button"
+          className="w-full"
+          variant="ghost"
+          style={{ paddingLeft: `${8 + depth * 16}px` }}
+          onClick={() => {
+            onSelect(category);
+          }}
+        >
+          <span className="">{category.name}</span>
+
+          {selectedId === category.id && <Check className="h-4 w-4" />}
+        </Button>
+
+        {category.subCategories && category.subCategories.length > 0 && (
+          <Button variant="ghost" size="icon" onClick={() => setOpen((prev) => !prev)}>
+            <ChevronDown className={cn("h-4 w-4 opacity-50 transition-transform duration-200", open && "rotate-180")} />
+          </Button>
+        )}
+      </div>
+
+      {open && category.subCategories && category.subCategories.length > 0 && (
+        <div className="pl-2">
+          {category.subCategories.map((sub) => (
+            <DropdownItem key={sub.id} category={sub} depth={depth + 1} onSelect={onSelect} selectedId={selectedId} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
 

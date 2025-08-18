@@ -25,7 +25,7 @@ const Products = () => {
     error: productsError,
   } = useProducts({
     search: debouncedSearch,
-    categoryId: filters.category?.value,
+    categoryId: filters.category?.id,
   });
 
   console.log(products);
@@ -76,8 +76,8 @@ const Products = () => {
 
       <div className="mb-4">
         <FilterByCategory
-          selectedCategory={filters.category}
-          onCategorySelect={(category) => setFilters({ ...filters, category })}
+          onSelect={(category) => setFilters({ ...filters, category })}
+          selectedId={filters.category?.id}
         />
       </div>
 

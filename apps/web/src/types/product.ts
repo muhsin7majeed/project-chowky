@@ -1,3 +1,4 @@
+import type { Category } from "./category";
 import type { Dimension, GenericLabelValue, Weight } from "./common";
 
 export type ProductStatus = "active" | "inactive" | "draft";
@@ -64,5 +65,5 @@ export type ProductOrderBy = "name" | "sku" | "price" | "stock" | "createdAt";
 
 export interface UserProductFilters {
   search: string;
-  category: GenericLabelValue<number> | null;
+  category: Category | null;
 }
